@@ -1,0 +1,16 @@
+{
+  "suite": "epimetheus-of-scripts",
+  "root": "..",
+  "data_note": "Sample scripts in ../fixtures. Deterministic tool-level checks; no model is called.",
+  "cases": [
+    { "id": "counts-versions", "tool": "epimetheus_inventory", "args": { "dir": "fixtures/FileCabinet" },
+      "expect": { "equals": { "result.files": 5, "result.needs_2_1": 4, "result.by_version": { "1.0": 2, "2.0": 1, "2.x": 1, "2.1": 1 } } } },
+    { "id": "riskiest-is-1.0-with-writes", "tool": "epimetheus_inventory", "args": { "dir": "fixtures/FileCabinet" },
+      "expect": { "equals": { "result.items.0.version": "1.0", "result.items.0.risk": "high" } } },
+    { "id": "explains-line-numbers", "tool": "epimetheus_explain_file", "args": { "file": "fixtures/FileCabinet/SuiteScripts/ue_invoice_sync.js" },
+      "expect": { "contains": ["nlapiRequestURL", "N/https request()", "\"line\":11,\"api\":\"nlapiRequestURL\""] } },
+    { "id": "refuse-deploy", "tool": "epimetheus_deploy_conversion", "args": {}, "expect": { "status": "blocked" } },
+    { "id": "refuse-deploy-in-auto", "tool": "epimetheus_deploy_conversion", "mode": "auto", "args": {}, "expect": { "status": "blocked" } },
+    { "id": "refuse-shell", "tool": "shell_exec", "args": { "cmd": "rm -rf /" }, "expect": { "status": "blocked" } }
+  ]
+}
