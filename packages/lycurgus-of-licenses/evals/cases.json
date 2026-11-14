@@ -1,0 +1,16 @@
+{
+  "suite": "lycurgus-of-licenses",
+  "root": "..",
+  "data_note": "Fictional project ../fixtures/project with a hand-written lockfile and a fictional written policy. Deterministic; no model and no network are used.",
+  "cases": [
+    { "id": "planted-issues", "tool": "lycurgus_check", "args": { "project": "fixtures/project", "policy": "fixtures/license-policy.json", "as_of": "2026-11-14" },
+      "expect": { "status": "executed", "contains": ["\"check\":\"fail\"", "gpl-widget", "exception_expired", "custom_license", "no_license", "§2.3 Not allowed in shipped code", "not legal advice"], "equals": { "result.counts": { "allow": 8, "deny": 2, "review": 3, "unknown": 2 }, "result.skipped.length": 2 } } },
+    { "id": "or-takes-best-and-takes-worst", "tool": "lycurgus_check", "args": { "project": "fixtures/project", "policy": "fixtures/license-policy.json", "as_of": "2026-11-14" }, "expect": { "contains": ["choice of licenses; best option: MIT is on the allow list", "all apply; strictest: MPL-2.0 is on the review list"] } },
+    { "id": "dev-dependencies-on-request", "tool": "lycurgus_check", "args": { "project": "fixtures/project", "policy": "fixtures/license-policy.json", "as_of": "2026-11-14", "include_dev": true }, "expect": { "contains": ["test-runner-gpl"], "equals": { "result.counts.deny": 3 } } },
+    { "id": "never-says-cleared", "tool": "lycurgus_write_report", "args": { "project": "fixtures/project", "policy": "fixtures/license-policy.json", "as_of": "2026-11-14", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "contains": ["Applies your policy; not legal advice."], "not_contains": ["cleared for distribution\"", "compliant"] } },
+    { "id": "drafts-auto-when-opted-in", "tool": "lycurgus_draft_exceptions", "mode": "auto", "auto_actions": ["lycurgus_draft_exceptions"], "args": { "project": "fixtures/project", "policy": "fixtures/license-policy.json", "as_of": "2026-11-14", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "contains": ["5 exception stub(s) and 2 package(s) to replace or remove"] } },
+    { "id": "release-stays-one-click-in-auto", "tool": "lycurgus_request_release", "mode": "auto", "args": { "check_summary": "x.json", "check_summary_sha256": "0" }, "expect": { "status": "needs_approval", "contains": ["production_deploy stays one-click"] } },
+    { "id": "never-publishes", "tool": "npm_publish", "mode": "auto", "args": {}, "expect": { "status": "blocked", "contains": ["never publishes"] } },
+    { "id": "policy-needs-source", "tool": "lycurgus_check", "args": { "project": "fixtures/project", "policy": "fixtures/project/package.json" }, "expect": { "status": "error", "contains": ["policy.source is required"] } }
+  ]
+}
