@@ -1,0 +1,5 @@
+externalid,customer,date,amount,currency,status
+INV-1038,Northwind Traders (fictional),2026-09-02,1200.00,USD,open
+INV-1039,Blue Harbor Supply (fictional),2026-09-05,850.00,USD,open
+INV-1040,Juniper Labs (fictional),2026-09-11,2405.00,USD,open
+INV-1042,Northwind Traders (fictional),2026-09-20,4000.00,USD,open
