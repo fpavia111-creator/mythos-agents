@@ -1,0 +1,58 @@
+{
+  "name": "britomartis-of-consent",
+  "version": "0.1.0",
+  "description": "Britomartis of Consent: an MCP agent that inventories the cookies and third-party scripts a site actually sets and loads (from exported HTML and browser HAR captures), compares them with your stated cookie policy and banner, and reports the gaps: undeclared cookies, trackers before consent or after a reject, contradicted 'no cookies' claims. Publishing a policy or banner change is a production deploy: always one human click. Not a consent-management platform and never claims GDPR, CCPA or ePrivacy compliance.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "britomartis-of-consent": "bin/britomartis-of-consent.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/britomartis-of-consent.js demo",
+    "eval": "node bin/britomartis-of-consent.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/britomartis-of-consent"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/britomartis-of-consent#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "cookies",
+    "cookie-audit",
+    "consent",
+    "cookie-banner",
+    "privacy",
+    "har",
+    "trackers",
+    "third-party-scripts",
+    "ai-agents",
+    "mythos"
+  ]
+}
