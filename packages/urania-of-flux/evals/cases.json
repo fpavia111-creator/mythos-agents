@@ -1,0 +1,14 @@
+{
+  "suite": "urania-of-flux",
+  "root": "..",
+  "data_note": "Fictional company figures and board documents in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    { "id": "variance-materiality", "tool": "urania_variance", "args": { "figures": "fixtures/figures.csv", "out_dir": "mythos-out/eval-none" }, "expect": { "contains": ["\"basis\":\"prior\"", "lock: none"], "equals": { "result.figures.0.var_budget": 134000, "result.figures.4.material": true, "result.figures.3.material": false } } },
+    { "id": "claims-check", "tool": "urania_check_claims", "args": { "figures": "fixtures/figures.csv", "docs": ["fixtures/docs/ceo-letter.md", "fixtures/docs/ops-update.md"] }, "expect": { "contains": ["312,000", "F9"], "equals": { "result.ok": 5, "result.uncited_number": 1, "result.unknown_citation": 1, "result.number_mismatch": 1 } } },
+    { "id": "assemble-refuses-without-lock", "tool": "urania_assemble_pack", "args": { "figures": "fixtures/figures.csv", "docs": ["fixtures/docs/ceo-letter.md"], "out_dir": "mythos-out/eval-none" }, "expect": { "status": "error", "contains": ["lock the figures first"] } },
+    { "id": "lock-auto-when-opted-in", "tool": "urania_lock_figures", "mode": "auto", "auto_actions": ["urania_lock_figures"], "args": { "figures": "fixtures/figures.csv", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "equals": { "result.rows": 6 } } },
+    { "id": "signoff-stays-one-click-in-auto", "tool": "urania_record_signoff", "mode": "auto", "args": { "pack_manifest": "x.json", "pack_sha256": "x", "controller": "R" }, "expect": { "status": "needs_approval", "contains": ["binding_send stays one-click"] } },
+    { "id": "distribution-stays-one-click-in-auto", "tool": "urania_request_distribution", "mode": "auto", "args": { "pack_manifest": "x.json", "pack_sha256": "x", "recipients": ["b@example.org"] }, "expect": { "status": "needs_approval" } },
+    { "id": "never-uploads", "tool": "board_portal_upload", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+  ]
+}
