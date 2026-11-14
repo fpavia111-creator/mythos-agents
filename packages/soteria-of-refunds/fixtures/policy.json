@@ -1,0 +1,1 @@
+{ "window_days": 30, "window_from": "delivered", "review_over": 200, "max_refunds_per_customer_90d": 2, "chargeback_response_days": 7, "return_required_over": 50 }

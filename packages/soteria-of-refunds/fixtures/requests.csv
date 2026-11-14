@@ -1,0 +1,9 @@
+request_id,type,order_id,customer,amount,reason,requested_at,returned
+R-1001,refund,O-501,ana@example.com,45.00,damaged,2026-11-02,no
+R-1002,refund,O-502,ben@example.com,320.00,not as described,2026-11-03,yes
+R-1003,refund,O-503,cy@example.com,80.00,change of mind,2026-11-05,yes
+R-1004,refund,O-504,dee@example.com,60.00,never arrived,2026-11-10,no
+R-1005,refund,O-505,eve@example.com,75.00,wrong size,2026-11-06,yes
+R-1006,chargeback,O-506,fay@example.com,210.00,product not received,2026-11-09,
+R-1007,refund,O-501,ana@example.com,45.00,damaged,2026-11-03,no
+R-1008,refund,O-999,gus@example.com,20.00,damaged,2026-11-08,no

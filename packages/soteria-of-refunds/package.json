@@ -1,0 +1,55 @@
+{
+  "name": "soteria-of-refunds",
+  "version": "0.1.0",
+  "description": "Soteria of Refunds: an MCP agent that triages refund requests and chargebacks from CSV/JSON exports against your written policy and drafts dispute evidence packs. Issuing money is blocked; a refund request is one human click and only records a request.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "soteria-of-refunds": "bin/soteria-of-refunds.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/soteria-of-refunds.js demo",
+    "eval": "node bin/soteria-of-refunds.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/soteria-of-refunds"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/soteria-of-refunds#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "refunds",
+    "chargebacks",
+    "disputes",
+    "customer-support",
+    "ecommerce",
+    "ai-agents",
+    "mythos"
+  ]
+}
