@@ -1,0 +1,49 @@
+{
+  "source": "Kettle Labs open-source policy v2 (fictional)",
+  "sections": {
+    "allow": "§2.1 Approved licenses",
+    "review": "§2.2 Needs legal review",
+    "deny": "§2.3 Not allowed in shipped code",
+    "unknown": "§2.4 Unknown or custom licenses",
+    "exceptions": "§3 Exceptions"
+  },
+  "allow": [
+    "MIT",
+    "ISC",
+    "Apache-2.0",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "0BSD",
+    "Unlicense",
+    "CC0-1.0"
+  ],
+  "review": [
+    "LGPL-*",
+    "MPL-2.0",
+    "CC-BY-*",
+    "EPL-2.0"
+  ],
+  "deny": [
+    "GPL-*",
+    "AGPL-*",
+    "SSPL-1.0"
+  ],
+  "unknown": "review",
+  "proprietary": "review",
+  "dev_dependencies": "ignore",
+  "exceptions": [
+    {
+      "package": "internal-sdk",
+      "version": "5.0.0",
+      "reason": "Our own SDK under the Kettle Labs licence",
+      "approved_by": "Dana Counsel (fictional)",
+      "expires": "2027-06-30"
+    },
+    {
+      "package": "expired-ex",
+      "reason": "Was used only in an internal tool",
+      "approved_by": "Dana Counsel (fictional)",
+      "expires": "2026-06-30"
+    }
+  ]
+}

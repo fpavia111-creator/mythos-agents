@@ -1,0 +1,1 @@
+A fictional npm project ("kettle-app" by "Kettle Labs") with a hand-written package-lock.json and a fictional written license policy. The package names, versions and integrity values are made up; nothing is installed. The license problems are planted on purpose so the demo, tests and evals have something to find.
