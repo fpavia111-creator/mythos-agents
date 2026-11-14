@@ -1,0 +1,55 @@
+{
+  "name": "eucleia-of-outreach",
+  "version": "0.1.0",
+  "description": "Eucleia of Outreach: a draft-only MCP send gate for outreach email. Checks suppression lists, CAN-SPAM footer fields, a Tue/Wed America/Chicago send window, subject under 30 characters and body under 100 words. Never sends; release is always one human click.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "eucleia-of-outreach": "bin/eucleia-of-outreach.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/eucleia-of-outreach.js demo",
+    "eval": "node bin/eucleia-of-outreach.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/eucleia-of-outreach"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/eucleia-of-outreach#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "email",
+    "outreach",
+    "can-spam",
+    "suppression-list",
+    "human-in-the-loop",
+    "ai-agents",
+    "mythos"
+  ]
+}
