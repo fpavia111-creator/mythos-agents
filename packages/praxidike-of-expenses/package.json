@@ -1,0 +1,56 @@
+{
+  "name": "praxidike-of-expenses",
+  "version": "0.1.0",
+  "description": "Praxidike of Expenses: an MCP agent that compares expense report lines and receipt text to your written expense policy, cites the policy section for every finding, recommends approve or reject, and pre-stages a reimbursement batch. Reimbursing is moving money: always one human click; paying is blocked.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "praxidike-of-expenses": "bin/praxidike-of-expenses.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/praxidike-of-expenses.js demo",
+    "eval": "node bin/praxidike-of-expenses.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/praxidike-of-expenses"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/praxidike-of-expenses#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "expenses",
+    "expense-reports",
+    "expense-policy",
+    "reimbursement",
+    "accounts-payable",
+    "bookkeeping",
+    "ai-agents",
+    "mythos"
+  ]
+}
