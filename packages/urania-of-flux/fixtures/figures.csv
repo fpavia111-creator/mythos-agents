@@ -1,0 +1,7 @@
+id,metric,period,actual,budget,prior,source
+F1,Revenue,2026-10,1234000,1100000,1180000,Trial balance Oct 2026: accounts 4000-4999
+F2,Cost of sales,2026-10,512000,495000,470000,Trial balance Oct 2026: accounts 5000-5499
+F3,Gross margin,2026-10,722000,605000,710000,F1 minus F2
+F4,Payroll,2026-10,310000,315000,298000,Payroll register Oct 2026
+F5,Marketing,2026-10,86000,60000,55000,Trial balance Oct 2026: account 6100
+F6,Cash,2026-10,2450000,,2610000,Bank statements 31 Oct 2026
