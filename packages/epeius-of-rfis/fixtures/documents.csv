@@ -1,0 +1,7 @@
+doc_id,type,title,revision,issued,status,file
+A-201,drawing,Floor plan level 2,2,2026-08-15,superseded,
+A-201,drawing,Floor plan level 2,3,2026-10-01,current,docs/A-201-notes.txt
+A-501,drawing,Door and frame details,1,2026-08-15,current,docs/A-501-notes.txt
+S-101,drawing,Foundation plan,1,2026-07-20,current,
+08 71 00,spec,Door hardware,1,2026-08-15,current,docs/087100-door-hardware.txt
+09 29 00,spec,Gypsum board,1,2026-08-15,current,docs/092900-gypsum-board.txt
