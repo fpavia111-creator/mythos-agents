@@ -1,0 +1,4 @@
+Diagram Tool (fictional) invoice
+Date: 2026-10-12
+Team plan, 1 month
+Amount paid: $49.00
