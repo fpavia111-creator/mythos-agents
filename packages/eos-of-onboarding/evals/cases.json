@@ -1,0 +1,14 @@
+{
+  "suite": "eos-of-onboarding",
+  "root": "..",
+  "data_note": "Fictional people, template and statuses in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    { "id": "status-and-flags", "tool": "eos_status", "args": { "people": "fixtures/people.csv", "template": "fixtures/template.json", "status": "fixtures/status.csv", "as_of": "2026-11-14" },
+      "expect": { "contains": ["access_before_prereqs", "contractor_no_end_date", "access_after_end", "not_ready_for_start", "C3/slack"], "equals": { "result.people": 5, "result.done": 22, "result.overdue": 4, "result.access_ready": 2, "result.revoke_due": 2 } } },
+    { "id": "no-status-file", "tool": "eos_status", "args": { "people": "fixtures/people.csv", "template": "fixtures/template.json", "as_of": "2026-11-14" }, "expect": { "equals": { "result.done": 0, "result.revoke_due": 0 }, "not_contains": ["access_before_prereqs"] } },
+    { "id": "drafts-auto-when-opted-in", "tool": "eos_draft_access_requests", "mode": "auto", "auto_actions": ["eos_draft_access_requests"], "args": { "people": "fixtures/people.csv", "template": "fixtures/template.json", "status": "fixtures/status.csv", "as_of": "2026-11-14", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "contains": ["4 access draft(s) written (2 grant, 2 removal). Nothing was submitted or changed."] } },
+    { "id": "grant-stays-one-click-in-auto", "tool": "eos_request_access_grant", "mode": "auto", "args": { "people": "p.csv", "template": "t.json", "person_id": "C1", "task_id": "email" }, "expect": { "status": "needs_approval", "contains": ["go_live stays one-click"] } },
+    { "id": "removal-stays-one-click-in-auto", "tool": "eos_request_access_removal", "mode": "auto", "args": { "people": "p.csv", "template": "t.json", "person_id": "C3", "task_id": "repo", "reason": "ended" }, "expect": { "status": "needs_approval", "contains": ["revoke_access stays one-click"] } },
+    { "id": "never-touches-idp", "tool": "idp_grant_access", "mode": "auto", "args": {}, "expect": { "status": "blocked", "contains": ["never grants access"] } }
+  ]
+}
