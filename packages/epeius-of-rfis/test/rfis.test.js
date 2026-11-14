@@ -1,0 +1,76 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { cpSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { AgentRuntime, ApprovalStore, parseCsv } from 'mythos-agent-core';
+import { manifest, reviewLog, draftRfi, parseRef, nextRfiNo } from '../src/index.js';
+const fixtures = fileURLToPath(new URL('../fixtures', import.meta.url));
+const rd = (f) => parseCsv(readFileSync(join(fixtures, f), 'utf8'));
+const tmpRoot = (p) => { const r = mkdtempSync(join(tmpdir(), p)); cpSync(fixtures, r, { recursive: true }); return r; };
+const as_of = '2026-11-14';
+const q = { subject: 'Closer at exam room doors', question: 'Confirm closer mounting side at door type D3 with HW-4.', references: ['A-501', '08 71 00 2.3.B', 'A-201'], search: ['D3', 'HW-4'], project: 'Maple St (fictional)', to: 'Architect', from: 'Pat', needed_by: '2026-11-21', cost_impact: 'None', schedule_impact: 'None' };
+
+test('reference parsing', () => {
+  assert.deepEqual([parseRef('A-201 rev 2').id, parseRef('A-201 rev 2').revision], ['A-201', '2']);
+  assert.deepEqual([parseRef('08 71 00 2.3.B').type, parseRef('08 71 00 2.3.B').paragraph], ['spec', '2.3.B']);
+  assert.equal(parseRef('S101').id, 'S-101'); assert.equal(parseRef('Spec 092900').id, '09 29 00');
+  assert.equal(nextRfiNo(rd('rfis.csv')), '006');
+});
+test('log review flags', () => {
+  const r = reviewLog(rd('documents.csv'), rd('rfis.csv'), rd('submittals.csv'), { as_of });
+  const by = Object.fromEntries(r.items.map((i) => [i.rfi_no, i]));
+  assert.deepEqual(by['001'].flags, []); assert.equal(by['001'].days_open, 6);
+  assert.deepEqual(by['002'].flags, ['overdue', 'superseded_reference', 'impact_unstated']); assert.equal(by['002'].days_overdue, 18); assert.match(by['002'].notes[1], /current is rev 3/);
+  assert.deepEqual(by['003'].flags, []);
+  assert.deepEqual(by['004'].flags, ['no_due_date', 'unknown_reference', 'impact_unstated', 'possible_duplicate']); assert.match(by['004'].notes.join(' '), /Similar to RFI 003/);
+  assert.deepEqual(by['005'].flags, ['missing_references']);
+  const s = Object.fromEntries(r.submittal_items.map((i) => [i.submittal_no, i.flags]));
+  assert.deepEqual(s['08 71 00-01'], ['review_overdue']); assert.deepEqual(s['09 29 00-01'], []);
+  assert.deepEqual(s['08 11 13-01'], ['overdue_submission', 'unknown_spec_section']); assert.deepEqual(s['09 65 00-01'], ['resubmit_pending', 'unknown_spec_section']);
+  assert.match(r.note, /does not interpret drawings/);
+});
+test('draft cites only provided documents, with file:line quotes and markers', () => {
+  const d = draftRfi(q, rd('documents.csv'), rd('rfis.csv'), fixtures);
+  assert.equal(d.rfi_no, '006'); assert.equal(d.open_markers, 0);
+  assert.match(d.text, /docs\/A-501-notes.txt:3 "Detail 6: Door type D3/); assert.match(d.text, /docs\/087100-door-hardware.txt:4 "B. HW-4/); assert.match(d.text, /A-201 rev 3/);
+  const bad = draftRfi({ subject: 'x', question: 'y', references: ['A-201 rev 2', 'M-401', 'S-101'], search: ['zzz'] }, rd('documents.csv'), [], fixtures);
+  assert.deepEqual(bad.markers.sort(), ['CHECK REVISION', 'MISSING REFERENCE', 'TO CONFIRM']);
+  assert.match(bad.text, /\[MISSING REFERENCE: "M-401"/); assert.match(bad.text, /no text extract in the index/);
+  const nc = draftRfi({ subject: 'x', question: 'y', references: ['A-501'], search: ['zzz'] }, rd('documents.csv'), [], fixtures);
+  assert.ok(nc.markers.includes('NO CITATION'));
+  assert.ok(draftRfi({ subject: 'x', question: 'y' }, rd('documents.csv'), [], fixtures).text.includes('[MISSING REFERENCE: no drawing or spec reference given]'));
+  assert.throws(() => draftRfi({ subject: 'x' }, [], [], fixtures), /question is required/);
+});
+test('drafts on Auto; send is one-click, hash- and recipient-bound, marker-gated; sending blocked', async () => {
+  const root = tmpRoot('epeius-'); const rt = new AgentRuntime(manifest, { root, mode: 'auto', autoActions: ['epeius_draft_rfi'] }); const store = new ApprovalStore(join(root, '.mythos'));
+  assert.throws(() => new AgentRuntime(manifest, { audit: false, mode: 'auto', autoActions: ['epeius_request_send'] }), /one-click/);
+  const open = await rt.call('epeius_draft_rfi', { documents: 'documents.csv', rfis: 'rfis.csv', subject: 'x', question: 'y', references: ['A-201 rev 2'], out_dir: 'mythos-out/o' });
+  assert.equal(open.status, 'executed'); assert.ok(open.result.open_markers > 0);
+  const sa = { draft: open.result.draft, draft_sha256: open.result.draft_sha256, to: 'Architect' };
+  store.approve((await rt.call('epeius_request_send', sa)).approval_id, 'Pat');
+  assert.match((await rt.call('epeius_request_send', sa)).reason, /open marker/);
+  const acc = { ...sa, accept_open_issues: true, note: 'Sending as a question about which revision applies' };
+  store.approve((await rt.call('epeius_request_send', acc)).approval_id, 'Pat');
+  const ok1 = await rt.call('epeius_request_send', acc); assert.equal(ok1.status, 'executed'); assert.match(ok1.result.summary, /open marker\(s\) accepted/);
+  const d = await rt.call('epeius_draft_rfi', { documents: 'documents.csv', rfis: 'rfis.csv', ...q });
+  const wrong = { draft: d.result.draft, draft_sha256: d.result.draft_sha256, to: 'Someone else' };
+  store.approve((await rt.call('epeius_request_send', wrong)).approval_id, 'Pat');
+  assert.match((await rt.call('epeius_request_send', wrong)).reason, /differs from the draft/);
+  const good = { ...wrong, to: 'Architect' };
+  const a = await rt.call('epeius_request_send', good); assert.equal(a.status, 'needs_approval'); store.approve(a.approval_id, 'Pat');
+  const b = await rt.call('epeius_request_send', good); assert.equal(b.status, 'executed'); assert.equal(b.approved_by, 'Pat');
+  assert.equal(parseCsv(readFileSync(b.result.file, 'utf8')).at(-1).status, 'approved - a person sends it');
+  writeFileSync(join(root, d.result.draft), 'edited');
+  const t = { ...good, note: 'retry' }; store.approve((await rt.call('epeius_request_send', t)).approval_id, 'Pat');
+  assert.match((await rt.call('epeius_request_send', t)).reason, /does not match the draft/);
+  assert.equal((await rt.call('send_email', {})).status, 'blocked'); assert.equal((await rt.call('project_portal_submit', {})).status, 'blocked');
+});
+test('log report files', async () => {
+  const root = tmpRoot('epeius-r-');
+  const r = await new AgentRuntime(manifest, { root, audit: false }).call('epeius_write_log_report', { documents: 'documents.csv', rfis: 'rfis.csv', submittals: 'submittals.csv', as_of });
+  const rows = parseCsv(readFileSync(r.result.files[1], 'utf8')); assert.equal(rows.length, 5); assert.equal(rows[0].owner, '');
+  assert.equal(parseCsv(readFileSync(r.result.files[2], 'utf8')).length, 4);
+  assert.match(readFileSync(r.result.files[0], 'utf8'), /not interpret drawings/);
+});
