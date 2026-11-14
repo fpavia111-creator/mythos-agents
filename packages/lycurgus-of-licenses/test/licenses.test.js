@@ -1,0 +1,94 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { cpSync, mkdtempSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { AgentRuntime, ApprovalStore, parseCsv } from 'mythos-agent-core';
+import { manifest, check, parseExpression, evaluate, normalizeLicense, validatePolicy, sbom, sarif } from '../src/index.js';
+const fixtures = fileURLToPath(new URL('../fixtures', import.meta.url));
+const bin = fileURLToPath(new URL('../bin/lycurgus-of-licenses.js', import.meta.url));
+const policy = JSON.parse(readFileSync(join(fixtures, 'license-policy.json'), 'utf8'));
+const tmpRoot = () => { const r = mkdtempSync(join(tmpdir(), 'lycurgus-')); cpSync(fixtures, r, { recursive: true }); return r; };
+const run = (o = {}) => check(join(fixtures, 'project'), policy, { as_of: '2026-11-14', ...o });
+const pkgOf = (r, n) => r.packages.find((p) => p.name === n);
+
+test('SPDX parsing and evaluation', () => {
+  assert.deepEqual(parseExpression('(MIT OR Apache-2.0) AND BSD-3-Clause'), { op: 'AND', args: [{ op: 'OR', args: [{ id: 'MIT' }, { id: 'Apache-2.0' }] }, { id: 'BSD-3-Clause' }] });
+  assert.deepEqual(parseExpression('GPL-2.0-only WITH Classpath-exception-2.0'), { id: 'GPL-2.0-only', exception: 'Classpath-exception-2.0' });
+  assert.throws(() => parseExpression('MIT OR'), /ends early/); assert.throws(() => parseExpression('(MIT'), /missing/);
+  const p = validatePolicy(policy);
+  assert.equal(evaluate(parseExpression('MIT OR GPL-3.0-only'), p).decision, 'allow');
+  assert.equal(evaluate(parseExpression('MIT AND GPL-3.0-only'), p).decision, 'deny');
+  assert.equal(evaluate(parseExpression('GPL-2.0-only WITH Classpath-exception-2.0'), { ...p, allow: [...p.allow, 'GPL-2.0-only WITH Classpath-exception-2.0'] }).decision, 'allow', 'exact WITH entry wins over the GPL-* deny');
+  assert.equal(evaluate(parseExpression('Apache-2.0 WITH LLVM-exception'), p).decision, 'review', 'an allowed base with an unlisted exception goes to review');
+  assert.deepEqual(normalizeLicense([{ type: 'MIT' }, { type: 'Apache-2.0' }]).expression, 'MIT OR Apache-2.0');
+  assert.equal(normalizeLicense('Apache 2.0').expression, 'Apache-2.0');
+  assert.throws(() => validatePolicy({ allow: ['MIT'] }), /policy.source is required/);
+});
+test('fixture project: decisions cite the policy, exceptions apply and expire', () => {
+  const r = run();
+  assert.equal(r.check, 'fail'); assert.deepEqual(r.counts, { allow: 8, deny: 2, review: 3, unknown: 2 });
+  assert.equal(pkgOf(r, 'gpl-widget').policy_section, '§2.3 Not allowed in shipped code');
+  assert.equal(pkgOf(r, 'internal-sdk').decision, 'allow'); assert.equal(pkgOf(r, 'internal-sdk').exception.approved_by, 'Dana Counsel (fictional)');
+  assert.equal(pkgOf(r, 'expired-ex').decision, 'deny'); assert.ok(r.findings.some((f) => f.check === 'exception_expired'));
+  assert.equal(pkgOf(r, 'old-parse').license, 'Apache-2.0');
+  assert.deepEqual(r.skipped.map((s) => s.name), ['test-runner-gpl', 'my-plugin']);
+  const earlier = run({ as_of: '2026-01-01' }); assert.equal(pkgOf(earlier, 'expired-ex').decision, 'allow', 'exception still active before it expires');
+  assert.equal(run({ include_dev: true }).counts.deny, 3);
+  assert.equal(check(join(fixtures, 'project'), { ...policy, unknown: 'deny' }, { as_of: '2026-11-14' }).counts.deny, 4);
+});
+test('fallback to installed package.json, mismatch and project checks', () => {
+  const d = mkdtempSync(join(tmpdir(), 'lyc-nm-'));
+  writeFileSync(join(d, 'package.json'), JSON.stringify({ name: 'p', version: '1.0.0' }));
+  writeFileSync(join(d, 'package-lock.json'), JSON.stringify({ lockfileVersion: 3, packages: { '': {}, 'node_modules/legacy': { version: '1.0.0' }, 'node_modules/clash': { version: '2.0.0', license: 'MIT' } } }));
+  for (const [n, lic] of [['legacy', { licenses: [{ type: 'MIT' }] }], ['clash', { license: 'ISC' }]]) { mkdirSync(join(d, 'node_modules', n), { recursive: true }); writeFileSync(join(d, 'node_modules', n, 'package.json'), JSON.stringify({ name: n, ...lic })); }
+  const r = check(d, policy);
+  assert.equal(pkgOf(r, 'legacy').license, 'MIT'); assert.equal(pkgOf(r, 'legacy').license_source, 'package.json');
+  assert.ok(r.findings.some((f) => f.check === 'license_mismatch' && f.package === 'clash'));
+  assert.ok(r.findings.some((f) => f.check === 'project_license_missing')); assert.ok(r.findings.some((f) => f.check === 'license_file_missing'));
+  assert.equal(r.check, 'pass');
+  assert.throws(() => check(mkdtempSync(join(tmpdir(), 'lyc-empty-')), policy), /package.json not found/);
+});
+test('SBOM and SARIF shapes', () => {
+  const r = run(); const tool = { name: 'lycurgus-of-licenses', version: '0.1.0' };
+  const b = sbom(r, tool); assert.equal(b.bomFormat, 'CycloneDX'); assert.equal(b.specVersion, '1.5');
+  assert.equal(b.components.find((c) => c.name === '@fict/logger').purl, 'pkg:npm/%40fict/logger@1.0.0');
+  const s = sarif(r, tool); assert.equal(s.version, '2.1.0');
+  const g = s.runs[0].results.find((x) => x.ruleId === 'denied'); assert.equal(g.level, 'error'); assert.ok(g.locations[0].physicalLocation.region.startLine > 1);
+});
+test('CLI check exits 1 on a failed policy check and changes nothing', () => {
+  const lock = readFileSync(join(fixtures, 'project/package-lock.json'), 'utf8');
+  const r = spawnSync(process.execPath, [bin, 'check', '--root', fixtures, '--project', 'project', '--policy', 'license-policy.json', '--state-dir', mkdtempSync(join(tmpdir(), 'lyc-st-'))], { encoding: 'utf8' });
+  assert.equal(r.status, 1, r.stderr); assert.match(r.stdout, /^fail: 15 package/); assert.match(r.stdout, /gpl-widget@2.2.0/);
+  assert.equal(readFileSync(join(fixtures, 'project/package-lock.json'), 'utf8'), lock);
+});
+test('release is one-click, hash-bound, refuses failed checks and changed lockfiles; publishing blocked', async () => {
+  const root = tmpRoot(); const rt = new AgentRuntime(manifest, { root, mode: 'auto', autoActions: ['lycurgus_draft_exceptions'] });
+  assert.throws(() => new AgentRuntime(manifest, { audit: false, mode: 'auto', autoActions: ['lycurgus_request_release'] }), /one-click/);
+  const f = { project: 'project', policy: 'license-policy.json', as_of: '2026-11-14' };
+  const d = await rt.call('lycurgus_draft_exceptions', f); assert.equal(d.status, 'executed');
+  const stubs = JSON.parse(readFileSync(join(root, 'mythos-out/lycurgus/exceptions-proposed.json'), 'utf8')).exceptions;
+  assert.equal(stubs.length, 5); assert.equal(stubs[0].approved_by, ''); assert.equal(stubs[0].expires, '2027-02-12');
+  const w = await rt.call('lycurgus_write_report', f);
+  const args = { check_summary: w.result.check_summary, check_summary_sha256: w.result.check_summary_sha256 };
+  const a = await rt.call('lycurgus_request_release', args); assert.equal(a.status, 'needs_approval');
+  new ApprovalStore(join(root, '.mythos')).approve(a.approval_id, 'Robin');
+  assert.match((await rt.call('lycurgus_request_release', args)).reason, /check failed/);
+  const lockFile = join(root, 'project/package-lock.json'); const lock = JSON.parse(readFileSync(lockFile, 'utf8'));
+  delete lock.packages['node_modules/gpl-widget']; delete lock.packages['node_modules/expired-ex']; writeFileSync(lockFile, JSON.stringify(lock));
+  const w2 = await rt.call('lycurgus_write_report', { ...f, out_dir: 'mythos-out/2' });
+  const a2 = { check_summary: w2.result.check_summary, check_summary_sha256: w2.result.check_summary_sha256 };
+  new ApprovalStore(join(root, '.mythos')).approve((await rt.call('lycurgus_request_release', a2)).approval_id, 'Robin');
+  assert.match((await rt.call('lycurgus_request_release', a2)).reason, /review_note/);
+  const a3 = { ...a2, review_note: 'Dana reviewed' };
+  new ApprovalStore(join(root, '.mythos')).approve((await rt.call('lycurgus_request_release', a3)).approval_id, 'Robin');
+  const ok = await rt.call('lycurgus_request_release', a3); assert.equal(ok.status, 'executed'); assert.equal(ok.approved_by, 'Robin');
+  assert.equal(parseCsv(readFileSync(join(root, 'mythos-out/lycurgus/release-requests.csv'), 'utf8'))[0].status, 'approved - a person publishes');
+  const a4 = { ...a3, review_note: 'second' };
+  new ApprovalStore(join(root, '.mythos')).approve((await rt.call('lycurgus_request_release', a4)).approval_id, 'Robin');
+  writeFileSync(lockFile, JSON.stringify({ ...lock, name: 'changed' }));
+  assert.match((await rt.call('lycurgus_request_release', a4)).reason, /package-lock.json changed/);
+  for (const t of ['npm_publish', 'write_lockfile']) assert.equal((await rt.call(t, {})).status, 'blocked');
+});
