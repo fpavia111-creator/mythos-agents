@@ -1,0 +1,59 @@
+{
+  "name": "lycurgus-of-licenses",
+  "version": "0.1.0",
+  "description": "Lycurgus of Licenses: an MCP agent and CLI that reads a project's npm lockfile and installed packages, applies your written license policy (allow, review, deny, unknown, exceptions with owners and expiry), writes a report, CycloneDX SBOM and SARIF, and fails the check without changing files. Publishing a release is a production deploy: always one human click. Helps you apply your policy; not legal advice.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "lycurgus-of-licenses": "bin/lycurgus-of-licenses.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/lycurgus-of-licenses.js demo",
+    "eval": "node bin/lycurgus-of-licenses.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/lycurgus-of-licenses"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/lycurgus-of-licenses#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "license",
+    "licenses",
+    "license-checker",
+    "spdx",
+    "sbom",
+    "cyclonedx",
+    "sarif",
+    "open-source-compliance",
+    "npm",
+    "ai-agents",
+    "mythos"
+  ]
+}
