@@ -1,0 +1,55 @@
+{
+  "name": "polyhymnia-of-grants",
+  "version": "0.1.0",
+  "description": "Polyhymnia of Grants: an MCP agent that maps grant deadlines, budget lines, outcomes and evidence from CSV exports into a draft report packet with gaps marked for a person. Submitting to a funder is a binding send: always one human click, never automatic.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "polyhymnia-of-grants": "bin/polyhymnia-of-grants.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/polyhymnia-of-grants.js demo",
+    "eval": "node bin/polyhymnia-of-grants.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/polyhymnia-of-grants"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/polyhymnia-of-grants#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "grants",
+    "grant-reporting",
+    "nonprofit",
+    "budget-variance",
+    "funder-reports",
+    "ai-agents",
+    "mythos"
+  ]
+}

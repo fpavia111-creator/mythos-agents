@@ -1,0 +1,7 @@
+grant_id,metric,target,actual,evidence
+G1,Students enrolled,120,134,evidence/g1-enrollment.csv
+G1,Students gaining one reading level,90,71,evidence/g1-assessments.csv
+G1,Family workshops held,10,,
+G2,Murals completed,3,3,evidence/g2-photo-index.md
+G2,Youth participants,40,38,
+G3,Learners enrolled,60,22,evidence/g3-signups.csv
