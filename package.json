@@ -24,7 +24,12 @@
     "packages/auxo-of-vendors",
     "packages/polyhymnia-of-grants",
     "packages/urania-of-flux",
-    "packages/arethusa-of-flows"
+    "packages/arethusa-of-flows",
+    "packages/daphne-of-pages",
+    "packages/praxidike-of-expenses",
+    "packages/hesperides-of-inventory",
+    "packages/eos-of-onboarding",
+    "packages/epeius-of-rfis"
   ],
   "scripts": {
     "test": "npm test --workspaces"

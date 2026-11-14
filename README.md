@@ -25,6 +25,11 @@ Small MCP agents that each own **one business process** and cannot act outside i
 | [`polyhymnia-of-grants`](packages/polyhymnia-of-grants) | Grant deadlines, budget pace, outcomes and evidence into a draft report packet. Submitting is one click. | `npx -y polyhymnia-of-grants demo` |
 | [`urania-of-flux`](packages/urania-of-flux) | Board pack from locked figures with cited commentary and a claims check. Sign-off and distribution are one click. | `npx -y urania-of-flux demo` |
 | [`arethusa-of-flows`](packages/arethusa-of-flows) | n8n, Zapier and Make flow audit for broken and risky flows. Enabling or changing production flows is one click. | `npx -y arethusa-of-flows demo` |
+| [`daphne-of-pages`](packages/daphne-of-pages) | Broken links, SEO basics and automatable WCAG checks on exported HTML, with a fix list. Publishing is one click; not a legal opinion. | `npx -y daphne-of-pages demo` |
+| [`praxidike-of-expenses`](packages/praxidike-of-expenses) | Expense reports and receipts against your written policy, with cited findings. Reimbursing is one click; paying is blocked. | `npx -y praxidike-of-expenses demo` |
+| [`hesperides-of-inventory`](packages/hesperides-of-inventory) | Cycle count variance review: timing, unit-of-measure and recount checks, ranked by value. Posting adjustments is one click. | `npx -y hesperides-of-inventory demo` |
+| [`eos-of-onboarding`](packages/eos-of-onboarding) | Onboarding checklists for employees, contractors and customers, with access request drafts. Granting or removing access is one click. | `npx -y eos-of-onboarding demo` |
+| [`epeius-of-rfis`](packages/epeius-of-rfis) | RFI and submittal log review against your drawing and spec index, and RFI drafts that cite your documents. Sending is one click. | `npx -y epeius-of-rfis demo` |
 
 ## The rules every pack follows
 
