@@ -1,0 +1,56 @@
+{
+  "name": "auxo-of-vendors",
+  "version": "0.1.0",
+  "description": "Auxo of Vendors: an MCP agent that tracks vendor W-9 readiness from CSV exports (missing or unsigned forms, TIN format, missing details, payments over a threshold you set) and drafts request emails. Sends are one human click; it never files with the IRS and is not tax advice.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "auxo-of-vendors": "bin/auxo-of-vendors.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/auxo-of-vendors.js demo",
+    "eval": "node bin/auxo-of-vendors.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/auxo-of-vendors"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/auxo-of-vendors#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "w-9",
+    "w9",
+    "1099",
+    "vendor-onboarding",
+    "accounts-payable",
+    "bookkeeping",
+    "ai-agents",
+    "mythos"
+  ]
+}
