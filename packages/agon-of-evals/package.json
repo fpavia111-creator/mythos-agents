@@ -1,0 +1,54 @@
+{
+  "name": "agon-of-evals",
+  "version": "0.1.0",
+  "description": "Agon of Evals: an MCP agent for private, fixture-based evals of one business process on one pinned model. Grades recorded responses, finds regressions between runs, and writes Markdown, JSON and JUnit. Calls no model and publishes nothing.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "agon-of-evals": "bin/agon-of-evals.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/agon-of-evals.js demo",
+    "eval": "node bin/agon-of-evals.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/agon-of-evals"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/agon-of-evals#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "llm-evals",
+    "evaluation",
+    "regression-testing",
+    "junit",
+    "ai-agents",
+    "mythos"
+  ]
+}
