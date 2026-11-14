@@ -1,0 +1,54 @@
+{
+  "name": "eirene-of-controls",
+  "version": "0.1.0",
+  "description": "Eirene of Controls: a domain-specific MCP agent that turns Talos and mythos-agent-core JSONL audit logs (plus Alethea decisions) into a hash-listed evidence folder for reviewers and auditors. Evidence, not certification.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "eirene-of-controls": "bin/eirene-of-controls.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/eirene-of-controls.js demo",
+    "eval": "node bin/eirene-of-controls.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/eirene-of-controls"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/eirene-of-controls#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "audit-log",
+    "evidence",
+    "controls",
+    "ai-governance",
+    "ai-agents",
+    "mythos"
+  ]
+}
