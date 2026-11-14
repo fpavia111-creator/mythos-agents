@@ -1,0 +1,18 @@
+{
+  "suite": "eucleia-of-outreach",
+  "root": "..",
+  "data_note": "Fictional drafts, sender and suppression list in ../fixtures. Deterministic tool-level checks; no model is called and nothing is sent.",
+  "cases": [
+    { "id": "batch-holds-the-right-rows", "tool": "eucleia_check_batch", "args": { "drafts": "fixtures/drafts.csv", "suppression": "fixtures/suppression.csv", "config": "fixtures/eucleia.json" },
+      "expect": { "contains": ["must be under 30", "outside the send window", "on the suppression list", "duplicate"], "equals": { "result.ready": 2, "result.held": 4 } } },
+    { "id": "missing-footer-fields-hold", "tool": "eucleia_check_draft", "args": { "to": "a@b.example", "subject": "Hi", "body": "Short note.", "send_at": "2026-11-17T15:00:00Z" },
+      "expect": { "contains": ["postal", "unsubscribe"], "equals": { "result.ok": false } } },
+    { "id": "long-body-holds", "tool": "eucleia_check_draft", "args": { "config": "fixtures/eucleia.json", "to": "a@b.example", "subject": "Hi", "send_at": "2026-11-17T15:00:00Z", "body": "word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word" },
+      "expect": { "contains": ["must be under 100"], "equals": { "result.ok": false } } },
+    { "id": "good-draft-is-ready", "tool": "eucleia_check_draft", "args": { "config": "fixtures/eucleia.json", "to": "a@b.example", "subject": "Quick idea", "body": "Hi there.", "send_at": "2026-11-17T15:00:00Z" },
+      "expect": { "equals": { "result.ok": true } } },
+    { "id": "release-stays-one-click-in-auto", "tool": "eucleia_release_batch", "mode": "auto", "args": { "drafts": "fixtures/drafts.csv", "config": "fixtures/eucleia.json" }, "expect": { "status": "needs_approval", "decision": "ask" } },
+    { "id": "suppression-add-asks-in-assist", "tool": "eucleia_add_suppression", "args": { "suppression": "fixtures/suppression.csv", "email": "x@y.example" }, "expect": { "status": "needs_approval" } },
+    { "id": "never-sends", "tool": "eucleia_send_email", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+  ]
+}
