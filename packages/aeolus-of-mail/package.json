@@ -1,0 +1,58 @@
+{
+  "name": "aeolus-of-mail",
+  "version": "0.1.0",
+  "description": "Aeolus of Mail: an MCP agent that audits a sending domain's SPF, DKIM, DMARC, MX, MTA-STS and TLS-RPT records with read-only DNS-over-HTTPS lookups (or a saved records file), explains the gaps and pre-stages record changes. Changing DNS is a production deploy: always one human click. Aeolus never edits DNS.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "aeolus-of-mail": "bin/aeolus-of-mail.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/aeolus-of-mail.js demo",
+    "eval": "node bin/aeolus-of-mail.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/aeolus-of-mail"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/aeolus-of-mail#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "email",
+    "dns",
+    "spf",
+    "dkim",
+    "dmarc",
+    "deliverability",
+    "mta-sts",
+    "dns-over-https",
+    "ai-agents",
+    "mythos"
+  ]
+}
