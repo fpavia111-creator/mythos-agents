@@ -15,6 +15,11 @@ Small MCP agents that each own **one business process** and cannot act outside i
 | [`helios-of-seats`](packages/helios-of-seats) | Unused, idle, duplicate and over-tiered SaaS seats with estimated savings. Revoking is one click. | `npx -y helios-of-seats demo` |
 | [`agon-of-evals`](packages/agon-of-evals) | Private evals for one process on one pinned model, with regression compare. Calls no model. | `npx -y agon-of-evals demo` |
 | [`ananke-of-match`](packages/ananke-of-match) | AP three-way-match exceptions and a worklist. Never posts or pays. | `npx -y ananke-of-match demo` |
+| [`penelope-of-recon`](packages/penelope-of-recon) | Bank-to-GL reconciliation: proposed matches, reconciling items, tie-out. Posting entries is one click. | `npx -y penelope-of-recon demo` |
+| [`tiresias-of-drift`](packages/tiresias-of-drift) | Config and schema drift over time, explained with risk levels. Applying fixes to production is one click. | `npx -y tiresias-of-drift demo` |
+| [`macaria-of-erasure`](packages/macaria-of-erasure) | Erasure request workflow: where personal data lives and a checklist. Deleting is one click; never deletes itself. | `npx -y macaria-of-erasure demo` |
+| [`soteria-of-refunds`](packages/soteria-of-refunds) | Refund and chargeback triage against your policy. Never moves money. | `npx -y soteria-of-refunds demo` |
+| [`nausicaa-of-hygiene`](packages/nausicaa-of-hygiene) | Contact-list hygiene: bounces, role addresses, duplicates, stale records, consent. Bulk deletes are one click. | `npx -y nausicaa-of-hygiene demo` |
 
 ## The rules every pack follows
 
