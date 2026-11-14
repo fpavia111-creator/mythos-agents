@@ -1,0 +1,14 @@
+{
+  "suite": "hesperides-of-inventory",
+  "root": "..",
+  "data_note": "Fictional counts, stock and movements in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    { "id": "statuses", "tool": "hesperides_compare", "args": { "counts": "fixtures/counts.csv", "on_hand": "fixtures/on-hand.csv", "transactions": "fixtures/transactions.csv", "snapshot_at": "2026-11-13" },
+      "expect": { "contains": ["confirmed_by_recount", "possible_uom_error", "recount_differs", "negative_system_qty", "not_in_system", "explained_by_timing", "PO-7781"], "equals": { "result.match": 1, "result.within_tolerance": 1, "result.recount_needed": 1, "result.investigate": 4, "result.not_counted": 1, "result.net_variance_value": -511.6 } } },
+    { "id": "no-transactions-no-timing", "tool": "hesperides_compare", "args": { "counts": "fixtures/counts.csv", "on_hand": "fixtures/on-hand.csv" }, "expect": { "not_contains": ["\"status\":\"explained_by_timing\""], "equals": { "result.explained_by_timing": 0, "result.recount_needed": 2 } } },
+    { "id": "draft-auto-when-opted-in", "tool": "hesperides_draft_adjustments", "mode": "auto", "auto_actions": ["hesperides_draft_adjustments"], "args": { "counts": "fixtures/counts.csv", "on_hand": "fixtures/on-hand.csv", "transactions": "fixtures/transactions.csv", "snapshot_at": "2026-11-13", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "contains": ["2 adjustment line(s) drafted (net -258.00); 6 held for recount or investigation; 2 without a reason code. Nothing was posted."] } },
+    { "id": "post-stays-one-click-in-auto", "tool": "hesperides_request_post", "mode": "auto", "args": { "batch": "x.json", "batch_sha256": "0" }, "expect": { "status": "needs_approval", "contains": ["move_money stays one-click"] } },
+    { "id": "never-posts-to-erp", "tool": "erp_post_adjustment", "mode": "auto", "args": {}, "expect": { "status": "blocked", "contains": ["never posts to an ERP"] } },
+    { "id": "needs-counts", "tool": "hesperides_compare", "args": { "on_hand": "fixtures/on-hand.csv" }, "expect": { "status": "error", "contains": ["counts is required"] } }
+  ]
+}

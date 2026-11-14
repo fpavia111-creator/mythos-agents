@@ -1,0 +1,10 @@
+sku,location,description,system_qty,unit_cost,uom
+WID-100,A-01,Oak widget,120,4.50,EA
+WID-200,A-02,Walnut widget,80,6.00,EA
+BOLT-12,B-01,Hex bolt M12,600,0.35,EA
+GLUE-1,B-02,Wood glue 1L,24,9.80,EA
+SAW-7,C-01,Panel saw,15,42.00,EA
+LAMP-3,C-02,Bench lamp,40,28.00,EA
+OIL-5,D-01,Finishing oil 5L,10,55.00,EA
+CLAMP-4,D-02,Bar clamp,-3,18.00,EA
+DOWEL-8,E-01,Dowel pack,30,3.20,EA
