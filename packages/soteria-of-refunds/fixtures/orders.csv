@@ -1,0 +1,7 @@
+order_id,customer,amount,refunded,order_date,delivered_date,tracking,status
+O-501,ana@example.com,45.00,0,2026-10-20,2026-10-24,1Z999EXAMPLE01,delivered
+O-502,ben@example.com,320.00,0,2026-10-01,2026-10-04,1Z999EXAMPLE02,delivered
+O-503,cy@example.com,80.00,0,2026-08-20,2026-08-25,1Z999EXAMPLE03,delivered
+O-504,dee@example.com,60.00,0,2026-11-01,,,shipped
+O-505,eve@example.com,150.00,100.00,2026-10-10,2026-10-14,1Z999EXAMPLE05,delivered
+O-506,fay@example.com,210.00,0,2026-10-05,2026-10-08,1Z999EXAMPLE06,delivered

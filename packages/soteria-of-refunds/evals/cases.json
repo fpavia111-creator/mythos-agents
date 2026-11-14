@@ -1,0 +1,14 @@
+{
+  "suite": "soteria-of-refunds",
+  "root": "..",
+  "data_note": "Fictional orders, requests and policy in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    { "id": "triage-per-policy", "tool": "soteria_triage", "args": { "requests": "fixtures/requests.csv", "orders": "fixtures/orders.csv", "policy": "fixtures/policy.json" },
+      "expect": { "contains": ["outside_window_72_days", "exceeds_refundable_50", "duplicate_of_R-1001", "order_not_found", "prepare_dispute_evidence"], "equals": { "result.eligible": 1, "result.duplicates": 1, "result.chargebacks": 1, "result.eligible_amount": 45 } } },
+    { "id": "default-policy-applies", "tool": "soteria_triage", "args": { "requests": "fixtures/requests.csv", "orders": "fixtures/orders.csv" }, "expect": { "equals": { "result.deny_per_policy": 1 } } },
+    { "id": "explain", "tool": "soteria_explain", "args": { "requests": "fixtures/requests.csv", "orders": "fixtures/orders.csv", "request_id": "R-1005" }, "expect": { "contains": ["minus earlier refunds"] } },
+    { "id": "refund-stays-one-click-in-auto", "tool": "soteria_request_refund", "mode": "auto", "args": { "request_id": "R-1001", "order_id": "O-501", "amount": 45, "reason": "ok" }, "expect": { "status": "needs_approval", "decision": "ask" } },
+    { "id": "never-issues-money", "tool": "payments_issue_refund", "mode": "auto", "args": {}, "expect": { "status": "blocked" } },
+    { "id": "never-submits-dispute", "tool": "payments_submit_dispute", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+  ]
+}
