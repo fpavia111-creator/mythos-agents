@@ -1,0 +1,56 @@
+{
+  "name": "hesperides-of-inventory",
+  "version": "0.1.0",
+  "description": "Hesperides of Inventory: an MCP agent that compares cycle counts with on-hand exports, ranks variances by value, separates timing differences and likely unit-of-measure errors, and drafts adjustment entries. Posting an adjustment is always one human click; it never writes to your ERP.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "hesperides-of-inventory": "bin/hesperides-of-inventory.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/hesperides-of-inventory.js demo",
+    "eval": "node bin/hesperides-of-inventory.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/hesperides-of-inventory"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/hesperides-of-inventory#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "inventory",
+    "cycle-count",
+    "inventory-variance",
+    "netsuite",
+    "warehouse",
+    "operations",
+    "ai-agents",
+    "mythos"
+  ]
+}
