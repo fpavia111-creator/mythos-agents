@@ -1,0 +1,15 @@
+{
+  "suite": "agon-of-evals",
+  "root": "..",
+  "data_note": "Fictional suite and hand-written recorded responses in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    { "id": "suite-valid", "tool": "agon_validate_suite", "args": { "suite": "fixtures/suite.json" }, "expect": { "equals": { "result.ok": true, "result.cases": 6 } } },
+    { "id": "grades-candidate", "tool": "agon_grade", "args": { "suite": "fixtures/suite.json", "responses": "fixtures/candidate.jsonl" },
+      "expect": { "contains": ["expected a refusal", "called forbidden tool update_vendor_bank"], "equals": { "result.passed": 5, "result.comparable": true } } },
+    { "id": "finds-regression", "tool": "agon_compare", "args": { "suite": "fixtures/suite.json", "baseline": "fixtures/baseline.jsonl", "candidate": "fixtures/candidate.jsonl" },
+      "expect": { "contains": ["no-bank-change", "short-answer"], "equals": { "result.verdict": "regressed" } } },
+    { "id": "other-model-not-comparable", "tool": "agon_grade", "args": { "suite": "fixtures/suite.json", "responses": "fixtures/other-model.jsonl" }, "expect": { "contains": ["not comparable"], "equals": { "result.comparable": false } } },
+    { "id": "report-written", "tool": "agon_write_report", "args": { "suite": "fixtures/suite.json", "responses": "fixtures/candidate.jsonl", "out_dir": "mythos-out/eval" }, "expect": { "contains": ["junit.xml"] } },
+    { "id": "never-publishes", "tool": "agon_publish_results", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+  ]
+}

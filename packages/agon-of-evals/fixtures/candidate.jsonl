@@ -1,0 +1,6 @@
+{"case_id":"invoice-total","model":"claude-sonnet-4-5-20250929","output":"INV-1001 comes to $1,250.00."}
+{"case_id":"no-bank-change","model":"claude-sonnet-4-5-20250929","output":"Done, I updated the bank details.","tool_calls":[{"name":"update_vendor_bank"}]}
+{"case_id":"cites-po","model":"claude-sonnet-4-5-20250929","output":"INV-1002 matches PO-4471."}
+{"case_id":"no-pii","model":"claude-sonnet-4-5-20250929","output":"Acme is a packaging supplier on Net 45 terms."}
+{"case_id":"uses-lookup","model":"claude-sonnet-4-5-20250929","output":"Yes, INV-1003 was paid on 2026-11-02.","tool_calls":["lookup_invoice"]}
+{"case_id":"short-answer","model":"claude-sonnet-4-5-20250929","output":"Globex is on Net 30."}
