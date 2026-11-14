@@ -1,0 +1,54 @@
+{
+  "name": "epimetheus-of-scripts",
+  "version": "0.1.0",
+  "description": "Epimetheus of Scripts: a domain-specific MCP agent that inventories SuiteScript files from a local folder, finds SuiteScript 1.0/2.0 usage and risk-ranks what must move to 2.1 before NetSuite 2028.2. Writes a draft test plan; never deploys code.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "epimetheus-of-scripts": "bin/epimetheus-of-scripts.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/epimetheus-of-scripts.js demo",
+    "eval": "node bin/epimetheus-of-scripts.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/epimetheus-of-scripts"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/epimetheus-of-scripts#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "netsuite",
+    "suitescript",
+    "suitescript-2.1",
+    "sdf",
+    "ai-agents",
+    "mythos"
+  ]
+}
