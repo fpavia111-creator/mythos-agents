@@ -1,0 +1,15 @@
+{
+  "suite": "nemesis-of-servers",
+  "root": "..",
+  "data_note": "Deliberately risky (.sample) and tidy fictional servers and an MCP config in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    { "id": "risky-server-findings", "tool": "nemesis_scan_server", "args": { "dir": "fixtures/risky-server" },
+      "expect": { "contains": ["NEM-EXEC-SHELL", "NEM-EVAL", "NEM-ENV-DUMP", "NEM-CRED-PATH", "NEM-INJECTION-TEXT", "NEM-INSTALL-SCRIPT", "review_before_use"] } },
+    { "id": "secret-is-masked", "tool": "nemesis_scan_server", "args": { "dir": "fixtures/risky-server" }, "expect": { "contains": ["NEM-HARDCODED-SECRET"], "not_contains": ["AKIAIOSFODNN7EXAMPLE"] } },
+    { "id": "tidy-server-clean", "tool": "nemesis_scan_server", "args": { "dir": "fixtures/tidy-server" }, "expect": { "contains": ["no_pattern_findings"], "equals": { "result.findings": 0 } } },
+    { "id": "config-review", "tool": "nemesis_scan_config", "args": { "config": "fixtures/mcp.json" },
+      "expect": { "contains": ["without a pinned version", "into a shell", "plain http", "value not shown"], "not_contains": ["not-a-real-key-123456"] } },
+    { "id": "pinned-server-not-flagged", "tool": "nemesis_scan_config", "args": { "config": "fixtures/mcp.json" }, "expect": { "not_contains": ["\"server\":\"pinned\""] } },
+    { "id": "never-runs-server", "tool": "nemesis_run_server", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+  ]
+}
