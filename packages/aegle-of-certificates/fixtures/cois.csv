@@ -1,0 +1,6 @@
+vendor,coverage,limit,expires,additional_insured,certificate_id
+Acme Plumbing (fictional),general_liability,1000000,2027-03-01,yes,COI-1
+Acme Plumbing (fictional),workers_comp,500000,2026-11-25,no,COI-1
+Bright Electric (fictional),general_liability,500000,2027-02-01,no,COI-2
+Cedar Roofing (fictional),general_liability,2000000,2027-05-01,yes,COI-3
+Cedar Roofing (fictional),workers_comp,1000000,2027-05-01,no,COI-3
