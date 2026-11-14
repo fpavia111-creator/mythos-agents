@@ -1,0 +1,56 @@
+{
+  "name": "eos-of-onboarding",
+  "version": "0.1.0",
+  "description": "Eos of Onboarding: an MCP agent that tracks onboarding checklists for new employees, contractors or customers (documents, NDA, W-9, equipment, access, training) from CSV and a JSON template, and drafts access requests once prerequisites are done. Granting or revoking access is always one human click.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "eos-of-onboarding": "bin/eos-of-onboarding.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/eos-of-onboarding.js demo",
+    "eval": "node bin/eos-of-onboarding.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/eos-of-onboarding"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/eos-of-onboarding#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "onboarding",
+    "offboarding",
+    "checklist",
+    "access-requests",
+    "contractors",
+    "it-admin",
+    "ai-agents",
+    "mythos"
+  ]
+}

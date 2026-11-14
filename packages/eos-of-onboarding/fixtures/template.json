@@ -1,0 +1,29 @@
+{
+  "name": "Example agency onboarding (fictional)",
+  "types": {
+    "contractor": [
+      { "id": "nda", "title": "NDA signed", "kind": "document", "owner": "Ops", "due_offset_days": -3 },
+      { "id": "w9", "title": "W-9 received", "kind": "document", "owner": "Finance", "due_offset_days": -3 },
+      { "id": "sow", "title": "Statement of work signed", "kind": "document", "owner": "Ops", "due_offset_days": -3 },
+      { "id": "laptop", "title": "Laptop shipped", "kind": "equipment", "owner": "IT", "due_offset_days": -2 },
+      { "id": "email", "title": "Email account", "kind": "access", "system": "Google Workspace", "access_level": "standard user", "owner": "IT", "requires": ["nda"], "due_offset_days": 0 },
+      { "id": "repo", "title": "Code repository", "kind": "access", "system": "GitHub", "access_level": "write to client-web", "owner": "IT", "requires": ["nda", "sow"], "due_offset_days": 1 },
+      { "id": "intro", "title": "Kick-off call", "kind": "meeting", "owner": "Manager", "due_offset_days": 1 }
+    ],
+    "employee": [
+      { "id": "offer", "title": "Offer letter signed", "kind": "document", "owner": "Ops", "due_offset_days": -10 },
+      { "id": "nda", "title": "Confidentiality agreement signed", "kind": "document", "owner": "Ops", "due_offset_days": -3 },
+      { "id": "payroll", "title": "Payroll set up", "kind": "document", "owner": "Finance", "due_offset_days": 0 },
+      { "id": "laptop", "title": "Laptop ready", "kind": "equipment", "owner": "IT", "due_offset_days": -1 },
+      { "id": "email", "title": "Email account", "kind": "access", "system": "Google Workspace", "access_level": "standard user", "owner": "IT", "requires": ["nda"], "due_offset_days": 0 },
+      { "id": "crm", "title": "CRM seat", "kind": "access", "system": "CRM", "access_level": "sales rep", "owner": "IT", "requires": ["nda", "training"], "due_offset_days": 5 },
+      { "id": "training", "title": "Security basics training", "kind": "training", "owner": "Employee", "due_offset_days": 3 }
+    ],
+    "customer": [
+      { "id": "contract", "title": "Contract countersigned", "kind": "document", "owner": "Sales", "due_offset_days": -1 },
+      { "id": "kickoff", "title": "Kick-off meeting", "kind": "meeting", "owner": "CSM", "due_offset_days": 3 },
+      { "id": "portal", "title": "Client portal login", "kind": "access", "system": "Client portal", "access_level": "client viewer", "owner": "CSM", "requires": ["contract"], "due_offset_days": 3 },
+      { "id": "data", "title": "Data import checked", "kind": "task", "owner": "CSM", "due_offset_days": 10 }
+    ]
+  }
+}

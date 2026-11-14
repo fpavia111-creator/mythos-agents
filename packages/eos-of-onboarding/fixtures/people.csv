@@ -1,0 +1,6 @@
+person_id,name,type,role,manager,email,start_date,end_date
+C1,Jordan Lee,contractor,Front-end developer,Sam Ortiz,jordan@example.com,2026-11-16,2027-02-28
+C2,Riley Park,contractor,Copywriter,Sam Ortiz,riley@example.com,2026-11-02,
+E1,Morgan Diaz,employee,Account executive,Ana Wu,morgan@example.com,2026-11-09,
+K1,Harbor Bakery,customer,Client,Chris Moss,ops@harbor.example.com,2026-11-10,
+C3,Quinn Hale,contractor,Designer,Sam Ortiz,quinn@example.com,2026-08-01,2026-10-31
