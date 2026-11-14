@@ -1,0 +1,20 @@
+{
+  "id": "wf-cleanup",
+  "name": "CRM cleanup",
+  "active": true,
+  "nodes": [
+    { "id": "1", "name": "Every night", "type": "n8n-nodes-base.scheduleTrigger", "parameters": { "rule": { "interval": [{ "field": "days" }] } } },
+    { "id": "2", "name": "Find old contacts", "type": "n8n-nodes-base.hubspot", "parameters": { "resource": "contact", "operation": "search" } },
+    { "id": "3", "name": "Delete contacts", "type": "n8n-nodes-base.hubspot", "parameters": { "resource": "contact", "operation": "delete" } },
+    { "id": "4", "name": "Backup to disk", "type": "n8n-nodes-base.executeCommand", "parameters": { "command": "tar czf /backups/crm.tgz /data/crm" } },
+    { "id": "5", "name": "Only unsubscribed", "type": "n8n-nodes-base.if", "parameters": {} },
+    { "id": "6", "name": "Remove from list", "type": "n8n-nodes-base.mailchimp", "parameters": { "resource": "member", "operation": "delete" } }
+  ],
+  "connections": {
+    "Every night": { "main": [[{ "node": "Find old contacts", "type": "main", "index": 0 }, { "node": "Only unsubscribed", "type": "main", "index": 0 }]] },
+    "Find old contacts": { "main": [[{ "node": "Delete contacts", "type": "main", "index": 0 }]] },
+    "Delete contacts": { "main": [[{ "node": "Backup to disk", "type": "main", "index": 0 }]] },
+    "Only unsubscribed": { "main": [[{ "node": "Remove from list", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "errorWorkflow": "wf-alerts" }
+}
