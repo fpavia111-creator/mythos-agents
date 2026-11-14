@@ -1,0 +1,5 @@
+FLOOR PLAN LEVEL 2 - GENERAL NOTES (fictional)
+1. All partitions type P1 unless noted.
+2. Exam rooms 201-208: provide door type D3 with hardware set HW-4.
+3. Corridor partitions to extend to deck for smoke rating.
+4. Coordinate ceiling heights with RCP.

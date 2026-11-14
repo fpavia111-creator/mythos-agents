@@ -1,0 +1,5 @@
+SECTION 08 71 00 - DOOR HARDWARE (fictional)
+2.3 HARDWARE SETS
+A. HW-3: passage set, closer, wall stop.
+B. HW-4: privacy lockset, closer, kick plate, wall stop.
+C. HW-5: storeroom lockset, closer.
