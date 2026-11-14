@@ -1,0 +1,54 @@
+{
+  "name": "ananke-of-match",
+  "version": "0.1.0",
+  "description": "Ananke of Match: an MCP agent that investigates accounts-payable three-way-match exceptions (PO, receipt, invoice) from CSV/JSON exports and writes a worklist. Clearing an invoice for posting is always one human click and only records a request; it never posts to an ERP or pays.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "ananke-of-match": "bin/ananke-of-match.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/ananke-of-match.js demo",
+    "eval": "node bin/ananke-of-match.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/ananke-of-match"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/ananke-of-match#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "accounts-payable",
+    "three-way-match",
+    "ap-automation",
+    "finance",
+    "ai-agents",
+    "mythos"
+  ]
+}

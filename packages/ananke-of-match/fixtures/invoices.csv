@@ -1,0 +1,8 @@
+invoice,vendor,po,line,qty,unit_price,date
+INV-2001,Acme Supply (fictional),PO-4471,1,100,12.00,2026-11-04
+INV-2002,Acme Supply (fictional),PO-4471,2,50,4.00,2026-11-04
+INV-2003,Globex Furniture (fictional),PO-4472,1,10,195.00,2026-11-06
+INV-2001,Acme Supply (fictional),PO-4471,1,100,12.00,2026-11-04
+INV-2004,Initech Hardware (fictional),PO-4473,1,5,1400.00,2026-11-07
+INV-2005,Umbrella Services (fictional),PO-9999,1,1,750.00,2026-11-08
+INV-2006,Acme Supply (fictional),PO-4471,3,10,9.00,2026-11-08

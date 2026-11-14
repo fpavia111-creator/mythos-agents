@@ -1,0 +1,5 @@
+po,line,item,vendor,qty,unit_price
+PO-4471,1,BOX-12,Acme Supply (fictional),100,12.00
+PO-4471,2,TAPE-3,Acme Supply (fictional),50,4.00
+PO-4472,1,CHAIR-A,Globex Furniture (fictional),10,180.00
+PO-4473,1,LAPTOP-X,Initech Hardware (fictional),5,1400.00
