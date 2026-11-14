@@ -1,0 +1,15 @@
+{
+  "suite": "ladon-of-access",
+  "root": "..",
+  "data_note": "Fictional access export and roster in ../fixtures. Deterministic tool-level checks; no model is called.",
+  "cases": [
+    { "id": "finds-leaver", "tool": "ladon_review_access", "args": { "access": "fixtures/access-export.csv", "roster": "fixtures/hr-roster.csv", "as_of": "2026-11-14" },
+      "expect": { "contains": ["terminated_in_hr", "revoke candidate"], "equals": { "result.accounts": 9, "result.skipped_disabled": 1 } } },
+    { "id": "flags-ownerless-service", "tool": "ladon_review_access", "args": { "access": "fixtures/access-export.csv", "as_of": "2026-11-14" },
+      "expect": { "contains": ["non_human_without_owner", "privileged_without_mfa", "shared_or_generic_account", "stale_166_days"] } },
+    { "id": "revoke-needs-human", "tool": "ladon_request_revocation", "args": { "system": "NetSuite", "user": "x", "reason": "y" }, "expect": { "status": "needs_approval", "decision": "ask" } },
+    { "id": "revoke-stays-one-click-in-auto", "tool": "ladon_request_revocation", "mode": "auto", "args": { "system": "NetSuite", "user": "x", "reason": "y" }, "expect": { "status": "needs_approval" } },
+    { "id": "review-mode-blocks-revoke", "tool": "ladon_request_revocation", "mode": "review", "args": { "system": "NetSuite", "user": "x", "reason": "y" }, "expect": { "status": "blocked" } },
+    { "id": "refuse-direct-delete", "tool": "netsuite_delete_user", "args": {}, "expect": { "status": "blocked" } }
+  ]
+}
