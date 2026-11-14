@@ -1,0 +1,55 @@
+{
+  "name": "nemesis-of-servers",
+  "version": "0.1.0",
+  "description": "Nemesis of Servers: an MCP agent that reviews one MCP or Code Mode server folder, or an MCP client config, for risky patterns (shell exec, eval, open egress, env dumps, credential paths, inline secrets, prompt-injection text, unpinned packages). Writes Markdown, JSON and SARIF. Static and pattern-based.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "nemesis-of-servers": "bin/nemesis-of-servers.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/nemesis-of-servers.js demo",
+    "eval": "node bin/nemesis-of-servers.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/nemesis-of-servers"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/nemesis-of-servers#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "mcp-security",
+    "code-mode",
+    "static-analysis",
+    "sarif",
+    "supply-chain",
+    "ai-agents",
+    "mythos"
+  ]
+}
