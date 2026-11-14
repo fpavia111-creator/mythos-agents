@@ -1,0 +1,15 @@
+{
+  "suite": "penelope-of-recon",
+  "root": "..",
+  "data_note": "Fictional bank statement and GL in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    { "id": "matches-and-ties", "tool": "penelope_reconcile", "args": { "bank": "fixtures/bank-statement.csv", "gl": "fixtures/gl-cash.csv", "bank_balance": 12422.88, "gl_balance": 12844.76 },
+      "expect": { "contains": ["\"type\":\"reference\"", "\"type\":\"group\"", "bank_fee", "interest", "deposit_in_transit", "outstanding_payment"], "equals": { "result.matched_groups": 5, "result.balance.ties": true, "result.balance.difference": 0 } } },
+    { "id": "does-not-tie-when-off", "tool": "penelope_reconcile", "args": { "bank": "fixtures/bank-statement.csv", "gl": "fixtures/gl-cash.csv", "bank_balance": 12422.88, "gl_balance": 12800 }, "expect": { "equals": { "result.balance.ties": false } } },
+    { "id": "tight-window-drops-date-match", "tool": "penelope_reconcile", "args": { "bank": "fixtures/bank-statement.csv", "gl": "fixtures/gl-cash.csv", "date_window": 0 }, "expect": { "equals": { "result.matched_groups": 3 } } },
+    { "id": "accept-auto-when-opted-in", "tool": "penelope_accept_match", "mode": "auto", "auto_actions": ["penelope_accept_match"], "args": { "bank_ids": "B2", "gl_ids": "G2", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed" } },
+    { "id": "entry-stays-one-click-in-auto", "tool": "penelope_request_adjusting_entry", "mode": "auto", "args": { "date": "2026-10-31", "amount": -25, "account": "Bank fees", "memo": "fee" }, "expect": { "status": "needs_approval", "decision": "ask" } },
+    { "id": "review-mode-blocks-entry", "tool": "penelope_request_adjusting_entry", "mode": "review", "args": { "date": "2026-10-31", "amount": -25, "account": "Bank fees", "memo": "fee" }, "expect": { "status": "blocked" } },
+    { "id": "never-posts", "tool": "ledger_post_journal", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+  ]
+}
