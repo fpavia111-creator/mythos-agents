@@ -1,0 +1,19 @@
+{
+  "id": "wf-orders",
+  "name": "Order sync",
+  "active": true,
+  "nodes": [
+    { "id": "1", "name": "Order webhook", "type": "n8n-nodes-base.webhook", "parameters": { "path": "orders-in", "httpMethod": "POST" } },
+    { "id": "2", "name": "Shape order", "type": "n8n-nodes-base.set", "parameters": { "values": { "string": [{ "name": "sku", "value": "={{$json.sku}}" }] } } },
+    { "id": "3", "name": "Push to ERP", "type": "n8n-nodes-base.httpRequest", "parameters": { "url": "http://erp.example.internal/api/orders", "headerParameters": { "parameters": [{ "name": "Authorization", "value": "Bearer FAKE-demo-token-0000-0000" }] } } },
+    { "id": "4", "name": "Refund if cancelled", "type": "n8n-nodes-base.stripe", "parameters": { "resource": "charge", "operation": "refund" }, "credentials": { "stripeApi": { "id": "7", "name": "Stripe (stored credential)" } } },
+    { "id": "5", "name": "Old Slack alert", "type": "n8n-nodes-base.slack", "parameters": { "operation": "post_message", "channel": "#orders" } },
+    { "id": "6", "name": "Debug dump", "type": "n8n-nodes-base.code", "disabled": true, "parameters": { "jsCode": "return items;" } }
+  ],
+  "connections": {
+    "Order webhook": { "main": [[{ "node": "Shape order", "type": "main", "index": 0 }]] },
+    "Shape order": { "main": [[{ "node": "Push to ERP", "type": "main", "index": 0 }]] },
+    "Push to ERP": { "main": [[{ "node": "Refund if cancelled", "type": "main", "index": 0 }, { "node": "Debug dump", "type": "main", "index": 0 }]] }
+  },
+  "settings": {}
+}

@@ -1,0 +1,57 @@
+{
+  "name": "arethusa-of-flows",
+  "version": "0.1.0",
+  "description": "Arethusa of Flows: an MCP agent that audits workflow automation exports (n8n, Zapier, Make) for broken and risky flows: no trigger, disconnected or disabled steps, failing runs, hardcoded secrets, open webhooks, destructive or money-moving steps. Enabling or changing a production flow is always one human click.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "arethusa-of-flows": "bin/arethusa-of-flows.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/arethusa-of-flows.js demo",
+    "eval": "node bin/arethusa-of-flows.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/arethusa-of-flows"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/arethusa-of-flows#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "workflow-automation",
+    "n8n",
+    "zapier",
+    "make",
+    "integromat",
+    "automation-audit",
+    "security-review",
+    "ai-agents",
+    "mythos"
+  ]
+}

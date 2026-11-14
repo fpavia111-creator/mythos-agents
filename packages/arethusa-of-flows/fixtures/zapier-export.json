@@ -1,0 +1,12 @@
+{
+  "zaps": [
+    { "id": 101, "title": "New lead to Sheets", "status": "on", "steps": [
+      { "app": "Webhooks by Zapier", "action": "catch_hook", "type_of": "read" },
+      { "app": "Google Sheets", "action": "create_spreadsheet_row", "type_of": "write", "params": { "spreadsheet": "Leads" } } ] },
+    { "id": 102, "title": "Welcome email", "status": "on", "steps": [
+      { "app": "Gmail", "action": "send_email", "type_of": "write", "params": { "to": "{{101.email}}", "subject": "Welcome" } } ] },
+    { "id": 103, "title": "Weekly invoice reminders", "status": "off", "steps": [
+      { "app": "Schedule by Zapier", "action": "every_week", "type_of": "read" },
+      { "app": "QuickBooks Online", "action": "send_invoice", "type_of": "write", "params": { "api_key": "FAKE_demo_key_1234567890" } } ] }
+  ]
+}
