@@ -1,0 +1,54 @@
+{
+  "name": "tiresias-of-drift",
+  "version": "0.1.0",
+  "description": "Tiresias of Drift: an MCP agent that compares config and schema snapshots over time, explains each drift with a risk level and drafts a revert plan. Secret values are never shown. Applying a fix to production is always one human click and only records a request.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "tiresias-of-drift": "bin/tiresias-of-drift.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/tiresias-of-drift.js demo",
+    "eval": "node bin/tiresias-of-drift.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/tiresias-of-drift"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/tiresias-of-drift#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "config-drift",
+    "schema-drift",
+    "change-management",
+    "devops",
+    "ai-agents",
+    "mythos"
+  ]
+}
