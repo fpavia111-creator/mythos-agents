@@ -1,0 +1,56 @@
+{
+  "name": "macaria-of-erasure",
+  "version": "0.1.0",
+  "description": "Macaria of Erasure: an MCP agent for data-subject erasure requests. Maps where personal data lives across your exports, finds the subject, flags records you may have to keep and builds a checklist. Deleting personal data is always one human click and only records a request; it never deletes anything.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "macaria-of-erasure": "bin/macaria-of-erasure.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/macaria-of-erasure.js demo",
+    "eval": "node bin/macaria-of-erasure.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/macaria-of-erasure"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/macaria-of-erasure#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "privacy",
+    "dsar",
+    "gdpr",
+    "ccpa",
+    "right-to-erasure",
+    "data-mapping",
+    "ai-agents",
+    "mythos"
+  ]
+}
