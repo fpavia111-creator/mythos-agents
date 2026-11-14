@@ -1,0 +1,18 @@
+{
+  "name": "mythos-agent-core",
+  "version": "0.1.0",
+  "description": "Shared core for Mythos domain agents: pinned-model pack manifests, Talos-style allow/ask/block policy, Review/Assist/Auto modes with caps and a kill switch, hash-chained JSONL audit logs, a zero-dependency stdio MCP server and fixture-based evals.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": { "node": ">=20" },
+  "main": "src/index.js",
+  "exports": { ".": "./src/index.js", "./package.json": "./package.json" },
+  "bin": { "mythos-approve": "bin/mythos-approve.js", "mythos-verify-log": "bin/mythos-verify-log.js" },
+  "files": ["src", "bin", "README.md", "LICENSE"],
+  "scripts": { "test": "node scripts/run-tests.cjs" },
+  "repository": { "type": "git", "url": "git+https://github.com/fpavia111-creator/mythos-agents.git", "directory": "packages/mythos-agent-core" },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/mythos-agent-core#readme",
+  "bugs": { "url": "https://github.com/fpavia111-creator/mythos-agents/issues" },
+  "keywords": ["mcp", "mcp-server", "model-context-protocol", "ai-agents", "guardrails", "human-in-the-loop", "audit-log", "mythos"]
+}
