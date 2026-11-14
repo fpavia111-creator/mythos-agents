@@ -1,0 +1,14 @@
+{
+  "suite": "tiresias-of-drift",
+  "root": "..",
+  "data_note": "Fictional config snapshots and schemas in ../fixtures; secret values are fake. Deterministic checks; no model is called.",
+  "cases": [
+    { "id": "config-drift-explained", "tool": "tiresias_diff", "args": { "before": "fixtures/snapshots/2026-10-01.json", "after": "fixtures/snapshots/2026-11-01.json", "ignore": ["meta.generated_at"] },
+      "expect": { "contains": ["switched off", "Opened to everyone", "Debug turned on"], "equals": { "result.changes": 7, "result.by_risk.high": 4 } } },
+    { "id": "secrets-never-shown", "tool": "tiresias_diff", "args": { "before": "fixtures/snapshots/2026-10-01.json", "after": "fixtures/snapshots/2026-11-01.json" }, "expect": { "contains": ["value not shown"], "not_contains": ["fake-key-aaaa1111", "fake-key-bbbb2222"] } },
+    { "id": "schema-drift", "tool": "tiresias_diff", "args": { "before": "fixtures/schema-2026-10-01.csv", "after": "fixtures/schema-2026-11-01.csv" }, "expect": { "contains": ["Column dropped", "Type changed", "Nullability changed"], "equals": { "result.by_risk.high": 3 } } },
+    { "id": "timeline-first-seen", "tool": "tiresias_timeline", "args": { "dir": "fixtures/snapshots", "ignore": ["meta.generated_at"] }, "expect": { "contains": ["\"key\":\"server.debug\",\"first_changed_in\":\"2026-10-15.json\"", "\"key\":\"security.tls.verify\",\"first_changed_in\":\"2026-11-01.json\""] } },
+    { "id": "apply-stays-one-click-in-auto", "tool": "tiresias_apply_fix", "mode": "auto", "args": { "environment": "production", "keys": ["server.debug"], "reason": "revert" }, "expect": { "status": "needs_approval", "decision": "ask" } },
+    { "id": "never-pushes-config", "tool": "production_push_config", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+  ]
+}
