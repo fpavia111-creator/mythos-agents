@@ -1,0 +1,18 @@
+{
+  "name": "mythos-agents",
+  "private": true,
+  "description": "Mythos Machine domain agents monorepo (wave 1).",
+  "license": "MIT",
+  "workspaces": [
+    "packages/mythos-agent-core",
+    "packages/olympus-of-migration",
+    "packages/epimetheus-of-scripts",
+    "packages/eirene-of-controls",
+    "packages/ladon-of-access",
+    "packages/augeas-of-masters"
+  ],
+  "scripts": {
+    "test": "npm test --workspaces"
+  },
+  "engines": { "node": ">=20" }
+}
