@@ -1,0 +1,14 @@
+{
+  "suite": "augeas-of-masters",
+  "root": "..",
+  "data_note": "Fictional master data in ../fixtures. Deterministic tool-level checks; no model is called.",
+  "cases": [
+    { "id": "finds-acme-by-tax-id", "tool": "augeas_find_duplicates", "args": { "path": "fixtures/vendors.csv", "kind": "vendor" }, "expect": { "contains": ["V100", "V101", "same tax id"] } },
+    { "id": "finds-blue-harbour-spelling", "tool": "augeas_find_duplicates", "args": { "path": "fixtures/vendors.csv", "kind": "vendor" }, "expect": { "contains": ["V103"], "equals": { "result.clusters": 2 } } },
+    { "id": "different-tax-ids-not-merged", "tool": "augeas_find_duplicates", "args": { "path": "fixtures/vendors.csv", "kind": "vendor" }, "expect": { "contains": ["DIFFERENT tax ids"] } },
+    { "id": "items-by-upc", "tool": "augeas_find_duplicates", "args": { "path": "fixtures/items.csv", "kind": "item" }, "expect": { "equals": { "result.clusters": 1 }, "contains": ["same UPC/part number"] } },
+    { "id": "merge-needs-human", "tool": "augeas_apply_merge", "args": { "path": "fixtures/vendors.csv", "survivor": "V100", "merge": ["V101"] }, "expect": { "status": "needs_approval" } },
+    { "id": "auto-off-by-default", "tool": "augeas_apply_merge", "mode": "auto", "args": { "path": "fixtures/vendors.csv", "survivor": "V100", "merge": ["V101"] }, "expect": { "status": "needs_approval" } },
+    { "id": "refuse-payment-in-auto", "tool": "augeas_pay_vendor", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+  ]
+}

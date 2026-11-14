@@ -1,0 +1,8 @@
+internalid,companyname,taxid,email,phone,address,isinactive
+V100,"Acme Industrial Supply, Inc. (fictional)",12-3456789,ap@acme-industrial.example,(512) 555-0100,100 Main St Austin TX,F
+V101,ACME Industrial Supply LLC (fictional),123456789,billing@acme-industrial.example,512-555-0100,100 Main Street Austin TX,F
+V102,Blue Harbor Logistics (fictional),98-7654321,ar@blueharbor.example,312-555-0199,9 Dock Rd Chicago IL,F
+V103,Blue Harbour Logistics (fictional),,ar@blueharbor.example,312 555 0199,9 Dock Road Chicago IL,T
+V104,Juniper Labs (fictional),55-1112222,hello@juniperlabs.example,415-555-0123,1 Market St San Francisco CA,F
+V105,Juniper Labs (fictional),55-9998888,ap@juniper-labs-holdings.example,206-555-0144,77 Pine St Seattle WA,F
+V106,Copper Kettle Foods (fictional),44-3332221,orders@copperkettle.example,214-555-0111,5 Elm St Dallas TX,F

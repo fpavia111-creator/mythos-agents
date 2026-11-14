@@ -1,0 +1,5 @@
+internalid,itemid,displayname,upccode,isinactive
+I200,WID-001,Widget 10mm Steel (fictional),012345678905,F
+I201,WID-001-B,Widget 10 mm steel (fictional),012345678905,F
+I202,GAD-100,Gadget Pro Blue (fictional),098765432109,F
+I203,GAD-101,Gadget Pro Red (fictional),098765432116,F
