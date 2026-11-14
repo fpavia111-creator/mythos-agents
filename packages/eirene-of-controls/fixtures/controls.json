@@ -1,0 +1,6 @@
+[
+  { "id": "AGT-01", "title": "Destructive or out-of-scope agent actions are blocked", "match": { "status": "blocked" } },
+  { "id": "AGT-02", "title": "Data changes are approved by a named person", "match": { "tool": "augeas_apply_merge", "status": "executed" } },
+  { "id": "AGT-03", "title": "Go-live is never approved by an agent", "match": { "tool": "olympus_approve_go_live", "decision": "block" } },
+  { "id": "AGT-04", "title": "Production deploys by agents are refused", "match": { "category": "production_deploy" } }
+]

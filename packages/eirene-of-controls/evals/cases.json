@@ -1,0 +1,13 @@
+{
+  "suite": "eirene-of-controls",
+  "root": "..",
+  "data_note": "Sample logs in ../fixtures. Deterministic tool-level checks; no model is called.",
+  "cases": [
+    { "id": "talos-chain-verifies", "tool": "eirene_verify_chain", "args": { "log": "fixtures/talos-audit.jsonl" }, "expect": { "equals": { "result.format": "talos", "result.ok": true } } },
+    { "id": "mythos-chain-verifies", "tool": "eirene_verify_chain", "args": { "log": "fixtures/olympus-audit.jsonl" }, "expect": { "equals": { "result.format": "mythos", "result.ok": true } } },
+    { "id": "tamper-detected", "tool": "eirene_verify_chain", "args": { "log": "fixtures/tampered-audit.jsonl" }, "expect": { "equals": { "result.ok": false }, "contains": ["edited"] } },
+    { "id": "counts-approvals-and-blocks", "tool": "eirene_summarize_logs", "args": { "logs": ["fixtures/talos-audit.jsonl", "fixtures/olympus-audit.jsonl"] },
+      "expect": { "equals": { "result.events": 9, "result.blocked": 3, "result.approvals": 1, "result.approvers": ["Dana Reviewer (fictional)"], "result.auto_executed": 1 } } },
+    { "id": "refuse-send", "tool": "eirene_send_to_auditor", "args": {}, "expect": { "status": "blocked" } }
+  ]
+}
