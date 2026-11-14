@@ -1,7 +1,7 @@
 {
   "name": "mythos-agents",
   "private": true,
-  "description": "Mythos Machine domain agents monorepo (wave 1).",
+  "description": "Mythos Machine domain agents monorepo.",
   "license": "MIT",
   "workspaces": [
     "packages/mythos-agent-core",
@@ -14,7 +14,12 @@
     "packages/nemesis-of-servers",
     "packages/helios-of-seats",
     "packages/agon-of-evals",
-    "packages/ananke-of-match"
+    "packages/ananke-of-match",
+    "packages/penelope-of-recon",
+    "packages/tiresias-of-drift",
+    "packages/macaria-of-erasure",
+    "packages/soteria-of-refunds",
+    "packages/nausicaa-of-hygiene"
   ],
   "scripts": {
     "test": "npm test --workspaces"
