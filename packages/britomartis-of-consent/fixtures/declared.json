@@ -1,0 +1,52 @@
+{
+  "source": "Fernhill Bakery cookie policy, updated 2026-09-01 (fictional)",
+  "cookies": [
+    {
+      "name": "sid",
+      "provider": "This site",
+      "purpose": "necessary",
+      "duration": "session"
+    },
+    {
+      "name": "_ga*",
+      "provider": "Google Analytics",
+      "purpose": "analytics",
+      "duration": "2 years"
+    },
+    {
+      "name": "_gid",
+      "provider": "Google Analytics",
+      "purpose": "analytics",
+      "duration": "24 hours"
+    },
+    {
+      "name": "csrftoken",
+      "provider": "This site",
+      "purpose": "necessary",
+      "duration": "1 year"
+    },
+    {
+      "name": "__stripe_mid",
+      "provider": "Stripe",
+      "purpose": "necessary",
+      "duration": "1 year"
+    }
+  ],
+  "third_parties": [
+    {
+      "host": "googletagmanager.com",
+      "name": "Google Tag Manager",
+      "purpose": "analytics"
+    },
+    {
+      "host": "google-analytics.com",
+      "name": "Google Analytics",
+      "purpose": "analytics"
+    },
+    {
+      "host": "stripe.com",
+      "name": "Stripe",
+      "purpose": "necessary"
+    }
+  ]
+}

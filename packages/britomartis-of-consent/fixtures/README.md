@@ -1,0 +1,1 @@
+Fictional pages for a made-up bakery ("Fernhill Bakery", www.example.com), two hand-written HAR captures (a first visit, and a visit after clicking "Reject all") and a fictional cookie policy as JSON. Cookie values and tracking ids are made up. The gaps are planted on purpose so the demo, tests and evals have something to find.
