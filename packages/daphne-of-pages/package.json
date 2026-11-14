@@ -1,0 +1,57 @@
+{
+  "name": "daphne-of-pages",
+  "version": "0.1.0",
+  "description": "Daphne of Pages: an MCP agent that audits a folder of exported HTML pages for broken links and anchors, basic SEO gaps and automatable WCAG checklist issues, writes a fix list and drafts mechanical fixes as copies. Publishing changes is a production deploy: always one human click. A technical checklist, not a legal opinion.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "daphne-of-pages": "bin/daphne-of-pages.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/daphne-of-pages.js demo",
+    "eval": "node bin/daphne-of-pages.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/daphne-of-pages"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/daphne-of-pages#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "accessibility",
+    "wcag",
+    "a11y",
+    "seo",
+    "broken-links",
+    "link-checker",
+    "static-site",
+    "ai-agents",
+    "mythos"
+  ]
+}
