@@ -10,6 +10,11 @@ Small MCP agents that each own **one business process** and cannot act outside i
 | [`eirene-of-controls`](packages/eirene-of-controls) | Evidence folder from Talos / Mythos / Alethea logs. Evidence, not certification. | `npx -y eirene-of-controls demo` |
 | [`ladon-of-access`](packages/ladon-of-access) | Access recertification for people, agents and service accounts. Never revokes by itself. | `npx -y ladon-of-access demo` |
 | [`augeas-of-masters`](packages/augeas-of-masters) | Duplicate vendors/items and one approved merge at a time, on a copy. | `npx -y augeas-of-masters demo` |
+| [`eucleia-of-outreach`](packages/eucleia-of-outreach) | Draft-only outreach gate: suppression, footer fields, Tue/Wed window, length limits. Never sends. | `npx -y eucleia-of-outreach demo` |
+| [`nemesis-of-servers`](packages/nemesis-of-servers) | Static review of one MCP / Code Mode server or MCP config for risky patterns. Never runs it. | `npx -y nemesis-of-servers demo` |
+| [`helios-of-seats`](packages/helios-of-seats) | Unused, idle, duplicate and over-tiered SaaS seats with estimated savings. Revoking is one click. | `npx -y helios-of-seats demo` |
+| [`agon-of-evals`](packages/agon-of-evals) | Private evals for one process on one pinned model, with regression compare. Calls no model. | `npx -y agon-of-evals demo` |
+| [`ananke-of-match`](packages/ananke-of-match) | AP three-way-match exceptions and a worklist. Never posts or pays. | `npx -y ananke-of-match demo` |
 
 ## The rules every pack follows
 

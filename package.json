@@ -9,10 +9,17 @@
     "packages/epimetheus-of-scripts",
     "packages/eirene-of-controls",
     "packages/ladon-of-access",
-    "packages/augeas-of-masters"
+    "packages/augeas-of-masters",
+    "packages/eucleia-of-outreach",
+    "packages/nemesis-of-servers",
+    "packages/helios-of-seats",
+    "packages/agon-of-evals",
+    "packages/ananke-of-match"
   ],
   "scripts": {
     "test": "npm test --workspaces"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  }
 }
