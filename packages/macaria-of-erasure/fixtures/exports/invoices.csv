@@ -1,0 +1,3 @@
+invoice_number,customer_id,customer_name,billing_address,amount,date
+INV-5001,C-101,Jamie Doe,1 Example St Austin TX,240.00,2026-08-01
+INV-5002,C-100,Alex Rivera,2 Example St Austin TX,99.00,2026-08-03

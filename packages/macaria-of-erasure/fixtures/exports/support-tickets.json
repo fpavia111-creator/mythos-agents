@@ -1,0 +1,4 @@
+[
+  { "ticket_id": "T-9001", "requester_email": "JAMIE.DOE@example.com", "subject": "Login help", "created": "2026-09-02" },
+  { "ticket_id": "T-9002", "requester_email": "sam.lee@example.org", "subject": "Invoice copy", "created": "2026-09-05" }
+]

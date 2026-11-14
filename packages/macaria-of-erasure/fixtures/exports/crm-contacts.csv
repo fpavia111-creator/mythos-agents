@@ -1,0 +1,4 @@
+contact_id,first_name,last_name,email,phone,company,city
+C-100,Alex,Rivera,alex.rivera@example.com,512-555-0100,Northwind (fictional),Austin
+C-101,Jamie,Doe,jamie.doe@example.com,512-555-0142,Globex (fictional),Austin
+C-102,Sam,Lee,sam.lee@example.org,+1 312 555 0199,Initech (fictional),Chicago
