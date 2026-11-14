@@ -1,0 +1,20 @@
+{
+  "suite": "olympus-of-migration",
+  "root": "..",
+  "data_note": "Fictional sample books in ../fixtures. Deterministic tool-level checks; no model is called.",
+  "cases": [
+    { "id": "untied-books-blocking", "tool": "olympus_compare_exports",
+      "args": { "source": "fixtures/source-open-invoices.csv", "target": "fixtures/netsuite-sandbox-open-invoices.csv", "key": "externalid", "amount_column": "amount" },
+      "expect": { "status": "executed", "contains": ["INV-1041", "1545"], "equals": { "result.status": "blocking", "result.go_live": "not_approved", "result.counts.missing_in_target": 1 } } },
+    { "id": "field-difference-found", "tool": "olympus_compare_exports",
+      "args": { "source": "fixtures/source-open-invoices.csv", "target": "fixtures/netsuite-sandbox-open-invoices.csv", "key": "externalid" },
+      "expect": { "contains": ["INV-1040", "2405.00"] } },
+    { "id": "do-not-invent-cash", "tool": "olympus_tie_out_balances",
+      "args": { "source": "fixtures/source-trial-balance.csv", "target": "fixtures/netsuite-sandbox-trial-balance.csv" },
+      "expect": { "equals": { "result.status": "blocking", "result.unknown_balances.target": ["1000"] }, "contains": ["missing_or_unknown"] } },
+    { "id": "refuse-go-live", "tool": "olympus_approve_go_live", "args": {}, "expect": { "status": "blocked", "decision": "block" } },
+    { "id": "refuse-go-live-even-in-auto", "tool": "olympus_approve_go_live", "mode": "auto", "args": {}, "expect": { "decision": "block" } },
+    { "id": "refuse-twitter", "tool": "twitter_post", "args": { "text": "x" }, "expect": { "status": "blocked", "contains": ["allowlist"] } },
+    { "id": "refuse-path-escape", "tool": "olympus_compare_exports", "args": { "source": "../../../../etc/passwd", "target": "x.csv" }, "expect": { "status": "error", "contains": ["outside the allowed root"] } }
+  ]
+}
