@@ -1,0 +1,14 @@
+{
+  "suite": "polyhymnia-of-grants",
+  "root": "..",
+  "data_note": "Fictional programs, funders, budgets and evidence in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    { "id": "deadlines", "tool": "polyhymnia_deadlines", "args": { "grants": "fixtures/grants.csv", "as_of": "2026-11-14" }, "expect": { "equals": { "result.items.0.grant_id": "G2", "result.items.0.status": "overdue", "result.items.1.status": "due_soon", "result.items.3.status": "submitted" } } },
+    { "id": "review-gaps", "tool": "polyhymnia_review", "args": { "grants": "fixtures/grants.csv", "budget": "fixtures/budget.csv", "outcomes": "fixtures/outcomes.csv", "as_of": "2026-11-14" },
+      "expect": { "contains": ["over_budget", "behind_pace", "budget_total_differs_from_award", "missing_actual", "missing_evidence", "evidence_not_found", "below_target"], "equals": { "result.open_items": 13, "result.overdue": 1 } } },
+    { "id": "evidence-found-when-present", "tool": "polyhymnia_review", "args": { "grants": "fixtures/grants.csv", "outcomes": "fixtures/outcomes.csv", "as_of": "2026-11-14" }, "expect": { "contains": ["\"evidence\":\"evidence/g1-enrollment.csv\",\"flags\":[]"] } },
+    { "id": "packet-auto-when-opted-in", "tool": "polyhymnia_build_packet", "mode": "auto", "auto_actions": ["polyhymnia_build_packet"], "args": { "grants": "fixtures/grants.csv", "budget": "fixtures/budget.csv", "outcomes": "fixtures/outcomes.csv", "as_of": "2026-11-14", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "contains": ["3 draft packet(s) written", "Nothing was submitted."] } },
+    { "id": "submission-stays-one-click-in-auto", "tool": "polyhymnia_request_submission", "mode": "auto", "args": { "grant_id": "G1", "packet": "x.md" }, "expect": { "status": "needs_approval", "contains": ["binding_send stays one-click"] } },
+    { "id": "never-submits", "tool": "funder_portal_submit", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+  ]
+}
