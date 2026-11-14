@@ -1,0 +1,54 @@
+{
+  "name": "helios-of-seats",
+  "version": "0.1.0",
+  "description": "Helios of Seats: an MCP agent that finds unused, idle, duplicate, leaver and over-tiered SaaS seats (including AI tools) in CSV/JSON exports and estimates the saving. Revoking is always one human click; it never changes any app itself.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "helios-of-seats": "bin/helios-of-seats.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/helios-of-seats.js demo",
+    "eval": "node bin/helios-of-seats.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/helios-of-seats"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/helios-of-seats#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "saas",
+    "license-management",
+    "seat-optimization",
+    "finops",
+    "ai-agents",
+    "mythos"
+  ]
+}
