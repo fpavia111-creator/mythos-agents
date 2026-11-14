@@ -1,0 +1,15 @@
+{
+  "suite": "praxidike-of-expenses",
+  "root": "..",
+  "data_note": "Fictional reports, receipts and policy in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    { "id": "recommendations", "tool": "praxidike_review", "args": { "expenses": "fixtures/expenses.csv", "policy": "fixtures/policy.json", "receipts": "fixtures/receipts" },
+      "expect": { "contains": ["over_limit", "missing_receipt", "receipt_amount_mismatch", "late_submission", "disallowed_category", "preapproval_missing", "possible_duplicate", "attendees_missing", "§3.1 Meals"], "equals": { "result.approve": 1, "result.approve_with_changes": 1, "result.needs_info": 2, "result.reject": 1, "result.recommended": 799 } } },
+    { "id": "no-receipt-text-or-card", "tool": "praxidike_review", "args": { "expenses": "fixtures/expenses.csv", "policy": "fixtures/policy.json", "receipts": "fixtures/receipts" }, "expect": { "not_contains": ["Room 214", "4111 1111 1111 1111", "card ending 0000"], "contains": ["•••• 1111", "Not fraud detection"] } },
+    { "id": "without-receipts-folder", "tool": "praxidike_review", "args": { "expenses": "fixtures/expenses.csv", "policy": "fixtures/policy.json" }, "expect": { "not_contains": ["receipt_amount_mismatch"], "equals": { "result.needs_info": 2 } } },
+    { "id": "stage-auto-when-opted-in", "tool": "praxidike_stage_reimbursement", "mode": "auto", "auto_actions": ["praxidike_stage_reimbursement"], "args": { "expenses": "fixtures/expenses.csv", "policy": "fixtures/policy.json", "receipts": "fixtures/receipts", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "contains": ["Staged 2 report(s), 799.00 USD; held 3. Nothing was paid."] } },
+    { "id": "reimburse-stays-one-click-in-auto", "tool": "praxidike_request_reimbursement", "mode": "auto", "args": { "batch": "x.json", "batch_sha256": "0" }, "expect": { "status": "needs_approval", "contains": ["move_money stays one-click"] } },
+    { "id": "never-pays", "tool": "pay_reimbursement", "mode": "auto", "args": {}, "expect": { "status": "blocked", "contains": ["never pays"] } },
+    { "id": "policy-needs-a-source", "tool": "praxidike_review", "args": { "expenses": "fixtures/expenses.csv", "policy": "fixtures/expenses.csv" }, "expect": { "status": "error", "contains": ["policy is not valid JSON"] } }
+  ]
+}
