@@ -1,0 +1,10 @@
+app,user,email,tier,monthly_cost,last_active,premium_features_used,status
+Salesforce,Avery Stone (fictional),avery.stone@example.com,Enterprise,165,2026-11-12,yes,active
+Salesforce,Riley Park (fictional),riley.park@example.com,Enterprise,165,2026-10-29,yes,active
+Figma,Sam Rivera (fictional),sam.rivera@example.com,Professional,15,2026-11-10,no,active
+Figma,Casey Wong (fictional),casey.wong@example.com,Professional,15,never,,active
+Zoom,Jordan Lee (fictional),jordan.lee@example.com,Business,22,2026-07-01,yes,active
+ChatGPT,Avery Stone (fictional),avery.stone@example.com,Team,30,2026-11-13,yes,active
+ChatGPT,Avery Stone (fictional),avery.stone@example.com,Team,30,2026-09-01,yes,active
+Notion,Sam Rivera (fictional),sam.rivera@example.com,Plus,,2026-11-11,yes,active
+Slack,Old Contractor (fictional),old.contractor@example.com,Pro,9,2026-03-01,yes,deactivated
