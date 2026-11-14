@@ -1,0 +1,137 @@
+{
+ "_comment": "Fictional DNS for reserved example domains (RFC 2606). Planted problems for the demo, tests and evals.",
+ "example.com": {
+  "TXT": [
+   "v=spf1 include:_spf.mailhost.example.net include:spf.crm.example.org include:bulk.example.net a mx ptr ~all",
+   "site-verification=fictional-0000"
+  ],
+  "MX": [
+   "10 mx1.example.com.",
+   "20 mx2.example.com."
+  ]
+ },
+ "_spf.mailhost.example.net": {
+  "TXT": [
+   "v=spf1 include:a1.mailhost.example.net include:a2.mailhost.example.net ~all"
+  ]
+ },
+ "a1.mailhost.example.net": {
+  "TXT": [
+   "v=spf1 a mx ~all"
+  ],
+  "A": [
+   "192.0.2.10"
+  ],
+  "MX": [
+   "10 mx.mailhost.example.net."
+  ]
+ },
+ "a2.mailhost.example.net": {
+  "TXT": [
+   "v=spf1 include:a3.mailhost.example.net ~all"
+  ]
+ },
+ "a3.mailhost.example.net": {
+  "TXT": [
+   "v=spf1 ip4:192.0.2.0/24 ip4:198.51.100.0/24 ~all"
+  ]
+ },
+ "spf.crm.example.org": {
+  "TXT": [
+   "v=spf1 ip4:203.0.113.0/24 -all"
+  ]
+ },
+ "bulk.example.net": {
+  "TXT": [
+   "v=spf1 include:spf.gone.example.net ~all"
+  ]
+ },
+ "mx1.example.com": {
+  "A": [
+   "192.0.2.25"
+  ]
+ },
+ "_dmarc.example.com": {
+  "TXT": [
+   "v=DMARC1; p=none; pct=50; rua=mailto:dmarc@reports.example.org"
+  ]
+ },
+ "s1._domainkey.example.com": {
+  "TXT": [
+   "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoae/Mc2jfDhjQPy0b8Nw5j/YBcwaehcK8ByWkIVdyECpGfHfaePDqJ9gUst1piwt0UKqPVLi47yIjH12z+ozeUhMel8ZmzKP/laLntQL5zbRRVsiap2d94v2ojNdPTVYurMDQ9irs4cYTgIC6/LYJhDsl5Wc5tUZGnZv36tovKFYebrPiOvGKH3WC06Yo859qINb6kLWmn6DQs/6mGMg65Azaea/41dI3lNqtkOiBu7PFWm32RLWjyVYIY0zWTW6czNhsRVGKLnKXiUQM53SmotiZwEUSpzGTx1a4hIvsRNhIfUvpIizLwflVTbXZkXyfK8NWxiV1LgltvAp9Zrr2QIDAQAB"
+  ]
+ },
+ "k1._domainkey.example.com": {
+  "TXT": [
+   "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCZ9JsQS/4ttFA7xhPFqXw1jht53GyLBOr2XOg1Z97+SuR5F3P13cbcYReo2OFErCWmMirhoN1ZZ0B1jn3motpDFXMArmTzkDrSRvSWTZ67OI3WeDYwD/YZLGou7PYE2yJ5oVWfJGdDvi2Xi/KhonQJlHN29CYDfmAO8fqVfzMCXQIDAQAB"
+  ]
+ },
+ "old._domainkey.example.com": {
+  "TXT": [
+   "v=DKIM1; p="
+  ]
+ },
+ "mh._domainkey.example.com": {
+  "CNAME": "mh._domainkey.mailhost.example.net."
+ },
+ "mh._domainkey.mailhost.example.net": {
+  "TXT": [
+   "v=DKIM1; k=rsa; t=y; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApjzjfWzSN97Yhe40RmmKeKwTdfp8309fBZYzh/NSGHrnoGYgfzZye69OSPfHMQCmH9mV9486ek/uHgDkCGegj1vTp2DvK/a+EaMfCzcIXwQEMuLmYy8epzOAkjbniDs8JIGJ7Ig+SpJXOycZZ9SGVu37S/ObFrBZIQWnC7I0MooyJBBTfZ+iazTIhPEEgBAFAtzTuNc88qhK5wY4zHTxSRPKEIqdkNt9kFDi8gLTFjBXqZZsCJKnXa6c2h+lSqpfUWewq3lLK84/M9iolvTbbfFmTcuVT7mDIqIq4lRbEOaNF94ExiXD9kgTa3Br15kxi8PwmI/fhDc9TvT23RTOfQIDAQAB"
+  ]
+ },
+ "_smtp._tls.example.com": {
+  "TXT": [
+   "v=TLSRPTv1; rua=mailto:tls@example.com"
+  ]
+ },
+ "shop.example.com": {
+  "TXT": [
+   "v=spf1 include:spf.crm.example.org -all",
+   "v=spf1 a -all"
+  ],
+  "MX": [
+   "0 ."
+  ],
+  "A": [
+   "192.0.2.40"
+  ]
+ },
+ "good.example.org": {
+  "TXT": [
+   "v=spf1 ip4:192.0.2.0/24 -all"
+  ],
+  "MX": [
+   "10 mail.good.example.org."
+  ]
+ },
+ "mail.good.example.org": {
+  "A": [
+   "192.0.2.30"
+  ]
+ },
+ "_dmarc.good.example.org": {
+  "TXT": [
+   "v=DMARC1; p=reject; rua=mailto:dmarc@good.example.org"
+  ]
+ },
+ "s1._domainkey.good.example.org": {
+  "TXT": [
+   "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAujLCOM/+gJxzMAG+s2szjfAESYtpn/wsen1MruxAJ6HrFWHMQ4/8RHhJEkL3serC1ZagGi+Cz/sFNr67mh6vMnfMoEQfaS86nXA1GTcTiC8wAtblcmGmi5wRK1RpjHndFkWBwelsZIdNBKubq1WUfeOuBqwE5Qp4t9oH5PaOj9Oo/e3JuhRme+Gbvs69YS0qM0hT5zEQhSaPgpAjScBkCApnLFU8B/JcE+EG5YVJBxZw2fSFwDn3OzFXP1zGS992mJqUZ0GvSq8OYkvBU8dgudiPGokFqlFldi7KO7Zy6WqGEEI973xp813EtdgSwr5XfobB2H6LJMDieWUAlWEJUwIDAQAB"
+  ]
+ },
+ "_mta-sts.good.example.org": {
+  "TXT": [
+   "v=STSv1; id=20261101"
+  ]
+ },
+ "_smtp._tls.good.example.org": {
+  "TXT": [
+   "v=TLSRPTv1; rua=mailto:tls@good.example.org"
+  ]
+ },
+ "nomail.example.net": {
+  "A": [
+   "192.0.2.50"
+  ]
+ }
+}

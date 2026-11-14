@@ -1,0 +1,1 @@
+Fictional DNS records for reserved example domains (example.com, example.net, example.org; RFC 2606), saved in the format `aeolus_audit` reads with `records`. The DKIM keys are throwaway public keys made for this file. The problems are planted on purpose so the demo, tests and evals have something to find.

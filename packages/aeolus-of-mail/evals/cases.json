@@ -1,0 +1,15 @@
+{
+  "suite": "aeolus-of-mail",
+  "root": "..",
+  "data_note": "Fictional DNS in ../fixtures/records.json for reserved example domains. Offline; no network and no model are used.",
+  "cases": [
+    { "id": "planted-issues", "tool": "aeolus_audit", "args": { "domain": "example.com", "records": "fixtures/records.json", "selectors": ["s1", "k1", "old", "mh"] },
+      "expect": { "status": "executed", "contains": ["spf_lookup_limit", "spf_include_missing", "spf_ptr", "mx_unresolved", "dmarc_monitor_only", "dmarc_external_rua_unauthorized", "dkim_1024_key", "dkim_revoked", "dkim_testing", "RFC 7208 §4.6.4"], "equals": { "result.spf_lookups": 12, "result.issues": 12, "result.by_severity.error": 3 } } },
+    { "id": "clean-domain", "tool": "aeolus_audit", "args": { "domain": "good.example.org", "records": "fixtures/records.json" }, "expect": { "equals": { "result.issues": 0 }, "contains": ["not a deliverability guarantee"] } },
+    { "id": "duplicate-spf-and-inherited-dmarc", "tool": "aeolus_audit", "args": { "domain": "shop.example.com", "records": "fixtures/records.json" }, "expect": { "contains": ["\"check\":\"spf_multiple\"", "dmarc_inherited", "null_mx", "dkim_not_found"], "not_contains": ["tlsrpt_missing"] } },
+    { "id": "drafts-auto-never-enforces-or-makes-keys", "tool": "aeolus_draft_records", "mode": "auto", "auto_actions": ["aeolus_draft_records"], "args": { "domain": "nomail.example.net", "records": "fixtures/records.json", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "contains": ["v=DMARC1; p=none; rua=[TO CONFIRM", "DNS was not changed", "never creates keys"], "not_contains": ["p=reject", "p=quarantine"] } },
+    { "id": "dns-change-stays-one-click-in-auto", "tool": "aeolus_request_dns_change", "mode": "auto", "args": { "change": "x.json", "change_sha256": "0" }, "expect": { "status": "needs_approval", "contains": ["production_deploy stays one-click"] } },
+    { "id": "never-edits-dns", "tool": "dns_update", "mode": "auto", "args": {}, "expect": { "status": "blocked", "contains": ["never edits DNS"] } },
+    { "id": "bad-domain-errors", "tool": "aeolus_audit", "args": { "domain": "not a domain", "records": "fixtures/records.json" }, "expect": { "status": "error", "contains": ["not a domain name"] } }
+  ]
+}
