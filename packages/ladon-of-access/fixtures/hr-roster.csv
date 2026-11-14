@@ -1,0 +1,6 @@
+email,name,status,termination_date,manager
+avery.stone@example.com,Avery Stone (fictional),active,,Kim Ortiz (fictional)
+riley.park@example.com,Riley Park (fictional),terminated,2026-10-31,Avery Stone (fictional)
+jordan.lee@example.com,Jordan Lee (fictional),active,,Avery Stone (fictional)
+sam.rivera@example.com,Sam Rivera (fictional),active,,Avery Stone (fictional)
+casey.wong@example.com,Casey Wong (fictional),active,,Avery Stone (fictional)

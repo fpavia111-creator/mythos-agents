@@ -1,0 +1,54 @@
+{
+  "name": "ladon-of-access",
+  "version": "0.1.0",
+  "description": "Ladon of Access: a domain-specific MCP agent that reads access-list exports for people, AI agents and service accounts, flags leavers, stale, privileged and ownerless accounts, and writes a recertification sheet a named reviewer signs. Never revokes access by itself.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "ladon-of-access": "bin/ladon-of-access.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/ladon-of-access.js demo",
+    "eval": "node bin/ladon-of-access.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/ladon-of-access"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/ladon-of-access#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "access-review",
+    "user-access-review",
+    "recertification",
+    "identity",
+    "ai-agents",
+    "mythos"
+  ]
+}
