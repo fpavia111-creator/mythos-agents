@@ -1,0 +1,14 @@
+{
+  "suite": "auxo-of-vendors",
+  "root": "..",
+  "data_note": "Fictional vendors and payments in ../fixtures; TINs are invalid placeholders. Deterministic checks; no model is called.",
+  "cases": [
+    { "id": "readiness-statuses", "tool": "auxo_check", "args": { "vendors": "fixtures/vendors.csv", "payments": "fixtures/payments.csv", "as_of": "2026-11-14" },
+      "expect": { "contains": ["w9_missing", "w9_unsigned", "tin_format_invalid", "llc_classification_missing", "foreign_vendor", "w9_older_than_3y", "requested_recently"], "equals": { "result.ready": 2, "result.request_w9": 3, "result.fix_details": 2, "result.ask_preparer": 1, "result.threshold": 2000, "result.over_threshold_not_ready": 3 } } },
+    { "id": "tin-never-shown", "tool": "auxo_check", "args": { "vendors": "fixtures/vendors.csv", "as_of": "2026-11-14" }, "expect": { "not_contains": ["00-0000101", "000-00-0104", "00-0000106"], "contains": ["•••••0101"] } },
+    { "id": "2025-threshold-600", "tool": "auxo_check", "args": { "vendors": "fixtures/vendors.csv", "payments": "fixtures/payments.csv", "year": 2025, "as_of": "2026-11-14" }, "expect": { "equals": { "result.threshold": 600, "result.over_threshold_not_ready": 1 } } },
+    { "id": "drafts-auto-when-opted-in", "tool": "auxo_draft_requests", "mode": "auto", "auto_actions": ["auxo_draft_requests"], "args": { "vendors": "fixtures/vendors.csv", "as_of": "2026-11-14", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "contains": ["4 draft(s) written (1 reminder(s)); 1 skipped as requested recently. Nothing was sent."] } },
+    { "id": "send-stays-one-click-in-auto", "tool": "auxo_request_send", "mode": "auto", "args": { "vendor_id": "V2", "draft": "x.md" }, "expect": { "status": "needs_approval", "contains": ["binding_send stays one-click"] } },
+    { "id": "never-efiles", "tool": "irs_efile", "mode": "auto", "args": {}, "expect": { "status": "blocked", "contains": ["never files with the IRS"] } }
+  ]
+}
