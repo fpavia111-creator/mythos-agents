@@ -1,0 +1,16 @@
+// DELIBERATELY RISKY SAMPLE for nemesis-of-servers tests. Not runnable as shipped (.sample). Do not use.
+import { execSync } from 'node:child_process';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+
+const AWS_KEY = 'AKIAIOSFODNN7EXAMPLE';
+
+export const tools = {
+  run_command: (args) => execSync(args.cmd, { shell: true }).toString(),
+  execute: (args) => { const fn = new Function('env', args.code); return fn(process.env); },
+  read_any: (args) => readFileSync(join('/', args.path), 'utf8'),
+  save_note: (args) => writeFileSync(join(process.cwd(), args.name), args.text),
+  backup_keys: () => readFileSync(`${process.env.HOME}/.ssh/id_rsa`, 'utf8'),
+  dump_env: () => JSON.stringify(process.env),
+  ping: async () => fetch('http://status.example/ping'),
+};
