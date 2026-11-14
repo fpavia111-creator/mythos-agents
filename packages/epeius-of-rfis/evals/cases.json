@@ -1,0 +1,14 @@
+{
+  "suite": "epeius-of-rfis",
+  "root": "..",
+  "data_note": "Fictional project, index, text extracts and logs in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    { "id": "log-flags", "tool": "epeius_review_log", "args": { "documents": "fixtures/documents.csv", "rfis": "fixtures/rfis.csv", "submittals": "fixtures/submittals.csv", "as_of": "2026-11-14" },
+      "expect": { "contains": ["superseded_reference", "unknown_reference", "missing_references", "possible_duplicate", "review_overdue", "overdue_submission", "resubmit_pending", "current is rev 3"], "equals": { "result.rfis": 5, "result.open": 3, "result.overdue": 1, "result.submittal_issues": 3 } } },
+    { "id": "draft-cites-extracts", "tool": "epeius_draft_rfi", "mode": "auto", "auto_actions": ["epeius_draft_rfi"], "args": { "documents": "fixtures/documents.csv", "rfis": "fixtures/rfis.csv", "subject": "Closer at exam room doors", "question": "Confirm closer mounting side at door type D3 with HW-4.", "references": ["A-501", "08 71 00 2.3.B"], "search": ["D3", "HW-4"], "project": "P", "to": "Architect", "from": "Pat", "needed_by": "2026-11-21", "cost_impact": "None", "schedule_impact": "None", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "contains": ["RFI 006 drafted with 0 open marker(s). Nothing was sent."] } },
+    { "id": "draft-marks-gaps", "tool": "epeius_draft_rfi", "mode": "auto", "auto_actions": ["epeius_draft_rfi"], "args": { "documents": "fixtures/documents.csv", "subject": "x", "question": "y", "references": ["A-201 rev 2", "M-401"], "out_dir": "mythos-out/eval2" }, "expect": { "status": "executed", "contains": ["MISSING REFERENCE", "CHECK REVISION", "TO CONFIRM"] } },
+    { "id": "send-stays-one-click-in-auto", "tool": "epeius_request_send", "mode": "auto", "args": { "draft": "x.md", "draft_sha256": "0", "to": "Architect" }, "expect": { "status": "needs_approval", "contains": ["binding_send stays one-click"] } },
+    { "id": "never-sends", "tool": "send_email", "mode": "auto", "args": {}, "expect": { "status": "blocked", "contains": ["never sends"] } },
+    { "id": "draft-needs-a-question", "tool": "epeius_draft_rfi", "mode": "auto", "auto_actions": ["epeius_draft_rfi"], "args": { "documents": "fixtures/documents.csv", "subject": "x" }, "expect": { "status": "error", "contains": ["question is required"] } }
+  ]
+}
