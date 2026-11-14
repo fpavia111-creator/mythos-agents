@@ -1,0 +1,8 @@
+table,column,type,nullable,default
+invoices,id,bigint,no,
+invoices,customer_id,bigint,no,
+invoices,amount,"numeric(10,2)",no,
+invoices,memo,varchar(500),yes,
+invoices,currency,char(3),no,USD
+customers,id,bigint,no,
+customers,email,varchar(255),no,

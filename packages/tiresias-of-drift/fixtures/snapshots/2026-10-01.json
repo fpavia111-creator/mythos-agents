@@ -1,0 +1,5 @@
+{ "meta": { "service": "billing-api (fictional)", "generated_at": "2026-10-01T06:00:00Z" },
+  "server": { "port": 8443, "debug": false, "log_level": "info" },
+  "security": { "tls": { "verify": true, "min_version": "1.2" }, "cors": { "allow_origins": ["https://app.example.com"] }, "api_key": "fake-key-aaaa1111" },
+  "db": { "pool_max": 20, "timeout_ms": 5000 },
+  "features": { "new_invoice_pdf": false } }
