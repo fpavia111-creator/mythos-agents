@@ -1,0 +1,14 @@
+{
+  "suite": "nausicaa-of-hygiene",
+  "root": "..",
+  "data_note": "Fictional contacts in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    { "id": "audit-flags", "tool": "nausicaa_audit", "args": { "contacts": "fixtures/contacts.csv", "suppression": "fixtures/suppression.csv", "as_of": "2026-11-14" },
+      "expect": { "contains": ["role_address", "domain_typo_gmail.com", "hard_bounce", "consent_conflict_unsubscribed", "duplicate_of_C1", "disposable_domain", "invalid_email", "on_suppression_list"], "equals": { "result.contacts": 10, "result.keep": 1, "result.delete_candidates": 1, "result.merge": 1 } } },
+    { "id": "no-suppression-list", "tool": "nausicaa_audit", "args": { "contacts": "fixtures/contacts.csv", "as_of": "2026-11-14" }, "expect": { "not_contains": ["on_suppression_list"] } },
+    { "id": "clean-copy-auto-when-opted-in", "tool": "nausicaa_write_clean_copy", "mode": "auto", "auto_actions": ["nausicaa_write_clean_copy"], "args": { "contacts": "fixtures/contacts.csv", "as_of": "2026-11-14", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "contains": ["all 10 row(s) kept"] } },
+    { "id": "clean-copy-asks-in-assist", "tool": "nausicaa_write_clean_copy", "args": { "contacts": "fixtures/contacts.csv" }, "expect": { "status": "needs_approval" } },
+    { "id": "bulk-delete-stays-one-click-in-auto", "tool": "nausicaa_request_bulk_delete", "mode": "auto", "args": { "ids": ["C4"], "reason": "bounced" }, "expect": { "status": "needs_approval", "decision": "ask" } },
+    { "id": "never-deletes-in-crm", "tool": "crm_delete_contacts", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+  ]
+}
