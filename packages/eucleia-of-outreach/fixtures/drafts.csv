@@ -1,0 +1,7 @@
+to,subject,body,send_at
+ana@northwind.example,NetSuite cutover check,"Hi Ana, before your go-live I can run a free read-only check of your migration exports and send you the report. Worth a look?",2026-11-17T15:00:00Z
+ben@blueharbor.example,Quick question about your NetSuite migration and data quality,"Hi Ben, short note about your migration.",2026-11-17T15:00:00Z
+pat@coppermill.example,Sandbox totals,"Hi Pat, happy to tie out your sandbox totals before cutover.",2026-11-18T16:00:00Z
+dee@juniper.example,Free tie-out,"Hi Dee, a free tie-out of your sandbox before go-live?",2026-11-20T16:00:00Z
+ops@donotcontact.example,Hello,"Hi there.",2026-11-18T16:00:00Z
+ana@northwind.example,Second note,"Hi Ana, following up.",2026-11-18T16:00:00Z
