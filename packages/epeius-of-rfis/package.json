@@ -1,0 +1,56 @@
+{
+  "name": "epeius-of-rfis",
+  "version": "0.1.0",
+  "description": "Epeius of RFIs: an MCP agent that reviews a construction RFI and submittal log against your drawing and spec index (overdue items, missing, unknown or superseded references) and drafts RFIs that cite only the documents you provide. Sending to the architect or GC is a binding send: always one human click.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "epeius-of-rfis": "bin/epeius-of-rfis.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/epeius-of-rfis.js demo",
+    "eval": "node bin/epeius-of-rfis.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/epeius-of-rfis"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/epeius-of-rfis#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "construction",
+    "rfi",
+    "submittals",
+    "general-contractor",
+    "project-engineer",
+    "aec",
+    "ai-agents",
+    "mythos"
+  ]
+}
