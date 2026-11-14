@@ -1,0 +1,14 @@
+{
+  "suite": "macaria-of-erasure",
+  "root": "..",
+  "data_note": "Fictional people and exports in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    { "id": "maps-personal-data", "tool": "macaria_map_data", "args": { "dir": "fixtures/exports" }, "expect": { "contains": ["\"category\":\"email\"", "\"category\":\"ip_address\"", "\"retention_flag\":true"] } },
+    { "id": "finds-subject-everywhere", "tool": "macaria_find_subject", "args": { "dir": "fixtures/exports", "email": "Jamie.Doe@example.com", "phone": "512 555 0142", "ids": ["C-101"] }, "expect": { "equals": { "result.rows_found": 4, "result.files_with_data": 4 } } },
+    { "id": "identifiers-masked", "tool": "macaria_find_subject", "args": { "dir": "fixtures/exports", "email": "jamie.doe@example.com" }, "expect": { "contains": ["j***@example.com"], "not_contains": ["jamie.doe@example.com"] } },
+    { "id": "checklist-due-date", "tool": "macaria_build_checklist", "args": { "dir": "fixtures/exports", "email": "jamie.doe@example.com", "received": "2026-11-10", "regime": "ccpa", "out_dir": "mythos-out/eval" }, "expect": { "equals": { "result.due": "2026-12-25" } } },
+    { "id": "deletion-stays-one-click-in-auto", "tool": "macaria_request_deletion", "mode": "auto", "args": { "system": "CRM", "reason": "verified request" }, "expect": { "status": "needs_approval", "decision": "ask" } },
+    { "id": "review-mode-blocks-deletion", "tool": "macaria_request_deletion", "mode": "review", "args": { "system": "CRM", "reason": "x" }, "expect": { "status": "blocked" } },
+    { "id": "never-deletes", "tool": "macaria_delete_records", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+  ]
+}
