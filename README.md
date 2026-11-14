@@ -20,6 +20,11 @@ Small MCP agents that each own **one business process** and cannot act outside i
 | [`macaria-of-erasure`](packages/macaria-of-erasure) | Erasure request workflow: where personal data lives and a checklist. Deleting is one click; never deletes itself. | `npx -y macaria-of-erasure demo` |
 | [`soteria-of-refunds`](packages/soteria-of-refunds) | Refund and chargeback triage against your policy. Never moves money. | `npx -y soteria-of-refunds demo` |
 | [`nausicaa-of-hygiene`](packages/nausicaa-of-hygiene) | Contact-list hygiene: bounces, role addresses, duplicates, stale records, consent. Bulk deletes are one click. | `npx -y nausicaa-of-hygiene demo` |
+| [`aegle-of-certificates`](packages/aegle-of-certificates) | TLS, domain, licence and vendor COI expiry tracking with chase drafts. Paid renewals, production changes and sends are one click. | `npx -y aegle-of-certificates demo` |
+| [`auxo-of-vendors`](packages/auxo-of-vendors) | Vendor W-9 readiness, masked TINs and request drafts. Sends are one click; never files with the IRS; not tax advice. | `npx -y auxo-of-vendors demo` |
+| [`polyhymnia-of-grants`](packages/polyhymnia-of-grants) | Grant deadlines, budget pace, outcomes and evidence into a draft report packet. Submitting is one click. | `npx -y polyhymnia-of-grants demo` |
+| [`urania-of-flux`](packages/urania-of-flux) | Board pack from locked figures with cited commentary and a claims check. Sign-off and distribution are one click. | `npx -y urania-of-flux demo` |
+| [`arethusa-of-flows`](packages/arethusa-of-flows) | n8n, Zapier and Make flow audit for broken and risky flows. Enabling or changing production flows is one click. | `npx -y arethusa-of-flows demo` |
 
 ## The rules every pack follows
 

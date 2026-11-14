@@ -19,7 +19,12 @@
     "packages/tiresias-of-drift",
     "packages/macaria-of-erasure",
     "packages/soteria-of-refunds",
-    "packages/nausicaa-of-hygiene"
+    "packages/nausicaa-of-hygiene",
+    "packages/aegle-of-certificates",
+    "packages/auxo-of-vendors",
+    "packages/polyhymnia-of-grants",
+    "packages/urania-of-flux",
+    "packages/arethusa-of-flows"
   ],
   "scripts": {
     "test": "npm test --workspaces"
