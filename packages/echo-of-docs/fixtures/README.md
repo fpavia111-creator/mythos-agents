@@ -1,0 +1,1 @@
+A fictional pack ("kettle-of-notes" by "Kettle Labs") with a package.json, a tools.json in MCP tools/list format and docs that have drifted from them on purpose, so the demo, tests and evals have something to find. There is no code in it.
