@@ -1,0 +1,16 @@
+{
+  "suite": "aegle-of-certificates",
+  "root": "..",
+  "data_note": "Fictional inventory, vendors and requirements in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    { "id": "scan-orders-and-flags", "tool": "aegle_scan", "args": { "certificates": "fixtures/certificates.csv", "as_of": "2026-11-14" },
+      "expect": { "contains": ["weak_key_RSA_1024", "weak_signature", "self_signed", "registrar_lock_off", "auto_renew_off", "no_owner"], "equals": { "result.items.0.id": "TLS-2", "result.counts.expired": 1, "result.counts.critical": 1, "result.counts.ok": 2 } } },
+    { "id": "coi-gaps-vs-requirements", "tool": "aegle_scan", "args": { "cois": "fixtures/cois.csv", "requirements": "fixtures/requirements.csv", "as_of": "2026-11-14" },
+      "expect": { "contains": ["limit_below_required", "additional_insured_missing", "missing_coverage", "expiring"], "equals": { "result.vendors_with_gaps": 2, "result.requirements_used": true } } },
+    { "id": "custom-thresholds", "tool": "aegle_scan", "args": { "certificates": "fixtures/certificates.csv", "as_of": "2026-11-14", "critical_days": 30 }, "expect": { "equals": { "result.counts.critical": 2, "result.counts.warning": 0 } } },
+    { "id": "chase-drafts-auto-when-opted-in", "tool": "aegle_draft_chase", "mode": "auto", "auto_actions": ["aegle_draft_chase"], "args": { "cois": "fixtures/cois.csv", "requirements": "fixtures/requirements.csv", "as_of": "2026-11-14", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "contains": ["2 chase draft(s) written. Nothing was sent."] } },
+    { "id": "renewal-stays-one-click-in-auto", "tool": "aegle_request_renewal", "mode": "auto", "args": { "id": "DOM-1", "cost": 24.99, "reason": "expiring" }, "expect": { "status": "needs_approval", "decision": "ask", "contains": ["move_money stays one-click"] } },
+    { "id": "production-change-stays-one-click", "tool": "aegle_request_production_change", "mode": "auto", "args": { "id": "TLS-2", "change": "install" }, "expect": { "status": "needs_approval", "contains": ["production_deploy stays one-click"] } },
+    { "id": "never-sends", "tool": "send_email", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+  ]
+}
