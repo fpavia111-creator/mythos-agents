@@ -30,6 +30,10 @@ Small MCP agents that each own **one business process** and cannot act outside i
 | [`hesperides-of-inventory`](packages/hesperides-of-inventory) | Cycle count variance review: timing, unit-of-measure and recount checks, ranked by value. Posting adjustments is one click. | `npx -y hesperides-of-inventory demo` |
 | [`eos-of-onboarding`](packages/eos-of-onboarding) | Onboarding checklists for employees, contractors and customers, with access request drafts. Granting or removing access is one click. | `npx -y eos-of-onboarding demo` |
 | [`epeius-of-rfis`](packages/epeius-of-rfis) | RFI and submittal log review against your drawing and spec index, and RFI drafts that cite your documents. Sending is one click. | `npx -y epeius-of-rfis demo` |
+| [`britomartis-of-consent`](packages/britomartis-of-consent) | Cookie and third-party inventory from exported HTML and HAR captures, compared with your stated policy and banner. Publishing is one click; not a consent manager and never claims GDPR or CCPA compliance. | `npx -y britomartis-of-consent demo` |
+| [`lycurgus-of-licenses`](packages/lycurgus-of-licenses) | Your written license policy applied to npm dependencies, with a report, CycloneDX SBOM and SARIF; fails the check without changing files. Releases are one click; not legal advice. | `npx -y lycurgus-of-licenses demo` |
+| [`aeolus-of-mail`](packages/aeolus-of-mail) | SPF, DKIM, DMARC, MX, MTA-STS and TLS-RPT audit with read-only DNS-over-HTTPS lookups, and pre-staged record changes. Changing DNS is one click; never edits DNS. | `npx -y aeolus-of-mail demo` |
+| [`echo-of-docs`](packages/echo-of-docs) | Docs drift: README, docs and SKILL.md checked against the tool list, schemas and package.json, with capped mechanical fixes as copies. Publishing docs is one click; never overwrites. | `npx -y echo-of-docs demo` |
 
 ## The rules every pack follows
 

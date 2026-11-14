@@ -29,7 +29,11 @@
     "packages/praxidike-of-expenses",
     "packages/hesperides-of-inventory",
     "packages/eos-of-onboarding",
-    "packages/epeius-of-rfis"
+    "packages/epeius-of-rfis",
+    "packages/britomartis-of-consent",
+    "packages/lycurgus-of-licenses",
+    "packages/aeolus-of-mail",
+    "packages/echo-of-docs"
   ],
   "scripts": {
     "test": "npm test --workspaces"
