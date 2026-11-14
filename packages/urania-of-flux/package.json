@@ -1,0 +1,56 @@
+{
+  "name": "urania-of-flux",
+  "version": "0.1.0",
+  "description": "Urania of Flux: an MCP agent that assembles a board pack from locked source figures and source documents, computes variances, drafts commentary that cites figure ids, and checks every number in the pack against its citation. Controller sign-off and distribution are each one human click.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "urania-of-flux": "bin/urania-of-flux.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/urania-of-flux.js demo",
+    "eval": "node bin/urania-of-flux.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/urania-of-flux"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/urania-of-flux#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "board-pack",
+    "flux-analysis",
+    "variance-analysis",
+    "month-end-close",
+    "fp-and-a",
+    "citations",
+    "ai-agents",
+    "mythos"
+  ]
+}

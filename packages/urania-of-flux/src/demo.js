@@ -1,0 +1,47 @@
+import { fileURLToPath } from 'node:url';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { demoRuntime, printStep } from 'mythos-agent-core';
+
+export async function demo(manifest) {
+  const rt = demoRuntime(manifest, fileURLToPath(new URL('../fixtures', import.meta.url)), { mode: 'auto', autoActions: ['urania_lock_figures', 'urania_draft_commentary'] });
+  process.stdout.write(`Urania of Flux demo (fictional company) in ${rt.root} — Auto on for urania_lock_figures and urania_draft_commentary only\n`);
+  const f = { figures: 'figures.csv', period: 'October 2026' };
+  const docs = ['docs/ceo-letter.md', 'docs/ops-update.md'];
+  printStep('Auto: lock the source figures (opted in)', await rt.call('urania_lock_figures', { figures: 'figures.csv', as_of: '2026-11-14' }));
+  const v = await rt.call('urania_variance', f);
+  printStep('Variances against budget and prior', v);
+  for (const x of v.result.figures) process.stdout.write(`    ${x.id} ${x.metric.padEnd(14)} ${x.material ? 'MATERIAL' : '        '} vs ${x.basis}: ${x.basis === 'budget' ? x.var_budget : x.var_prior} (${x.basis === 'budget' ? x.var_budget_pct : x.var_prior_pct}%)\n`);
+  printStep('Auto: draft cited commentary (opted in; reasons left to owners)', await rt.call('urania_draft_commentary', f));
+  const c = await rt.call('urania_check_claims', { ...f, docs, commentary: 'mythos-out/urania/commentary.md' });
+  printStep('Claims check on the source docs and commentary', c);
+  for (const x of c.result.claims.filter((y) => y.status !== 'ok')) process.stdout.write(`    ${x.status.padEnd(16)} ${x.doc}:${x.line}  "${x.text}"\n`);
+  const pack = { ...f, docs, commentary: 'mythos-out/urania/commentary.md', title: 'Board pack (fictional)' };
+  printStep('Assemble the board pack (DRAFT)', await rt.call('urania_assemble_pack', pack));
+  const mf = 'mythos-out/urania/pack-manifest.json';
+  const sha = () => JSON.parse(readFileSync(join(rt.root, mf), 'utf8')).pack_sha256;
+  let sign = { pack_manifest: mf, pack_sha256: sha(), controller: 'Riley Controller (fictional)' };
+  const s1 = await rt.call('urania_record_signoff', sign);
+  rt.approvals.approve(s1.approval_id, 'Riley Controller (fictional)');
+  printStep('Controller clicks sign-off while issues are open', await rt.call('urania_record_signoff', sign));
+  process.stdout.write('    (demo: the authors fix the three flagged sentences)\n');
+  const fix = (p, a, b) => { const t = join(rt.root, p); writeFileSync(t, readFileSync(t, 'utf8').replace(a, b)); };
+  fix('docs/ceo-letter.md', 'We also added 3 new customers in the Midwest.', 'We also added new customers in the Midwest.');
+  fix('docs/ops-update.md', '312,000 [F4]', '310,000 [F4]');
+  fix('docs/ops-update.md', 'Shipping costs were 41,000 [F9].', 'Shipping costs are inside cost of sales [F2].');
+  process.stdout.write('    (demo: line owners write the four "Reason" lines in the commentary)\n');
+  for (const r of ['Two large school-district orders landed early (fictional).', 'Revenue mix shifted to higher-margin licences (fictional).', 'Planned channel tests were brought forward (fictional).', 'Annual insurance and a hardware refresh were paid (fictional).']) fix('mythos-out/urania/commentary.md', '[TO WRITE — owner explains]', r);
+  printStep('Reassemble the pack', await rt.call('urania_assemble_pack', pack));
+  sign = { ...sign, pack_sha256: sha() };
+  const s2 = await rt.call('urania_record_signoff', sign);
+  printStep('Auto: controller sign-off — stays one-click', s2);
+  rt.approvals.approve(s2.approval_id, 'Riley Controller (fictional)');
+  printStep('Sign-off after the human click', await rt.call('urania_record_signoff', sign));
+  const dist = { pack_manifest: mf, pack_sha256: sha(), recipients: ['board@example.org'] };
+  const d = await rt.call('urania_request_distribution', dist);
+  printStep('Auto: distribute to the board — stays one-click', d);
+  rt.approvals.approve(d.approval_id, 'Riley Controller (fictional)');
+  printStep('Distribution after the human click (recorded, not sent)', await rt.call('urania_request_distribution', dist));
+  printStep('Agent tries to upload to the board portal itself', await rt.call('board_portal_upload', {}));
+  process.stdout.write(`\nAudit log: ${rt.stateDir}/audit.jsonl\n`);
+}
