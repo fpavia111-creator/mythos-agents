@@ -1,0 +1,9 @@
+date,memo,reference,amount
+2026-10-01,Customer receipt Northwind (fictional),DEP-1001,2500.00
+2026-10-03,Rent October,4101,-1200.00
+2026-10-08,Acme Supply bill pay (fictional),BILL-77,-845.50
+2026-10-14,Receipt Globex (fictional),R-501,1000.00
+2026-10-15,Receipt Initech (fictional),R-502,500.00
+2026-10-19,Utilities,4102,-310.00
+2026-10-29,Check 4103 Umbrella Services (fictional),4103,-400.00
+2026-10-31,Receipt Stark (fictional),R-503,800.00

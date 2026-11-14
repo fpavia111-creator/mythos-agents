@@ -1,0 +1,54 @@
+{
+  "name": "penelope-of-recon",
+  "version": "0.1.0",
+  "description": "Penelope of Recon: an MCP agent for bank-to-GL reconciliation from CSV/JSON exports. Proposes matches (reference, amount and date, batched deposits), ties adjusted balances and drafts adjusting entries. Posting is always one human click and only records a request.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "penelope-of-recon": "bin/penelope-of-recon.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/penelope-of-recon.js demo",
+    "eval": "node bin/penelope-of-recon.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/penelope-of-recon"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/penelope-of-recon#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "bank-reconciliation",
+    "accounting",
+    "general-ledger",
+    "month-end-close",
+    "ai-agents",
+    "mythos"
+  ]
+}

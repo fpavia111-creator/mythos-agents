@@ -1,0 +1,8 @@
+date,description,reference,amount
+2026-10-02,Deposit,DEP-1001,2500.00
+2026-10-05,Check 4101,4101,-1200.00
+2026-10-09,ACH Acme Supply (fictional),,-845.50
+2026-10-15,Mobile deposit batch,,1500.00
+2026-10-20,Check 4102,4102,-310.00
+2026-10-31,Monthly service fee,,-25.00
+2026-10-31,Interest paid,,3.12
