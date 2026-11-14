@@ -1,0 +1,58 @@
+{
+  "name": "echo-of-docs",
+  "version": "0.1.0",
+  "description": "Echo of Docs: an MCP agent that compares a package's README, docs and SKILL.md files with its tool list, input schemas and package.json, and reports drift: undocumented or vanished tools, wrong policy labels, stale CLI examples, version, Node and license mismatches, broken links and anchors, bad skill frontmatter. Drafts low-risk fixes as copies within caps. Publishing docs is a production deploy: always one human click. Never overwrites docs.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "echo-of-docs": "bin/echo-of-docs.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/echo-of-docs.js demo",
+    "eval": "node bin/echo-of-docs.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/echo-of-docs"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/echo-of-docs#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "documentation",
+    "docs",
+    "drift",
+    "readme",
+    "lint",
+    "skills",
+    "skill-md",
+    "mcp-tools",
+    "ai-agents",
+    "mythos"
+  ]
+}

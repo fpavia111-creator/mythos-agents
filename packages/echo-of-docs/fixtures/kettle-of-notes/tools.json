@@ -1,0 +1,92 @@
+{
+  "tools": [
+    {
+      "name": "mythos_info",
+      "description": "Show this pack",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "kettle_list",
+      "description": "[ALLOW] List notes in a folder.",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "folder"
+        ],
+        "properties": {
+          "folder": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "kettle_summarize",
+      "description": "[ALLOW] Summarise the notes.",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "folder"
+        ],
+        "properties": {
+          "folder": {
+            "type": "string"
+          },
+          "max_words": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "kettle_draft_note",
+      "description": "[ASK] Draft a note as a copy.",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "folder",
+          "title"
+        ],
+        "properties": {
+          "folder": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "kettle_request_publish",
+      "description": "[ASK · production_deploy] Record approval to publish a note.",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "note",
+          "note_sha256"
+        ],
+        "properties": {
+          "note": {
+            "type": "string"
+          },
+          "note_sha256": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "delete_notes",
+      "description": "[BLOCK] Listed so agents see the refusal.",
+      "inputSchema": {
+        "type": "object",
+        "required": [],
+        "properties": {}
+      }
+    }
+  ]
+}

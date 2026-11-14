@@ -1,0 +1,10 @@
+{
+  "name": "kettle-of-notes",
+  "version": "0.3.0",
+  "description": "A fictional MCP pack that lists, summarises and drafts notes.",
+  "license": "MIT",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "bin": { "kettle-of-notes": "bin/kettle-of-notes.js" },
+  "scripts": { "test": "node --test", "demo": "node bin/kettle-of-notes.js demo" }
+}
