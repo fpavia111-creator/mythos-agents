@@ -1,0 +1,55 @@
+{
+  "name": "nausicaa-of-hygiene",
+  "version": "0.1.0",
+  "description": "Nausicaa of Hygiene: an MCP agent for CRM and contact-list hygiene from exports: invalid and typo emails, hard bounces, role and disposable addresses, duplicates, stale records, missing or conflicting consent. Bulk deletes are always one human click and only record a request.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "nausicaa-of-hygiene": "bin/nausicaa-of-hygiene.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/nausicaa-of-hygiene.js demo",
+    "eval": "node bin/nausicaa-of-hygiene.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/nausicaa-of-hygiene"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/nausicaa-of-hygiene#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "crm",
+    "data-hygiene",
+    "email-list",
+    "deduplication",
+    "consent",
+    "ai-agents",
+    "mythos"
+  ]
+}
