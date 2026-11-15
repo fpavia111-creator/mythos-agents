@@ -34,6 +34,7 @@ Small MCP agents that each own **one business process** and cannot act outside i
 | [`lycurgus-of-licenses`](packages/lycurgus-of-licenses) | Your written license policy applied to npm dependencies, with a report, CycloneDX SBOM and SARIF; fails the check without changing files. Releases are one click; not legal advice. | `npx -y lycurgus-of-licenses demo` |
 | [`aeolus-of-mail`](packages/aeolus-of-mail) | SPF, DKIM, DMARC, MX, MTA-STS and TLS-RPT audit with read-only DNS-over-HTTPS lookups, and pre-staged record changes. Changing DNS is one click; never edits DNS. | `npx -y aeolus-of-mail demo` |
 | [`echo-of-docs`](packages/echo-of-docs) | Docs drift: README, docs and SKILL.md checked against the tool list, schemas and package.json, with capped mechanical fixes as copies. Publishing docs is one click; never overwrites. | `npx -y echo-of-docs demo` |
+| [`solon-of-clauses`](packages/solon-of-clauses) | Contract clauses checked against your own playbook, with section and line citations and an issues list for counsel in your playbook's words. Sending is a binding send (one click after a named reviewer); e-signing is blocked. Not legal advice, does not replace a lawyer, no guarantee of accuracy. | `npx -y solon-of-clauses demo` |
 
 ## The rules every pack follows
 

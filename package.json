@@ -33,7 +33,8 @@
     "packages/britomartis-of-consent",
     "packages/lycurgus-of-licenses",
     "packages/aeolus-of-mail",
-    "packages/echo-of-docs"
+    "packages/echo-of-docs",
+    "packages/solon-of-clauses"
   ],
   "scripts": {
     "test": "npm test --workspaces"
