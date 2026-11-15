@@ -1,0 +1,1 @@
+A fictional Master Services Agreement between two made-up companies ("Kettle Labs Ltd" and "Fernhill Studio LLC") and a fictional customer-side clause playbook. Neither is a template or a recommendation; they are written to plant gaps so the demo, tests and evals have something to find. Not legal advice.

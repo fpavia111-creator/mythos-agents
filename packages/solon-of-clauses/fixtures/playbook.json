@@ -1,0 +1,16 @@
+{
+  "source": "Fernhill Studio supplier contract playbook v3 (fictional)",
+  "contract_type": "MSA (we are the customer)",
+  "clauses": [
+    { "id": "payment_terms", "title": "Payment terms", "required": true, "find": ["fees and payment", "invoice"], "value": { "label": "Payment period", "pattern": "within [a-z\\s-]*\\(?(\\d+)\\)? days", "unit": "days", "max": 45 }, "note": "We pay within 45 days at most.", "fallback": "Customer will pay each undisputed invoice within forty-five (45) days of receipt." },
+    { "id": "termination_convenience", "title": "Termination for convenience", "required": true, "find": ["terminate for convenience", "terminate this agreement at any time", "termination for convenience"], "note": "We must be able to leave on 30 days' notice.", "fallback": "Customer may terminate this Agreement for convenience on thirty (30) days' written notice." },
+    { "id": "auto_renewal", "title": "Automatic renewal", "prohibited": true, "find": ["automatically renew", "auto-renew", "renew automatically"], "note": "No automatic renewal; renewals are signed.", "fallback": "Any renewal requires a written agreement signed by both parties." },
+    { "id": "confidentiality", "title": "Confidentiality", "required": true, "find": ["confidentiality", "confidential information"], "must_include": ["return or destroy"], "note": "Supplier must return or destroy our information at the end.", "fallback": "On termination, each party will return or destroy the other's Confidential Information." },
+    { "id": "limitation_of_liability", "title": "Limitation of liability", "required": true, "find": ["limitation of liability", "total liability"], "value": { "label": "Liability cap", "pattern": "fees paid in the [a-z\\s-]*\\(?(\\d+)\\)? months", "unit": "months of fees", "min": 12 }, "must_not_include": ["unlimited liability"], "note": "The cap is at least 12 months of fees.", "fallback": "Either party's total liability will not exceed the fees paid in the twelve (12) months before the claim." },
+    { "id": "indemnification", "title": "IP indemnity", "required": true, "find": ["indemnify", "indemnification"], "must_include": ["intellectual property"], "note": "Supplier indemnifies us for IP claims." },
+    { "id": "data_protection", "title": "Data protection", "required": true, "find": ["data protection", "personal data"], "must_include": ["data processing agreement"], "note": "A DPA is signed when personal data is processed." },
+    { "id": "governing_law", "title": "Governing law", "required": true, "find": ["governing law", "governed by the laws"], "note": "Our home state." },
+    { "id": "insurance", "title": "Insurance", "required": true, "find": ["insurance"], "note": "Supplier keeps professional liability insurance.", "fallback": "Supplier will maintain professional liability insurance of at least $1,000,000 per claim." },
+    { "id": "non_solicit", "title": "Non-solicitation", "required": false, "find": ["solicit"], "note": "Optional." }
+  ]
+}

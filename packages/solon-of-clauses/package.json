@@ -1,0 +1,58 @@
+{
+  "name": "solon-of-clauses",
+  "version": "0.1.0",
+  "description": "Solon of Clauses: an MCP agent that checks a contract's text against your own clause playbook, reports which clauses are present, missing, prohibited or need attention with section and line citations, flags open placeholders and broken cross-references, and drafts an issues list for counsel using only your playbook's language. Sending or signing is a legally binding send: always one human click, and signing is blocked. Not legal advice and not a substitute for a lawyer.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "solon-of-clauses": "bin/solon-of-clauses.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/solon-of-clauses.js demo",
+    "eval": "node bin/solon-of-clauses.js eval"
+  },
+  "dependencies": {
+    "mythos-agent-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/mythos-agents.git",
+    "directory": "packages/solon-of-clauses"
+  },
+  "homepage": "https://github.com/fpavia111-creator/mythos-agents/tree/main/packages/solon-of-clauses#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "contracts",
+    "contract-review",
+    "clauses",
+    "playbook",
+    "checklist",
+    "legal-ops",
+    "msa",
+    "nda",
+    "ai-agents",
+    "mythos"
+  ]
+}
