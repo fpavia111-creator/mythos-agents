@@ -3,14 +3,210 @@
   "root": "..",
   "data_note": "Sample scripts in ../fixtures. Deterministic tool-level checks; no model is called.",
   "cases": [
-    { "id": "counts-versions", "tool": "epimetheus_inventory", "args": { "dir": "fixtures/FileCabinet" },
-      "expect": { "equals": { "result.files": 5, "result.needs_2_1": 4, "result.by_version": { "1.0": 2, "2.0": 1, "2.x": 1, "2.1": 1 } } } },
-    { "id": "riskiest-is-1.0-with-writes", "tool": "epimetheus_inventory", "args": { "dir": "fixtures/FileCabinet" },
-      "expect": { "equals": { "result.items.0.version": "1.0", "result.items.0.risk": "high" } } },
-    { "id": "explains-line-numbers", "tool": "epimetheus_explain_file", "args": { "file": "fixtures/FileCabinet/SuiteScripts/ue_invoice_sync.js" },
-      "expect": { "contains": ["nlapiRequestURL", "N/https request()", "\"line\":11,\"api\":\"nlapiRequestURL\""] } },
-    { "id": "refuse-deploy", "tool": "epimetheus_deploy_conversion", "args": {}, "expect": { "status": "blocked" } },
-    { "id": "refuse-deploy-in-auto", "tool": "epimetheus_deploy_conversion", "mode": "auto", "args": {}, "expect": { "status": "blocked" } },
-    { "id": "refuse-shell", "tool": "shell_exec", "args": { "cmd": "rm -rf /" }, "expect": { "status": "blocked" } }
+    {
+      "id": "counts-versions",
+      "tool": "epimetheus_inventory",
+      "args": {
+        "dir": "fixtures/FileCabinet"
+      },
+      "expect": {
+        "equals": {
+          "result.files": 5,
+          "result.needs_2_1": 4,
+          "result.by_version": {
+            "1.0": 2,
+            "2.0": 1,
+            "2.x": 1,
+            "2.1": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "riskiest-is-1.0-with-writes",
+      "tool": "epimetheus_inventory",
+      "args": {
+        "dir": "fixtures/FileCabinet"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.version": "1.0",
+          "result.items.0.risk": "high"
+        }
+      }
+    },
+    {
+      "id": "explains-line-numbers",
+      "tool": "epimetheus_explain_file",
+      "args": {
+        "file": "fixtures/FileCabinet/SuiteScripts/ue_invoice_sync.js"
+      },
+      "expect": {
+        "contains": [
+          "nlapiRequestURL",
+          "N/https request()",
+          "\"line\":11,\"api\":\"nlapiRequestURL\""
+        ]
+      }
+    },
+    {
+      "id": "refuse-deploy",
+      "tool": "epimetheus_deploy_conversion",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      }
+    },
+    {
+      "id": "refuse-deploy-in-auto",
+      "tool": "epimetheus_deploy_conversion",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      }
+    },
+    {
+      "id": "refuse-shell",
+      "tool": "shell_exec",
+      "args": {
+        "cmd": "rm -rf /"
+      },
+      "expect": {
+        "status": "blocked"
+      }
+    },
+    {
+      "id": "ignores-calls-in-comments-strings",
+      "tool": "epimetheus_explain_file",
+      "args": {
+        "file": "fixtures/deps/SuiteScripts/ue_order.js"
+      },
+      "expect": {
+        "equals": {
+          "result.version": "2.1",
+          "result.call_count": 0,
+          "result.modules": [
+            "N/record"
+          ],
+          "result.aliases.audit": "/SuiteScripts/lib/audit_log"
+        }
+      }
+    },
+    {
+      "id": "counts-real-calls-only",
+      "tool": "epimetheus_explain_file",
+      "args": {
+        "file": "fixtures/deps/SuiteScripts/sl_legacy_report.js"
+      },
+      "expect": {
+        "equals": {
+          "result.calls": {
+            "nlapiCreateForm": 1,
+            "nlapiGetUser": 1,
+            "nlapiSetRecoveryPoint": 1
+          },
+          "result.unmapped": [
+            "nlapiSetRecoveryPoint"
+          ]
+        }
+      }
+    },
+    {
+      "id": "effort-explained",
+      "tool": "epimetheus_explain_file",
+      "args": {
+        "file": "fixtures/FileCabinet/SuiteScripts/sch_close_prep.js"
+      },
+      "expect": {
+        "equals": {
+          "result.effort.hours": 11
+        },
+        "contains": [
+          "\"signal\":\"redesign\"",
+          "\"signal\":\"writes\""
+        ]
+      }
+    },
+    {
+      "id": "inventory-total-effort",
+      "tool": "epimetheus_inventory",
+      "args": {
+        "dir": "fixtures/FileCabinet"
+      },
+      "expect": {
+        "equals": {
+          "result.effort_hours": 21
+        }
+      }
+    },
+    {
+      "id": "calibrated-effort",
+      "tool": "epimetheus_inventory",
+      "args": {
+        "dir": "fixtures/FileCabinet",
+        "estimate_config": "fixtures/estimate-config.json"
+      },
+      "expect": {
+        "equals": {
+          "result.effort_weights": "Sample team calibration (fictional)"
+        },
+        "min": {
+          "result.effort_hours": 22
+        }
+      }
+    },
+    {
+      "id": "dependency-cycle-and-order",
+      "tool": "epimetheus_dependency_graph",
+      "args": {
+        "dir": "fixtures/deps"
+      },
+      "expect": {
+        "equals": {
+          "result.cycles": [
+            [
+              "SuiteScripts/lib/pricing.js",
+              "SuiteScripts/lib/tax.js"
+            ]
+          ],
+          "result.order.0.file": "SuiteScripts/lib/audit_log.js",
+          "result.order.4.file": "SuiteScripts/ue_order.js"
+        },
+        "length": {
+          "result.unresolved": 1
+        }
+      }
+    },
+    {
+      "id": "progress-vs-baseline",
+      "tool": "epimetheus_progress",
+      "args": {
+        "baseline": "fixtures/baseline/inventory.csv",
+        "dir": "fixtures/FileCabinet"
+      },
+      "expect": {
+        "equals": {
+          "result.converted.0.file": "SuiteScripts/mr_item_cleanup.js",
+          "result.regressed.0.file": "SuiteScripts/ue_invoice_sync.js",
+          "result.removed.0.file": "SuiteScripts/old_portlet.js",
+          "result.percent_on_2_1": 20
+        }
+      }
+    },
+    {
+      "id": "refuse-bad-limit",
+      "tool": "epimetheus_inventory",
+      "args": {
+        "dir": "fixtures/FileCabinet",
+        "limit": 0
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "/limit"
+        ]
+      }
+    }
   ]
 }

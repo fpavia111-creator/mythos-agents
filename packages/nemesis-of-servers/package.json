@@ -1,7 +1,8 @@
 {
   "name": "nemesis-of-servers",
-  "version": "0.1.0",
-  "description": "Nemesis of Servers: an MCP agent that reviews one MCP or Code Mode server folder, or an MCP client config, for risky patterns (shell exec, eval, open egress, env dumps, credential paths, inline secrets, prompt-injection text, unpinned packages). Writes Markdown, JSON and SARIF. Static and pattern-based.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/nemesis-of-servers",
+  "description": "Nemesis of Servers: an MCP agent that reviews one MCP or Code Mode server folder, its saved tool definitions, or an MCP client config for risky patterns: shell exec, eval, source-to-sink data flows, token passthrough, tool poisoning and shadowing, rug pulls against pinned definitions, inline secrets, auto-approved tools, missing lockfiles and offline advisory matches. Writes Markdown, JSON and SARIF. Static, offline and pattern-based.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -22,6 +23,7 @@
     "fixtures",
     "evals",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -30,7 +32,7 @@
     "eval": "node bin/nemesis-of-servers.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -49,6 +51,8 @@
     "static-analysis",
     "sarif",
     "supply-chain",
+    "tool-poisoning",
+    "owasp-mcp",
     "ai-agents",
     "mythos"
   ]

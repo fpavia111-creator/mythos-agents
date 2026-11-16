@@ -1,0 +1,4 @@
+Date,Type,Document Number,Name,Item,Quantity,Created From,Line ID
+11/2/2026,Item Receipt,IR-901,Acme Supply (fictional),BOX-12,100,Purchase Order #PO-4471,3
+11/3/2026,Item Receipt,IR-902,Acme Supply (fictional),TAPE-3,30,Purchase Order #PO-4471,3
+11/5/2026,Item Receipt,IR-903,Globex Furniture (fictional),CHAIR-A,10,Purchase Order #PO-4472,3

@@ -1,0 +1,219 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-08-01T00:00:00.000Z",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "lycurgus-of-licenses",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    "component": {
+      "type": "application",
+      "name": "kettle-app",
+      "version": "1.3.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/express-lite@4.0.0",
+      "name": "express-lite",
+      "version": "4.0.0",
+      "purl": "pkg:npm/express-lite@4.0.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/tiny-fmt@1.2.0",
+      "name": "tiny-fmt",
+      "version": "1.2.0",
+      "purl": "pkg:npm/tiny-fmt@1.2.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "ISC"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/req-cli@2.0.0",
+      "name": "req-cli",
+      "version": "2.0.0",
+      "purl": "pkg:npm/req-cli@2.0.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/hashy@3.0.0",
+      "name": "hashy",
+      "version": "3.0.0",
+      "purl": "pkg:npm/hashy@3.0.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/dual-lib@1.0.0",
+      "name": "dual-lib",
+      "version": "1.0.0",
+      "purl": "pkg:npm/dual-lib@1.0.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "(MIT OR GPL-3.0-only)"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lgpl-codec@0.9.0",
+      "name": "lgpl-codec",
+      "version": "0.9.0",
+      "purl": "pkg:npm/lgpl-codec@0.9.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "LGPL-2.1-or-later"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/old-parse@1.0.1",
+      "name": "old-parse",
+      "version": "1.0.1",
+      "purl": "pkg:npm/old-parse@1.0.1",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "Apache-2.0"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/internal-sdk@5.0.0",
+      "name": "internal-sdk",
+      "version": "5.0.0",
+      "purl": "pkg:npm/internal-sdk@5.0.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "UNLICENSED"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/custom-fonts@1.0.0",
+      "name": "custom-fonts",
+      "version": "1.0.0",
+      "purl": "pkg:npm/custom-fonts@1.0.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "SEE LICENSE IN LICENSE.txt"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/mpl-thing@2.0.0",
+      "name": "mpl-thing",
+      "version": "2.0.0",
+      "purl": "pkg:npm/mpl-thing@2.0.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MPL-2.0 AND MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/icons-cc@0.9.0",
+      "name": "icons-cc",
+      "version": "0.9.0",
+      "purl": "pkg:npm/icons-cc@0.9.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/nolicense-pkg@0.1.0",
+      "name": "nolicense-pkg",
+      "version": "0.1.0",
+      "purl": "pkg:npm/nolicense-pkg@0.1.0",
+      "scope": "required"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/expired-ex@1.0.0",
+      "name": "expired-ex",
+      "version": "1.0.0",
+      "purl": "pkg:npm/expired-ex@1.0.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "AGPL-3.0-only"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40fict/logger@1.0.0",
+      "name": "@fict/logger",
+      "version": "1.0.0",
+      "purl": "pkg:npm/%40fict/logger@1.0.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/old-util@1.0.0",
+      "name": "old-util",
+      "version": "1.0.0",
+      "purl": "pkg:npm/old-util@1.0.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ]
+    }
+  ]
+}

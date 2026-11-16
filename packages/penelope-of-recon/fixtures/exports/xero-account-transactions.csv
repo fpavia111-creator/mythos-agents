@@ -1,0 +1,17 @@
+Account Transactions
+Example Co. (fictional)
+For the month ended 31 October 2026
+
+Date,Source,Description,Reference,Debit,Credit,Running Balance
+Business Bank Account
+Opening Balance,,,,"10,000.00",,"10,000.00"
+1 Oct 2026,Receive Money,Customer receipt Northwind (fictional),DEP-1001,"2,500.00",,"12,500.00"
+3 Oct 2026,Spend Money,Rent October,4101,,"1,200.00","11,300.00"
+8 Oct 2026,Payable Payment,Acme Supply bill pay (fictional),BILL-77,,845.50,"10,454.50"
+14 Oct 2026,Receivable Payment,Receipt Globex (fictional),R-501,"1,000.00",,"11,454.50"
+15 Oct 2026,Receivable Payment,Receipt Initech (fictional),R-502,500.00,,"11,954.50"
+19 Oct 2026,Spend Money,Utilities,4102,,310.00,"11,644.50"
+29 Oct 2026,Spend Money,Check 4103 Umbrella Services (fictional),4103,,400.00,"11,244.50"
+31 Oct 2026,Receivable Payment,Receipt Stark (fictional),R-503,800.00,,"12,044.50"
+Total Business Bank Account,,,,"4,800.00","2,755.50",
+Closing Balance,,,,"12,044.50",,

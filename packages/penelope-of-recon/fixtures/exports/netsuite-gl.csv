@@ -1,0 +1,10 @@
+Date,Type,Document Number,Name,Memo,Account,Amount
+10/1/2026,Deposit,DEP-1001,Northwind (fictional),Customer receipt,1000 Checking,"2,500.00"
+10/3/2026,Check,4101,,Rent October,1000 Checking,"-1,200.00"
+10/8/2026,Bill Payment,BILL-77,Acme Supply (fictional),Bill pay,1000 Checking,-845.50
+10/14/2026,Customer Payment,R-501,Globex (fictional),Receipt,1000 Checking,"1,000.00"
+10/15/2026,Customer Payment,R-502,Initech (fictional),Receipt,1000 Checking,500.00
+10/19/2026,Check,4102,,Utilities,1000 Checking,-310.00
+10/29/2026,Check,4103,Umbrella Services (fictional),Check 4103,1000 Checking,-400.00
+10/31/2026,Customer Payment,R-503,Stark (fictional),Receipt,1000 Checking,800.00
+Total,,,,,,"2,044.50"

@@ -1,0 +1,11 @@
+system,user,email,account_type,role,owner,last_login,status,mfa,last_rotated
+NetSuite,Avery Stone (fictional),avery.stone@example.com,human,Administrator,,2026-08-10,active,yes,
+NetSuite,Riley Park (fictional),riley.park@example.com,human,A/P Clerk,,2026-08-12,active,yes,
+NetSuite,Jordan Lee (fictional),jordan.lee@example.com,human,A/P Clerk,,2026-06-01,active,no,
+NetSuite,integration-sync,integration@example.com,service,Full Access,Avery Stone (fictional),2026-08-14,active,n/a,2026-03-01
+Google Workspace,Sam Rivera (fictional),sam.rivera@example.com,human,User,,2026-08-12,active,yes,
+Google Workspace,shared mailbox,shared@example.com,human,User,,never,active,no,
+Stripe,Casey Wong (fictional),casey.wong@example.com,human,Payments Admin,,2026-08-01,active,yes,
+Stripe,Old Contractor (fictional),old.contractor@example.com,human,Developer,,2026-01-15,active,yes,
+Slack,Riley Park (fictional),riley.park@example.com,human,Member,,2026-08-30,active,yes,
+Slack,Morgan Diaz (fictional),morgan.diaz@example.com,human,Member,,2026-07-30,active,yes,

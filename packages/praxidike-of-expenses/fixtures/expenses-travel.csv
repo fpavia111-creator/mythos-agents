@@ -1,0 +1,5 @@
+report_id,line_id,employee,date,submitted_on,category,merchant,amount,currency,receipt,purpose,attendees,nights,miles,days,location,preapproved_by
+R-201,1,Fia Novak,2026-10-07,2026-10-12,per_diem_meals,Meals per diem,150.00,USD,,Client workshop,,,,2,"Duluth, MN",
+R-201,2,Fia Novak,2026-10-09,2026-10-12,per_diem_meals,Meals per diem,59.00,USD,,Client workshop,,,,1,"Fargo, ND",
+R-202,1,Gus Ito,2026-05-10,2026-05-20,mileage,Own car,67.00,USD,,Site survey,,,100,,,
+R-202,2,Gus Ito,2026-08-10,2026-08-20,mileage,Own car,72.00,USD,,Site survey,,,100,,,

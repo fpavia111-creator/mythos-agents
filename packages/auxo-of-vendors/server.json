@@ -1,0 +1,37 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.fpavia111-creator/auxo-of-vendors",
+  "title": "Auxo of Vendors",
+  "description": "An MCP agent that tracks vendor W-9 and W-8 readiness from CSV exports (missing, unsigned or…",
+  "version": "0.2.0",
+  "repository": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents",
+    "source": "github",
+    "subfolder": "packages/auxo-of-vendors"
+  },
+  "websiteUrl": "https://mythosmachines.com/",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "auxo-of-vendors",
+      "version": "0.2.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        },
+        {
+          "type": "named",
+          "name": "--root",
+          "description": "Folder holding the exports this agent may read and write (it cannot reach outside it)",
+          "isRequired": true,
+          "format": "filepath",
+          "valueHint": "exports_folder"
+        }
+      ]
+    }
+  ]
+}

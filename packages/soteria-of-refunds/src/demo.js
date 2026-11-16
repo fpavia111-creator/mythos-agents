@@ -10,6 +10,11 @@ export async function demo(manifest) {
   for (const i of t.result.items) process.stdout.write(`    ${i.request_id.padEnd(6)} ${i.type.padEnd(10)} ${String(i.amount).padEnd(7)} ${i.suggestion.padEnd(26)} ${i.flags.join(', ')}\n`);
   printStep('Explain R-1004', await rt.call('soteria_explain', { ...f, request_id: 'R-1004' }));
   printStep('Write the queue and dispute drafts', await rt.call('soteria_write_queue', f));
+  printStep('Look up a reason code (Mastercard 4853)', await rt.call('soteria_reason_code', { code: '4853' }));
+  const d = { requests: 'disputes.csv', orders: 'orders.csv', policy: 'policy.json' };
+  const e = await rt.call('soteria_evidence_pack', d);
+  printStep('Evidence packs for six coded disputes (rows cited, hash in the audit line)', e);
+  for (const x of e.result.disputes) process.stdout.write(`    ${x.request_id.padEnd(7)} ${String(x.code || '-').padEnd(5)} ${x.category.padEnd(20)} ready ${String(x.readiness.score ?? '-').padStart(3)}%  respond by ${x.respond_by}${x.missing.length ? `  missing: ${x.missing.join(', ')}` : ''}\n`);
   const req = { request_id: 'R-1001', order_id: 'O-501', amount: 45, reason: 'Eligible per policy: damaged item' };
   const a = await rt.call('soteria_request_refund', req);
   printStep('Auto: request an eligible refund — stays one-click', a);

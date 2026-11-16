@@ -1,0 +1,10 @@
+id,email,name,company,last_activity,bounce,consent,consent_date,consent_source,unsubscribed,status
+C1,ana.lopez@example.com,Ana Lopez,Northwind (fictional),2026-09-30,,yes,2026-01-10,web form,no,subscribed
+C2,info@globex.example,,Globex (fictional),2026-09-01,,yes,2025-06-01,event,no,subscribed
+C3,ben.k@gmial.com,Ben Kim,Initech (fictional),2026-08-15,,yes,2026-02-01,,no,subscribed
+C4,old.lead@example.org,Old Lead,Umbrella (fictional),2024-03-01,,yes,2023-02-01,import,no,subscribed
+C5,cy.ng@example.com,Cy Ng,Stark (fictional),2026-09-20,,yes,2026-03-01,web form,no,subscribed
+C8,not-an-email,Dee Park,Wayne (fictional),2026-05-05,,yes,2026-01-01,web form,no,subscribed
+C9,eve@blocked.example,Eve Moss,Blocked Co (fictional),2026-09-11,,yes,2026-04-01,web form,no,subscribed
+C10,fay@example.net,Fay Ho,Acme (fictional),2026-10-01,,yes,2022-05-01,,no,subscribed
+C11,gone.contact@example.com,Gone Contact,Hooli (fictional),2026-06-01,,yes,2026-01-05,web form,no,subscribed

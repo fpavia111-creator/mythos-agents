@@ -1,0 +1,31 @@
+CERTIFICATE OF LIABILITY INSURANCE                         DATE (MM/DD/YYYY) 03/02/2026
+(Fictional sample text, as exported from an ACORD 25-style PDF. Not a real certificate.)
+
+PRODUCER                                   CONTACT NAME: Example Agency Desk
+Example Insurance Agency (fictional)       PHONE: 555-0100
+100 Sample Ave, Example City               E-MAIL: certs@agency.example
+
+INSURED
+Acme Plumbing (fictional)
+12 Pipe Lane, Example City
+
+INSURER A : Example Mutual Casualty (fictional)
+INSURER B : Sample Workers Fund (fictional)
+
+COVERAGES
+INSR LTR  TYPE OF INSURANCE                ADDL INSD  SUBR WVD  POLICY NUMBER   POLICY EFF  POLICY EXP   LIMITS
+A         COMMERCIAL GENERAL LIABILITY     ADDL INSD: Y  SUBR WVD: Y  GL-0001234  03/01/2026  03/01/2027
+          CLAIMS-MADE [ ] OCCUR [X]                                                        EACH OCCURRENCE $ 1,000,000
+                                                                                           GENERAL AGGREGATE $ 2,000,000
+A         AUTOMOBILE LIABILITY             ADDL INSD: N  SUBR WVD: N  CA-0005678  03/01/2026  03/01/2027
+          ANY AUTO [X]                                                                     COMBINED SINGLE LIMIT $ 1,000,000
+B         WORKERS COMPENSATION AND EMPLOYERS' LIABILITY  SUBR WVD: N  WC-0009012  11/25/2025  11/25/2026
+                                                                                           E.L. EACH ACCIDENT $ 500,000
+                                                                                           E.L. DISEASE - EA EMPLOYEE $ 500,000
+
+DESCRIPTION OF OPERATIONS
+Certificate holder is included as additional insured on the general liability policy where required by written contract.
+
+CERTIFICATE HOLDER
+Example Shop (fictional)
+1 Example Way, Example City

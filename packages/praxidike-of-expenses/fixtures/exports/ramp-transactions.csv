@@ -1,0 +1,6 @@
+Merchant Name,Ramp Category,Transaction Date,User,Ramp Department,Ramp Location,Card Last 4,Card Display Name,Amount,Original Currency Amount,Original Currency Code,Conversion Rate,Memo,Has Receipt,Receipts Link,Attendees
+Lakeside Grill,Restaurants,10/06/2026,Ana Ortiz,Sales,Minneapolis,4410,Ana Ortiz Travel,210.00,210.00,USD,1,Client dinner,true,https://receipts.example.test/r/1001,"Ana Ortiz, Sam Client"
+Harbor Inn,Lodging,10/06/2026,Ana Ortiz,Sales,Minneapolis,4410,Ana Ortiz Travel,"1,480.00","1,480.00",USD,1,Client workshop in Duluth,true,https://receipts.example.test/r/1002,
+Metro Rideshare Inc,Taxi and Rideshare,11/02/2026,Dev Patel,Engineering,Minneapolis,7733,Dev Patel,31.20,31.20,USD,1,Client site visit,false,,
+Skyline Lounge,Alcohol and Bars,11/03/2026,Dev Patel,Engineering,Minneapolis,7733,Dev Patel,64.00,64.00,USD,1,,false,,
+Diagram Tool,SaaS / Software,10/12/2026,Ben Cho,Engineering,Remote,9021,Ben Cho,49.00,49.00,USD,1,Team diagram licence,true,,

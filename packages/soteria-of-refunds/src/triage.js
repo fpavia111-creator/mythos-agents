@@ -1,4 +1,5 @@
 import { toCsv, toNumber, round2 } from 'mythos-agent-core';
+import { classifyDispute } from './reasons.js';
 
 const s = (v) => String(v ?? '').trim();
 function col(row, names) {
@@ -8,8 +9,8 @@ function col(row, names) {
 }
 export const DEFAULT_POLICY = Object.freeze({ window_days: 30, window_from: 'delivered', review_over: 200, max_refunds_per_customer_90d: 2, chargeback_response_days: 7, no_refund_reasons: ['change_of_mind_after_window'], return_required_over: 50 });
 
-export const normRequests = (rows) => rows.map((r, i) => ({ row: i + 2, request_id: s(col(r, ['requestid', 'id', 'caseid', 'disputeid'])) || `R${i + 2}`, order_id: s(col(r, ['orderid', 'order', 'ordernumber'])), customer: s(col(r, ['customer', 'customeremail', 'email', 'customerid'])).toLowerCase(), amount: toNumber(col(r, ['amount', 'requestedamount', 'refundamount', 'disputeamount'])), reason: s(col(r, ['reason', 'reasoncode', 'category'])).toLowerCase(), type: /charge ?back|dispute/i.test(s(col(r, ['type', 'channel', 'kind']))) ? 'chargeback' : 'refund', requested_at: s(col(r, ['requestedat', 'date', 'createdat', 'opened', 'disputedate'])), returned: /^(yes|true|1|received)$/i.test(s(col(r, ['returned', 'returnreceived', 'itemreturned']))) }));
-export const normOrders = (rows) => new Map(rows.map((r) => [s(col(r, ['orderid', 'order', 'ordernumber'])), { order_id: s(col(r, ['orderid', 'order', 'ordernumber'])), amount: toNumber(col(r, ['amount', 'total', 'ordertotal'])), refunded: toNumber(col(r, ['refunded', 'refundedamount', 'amountrefunded'])) || 0, ordered: s(col(r, ['orderdate', 'date', 'createdat'])), delivered: s(col(r, ['delivereddate', 'deliveredat', 'delivered'])), status: s(col(r, ['status', 'fulfillmentstatus'])).toLowerCase(), tracking: s(col(r, ['tracking', 'trackingnumber'])), customer: s(col(r, ['customer', 'customeremail', 'email', 'customerid'])).toLowerCase() }]));
+export const normRequests = (rows) => rows.map((r, i) => ({ row: i + 2, request_id: s(col(r, ['requestid', 'id', 'caseid', 'disputeid'])) || `R${i + 2}`, order_id: s(col(r, ['orderid', 'order', 'ordernumber'])), customer: s(col(r, ['customer', 'customeremail', 'email', 'customerid'])).toLowerCase(), amount: toNumber(col(r, ['amount', 'requestedamount', 'refundamount', 'disputeamount'])), reason: s(col(r, ['reason', 'reasoncode', 'category'])).toLowerCase(), reason_code: s(col(r, ['reasoncode', 'networkreasoncode', 'disputereasoncode'])), network: s(col(r, ['network', 'cardbrand', 'cardnetwork', 'brand', 'scheme'])).toLowerCase(), type: /charge ?back|dispute/i.test(s(col(r, ['type', 'channel', 'kind']))) ? 'chargeback' : 'refund', requested_at: s(col(r, ['requestedat', 'date', 'createdat', 'opened', 'disputedate'])), returned: /^(yes|true|1|received)$/i.test(s(col(r, ['returned', 'returnreceived', 'itemreturned']))) }));
+export const normOrders = (rows) => new Map(rows.map((r, i) => [s(col(r, ['orderid', 'order', 'ordernumber'])), { row: i + 2, order_id: s(col(r, ['orderid', 'order', 'ordernumber'])), amount: toNumber(col(r, ['amount', 'total', 'ordertotal'])), refunded: toNumber(col(r, ['refunded', 'refundedamount', 'amountrefunded'])) || 0, ordered: s(col(r, ['orderdate', 'date', 'createdat'])), delivered: s(col(r, ['delivereddate', 'deliveredat', 'delivered'])), status: s(col(r, ['status', 'fulfillmentstatus'])).toLowerCase(), tracking: s(col(r, ['tracking', 'trackingnumber'])), customer: s(col(r, ['customer', 'customeremail', 'email', 'customerid'])).toLowerCase() }]));
 const days = (a, b) => { const x = Date.parse(a), y = Date.parse(b); return Number.isFinite(x) && Number.isFinite(y) ? Math.floor((y - x) / 86400000) : null; };
 const addDays = (d, n) => { const t = Date.parse(d); return Number.isFinite(t) ? new Date(t + n * 86400000).toISOString().slice(0, 10) : null; };
 
@@ -42,7 +43,8 @@ export function triage(requests, orders, policy = {}) {
     else if (flags.some((f) => f.startsWith('outside_window'))) suggestion = 'deny_per_policy_or_review';
     else if (flags.length) suggestion = 'needs_review';
     else suggestion = 'eligible_per_policy';
-    return { ...q, order_found: !!o, refundable_remaining: remaining, flags, suggestion, respond_by: due };
+    const cls = q.type === 'chargeback' ? classifyDispute(q, p.reason_code_overrides || {}) : null;
+    return { ...q, order_found: !!o, refundable_remaining: remaining, flags, suggestion, respond_by: due, dispute_category: cls ? cls.category : null, reason_code_label: cls ? cls.label : null };
   });
   const sum = (f) => round2(items.filter(f).reduce((t, i) => t + (i.amount || 0), 0));
   return { requests: items.length, eligible: items.filter((i) => i.suggestion === 'eligible_per_policy').length, needs_review: items.filter((i) => i.suggestion === 'needs_review' || i.suggestion === 'review_accept_or_dispute').length,
@@ -59,5 +61,5 @@ export function evidenceMarkdown(item, order, at) {
     'The respond-by date uses your policy setting. Your processor\'s deadline is the one that counts.', ''];
   return L.join('\n');
 }
-export const QUEUE_COLUMNS = ['request_id', 'type', 'order_id', 'customer', 'amount', 'reason', 'requested_at', 'flags', 'suggestion', 'respond_by', 'decision', 'decided_by', 'decided_date'];
-export const queueCsv = (r) => toCsv(r.items.map((i) => ({ ...i, flags: i.flags.join('; '), respond_by: i.respond_by || '', decision: '', decided_by: '', decided_date: '' })), QUEUE_COLUMNS);
+export const QUEUE_COLUMNS = ['request_id', 'type', 'order_id', 'customer', 'amount', 'reason', 'requested_at', 'flags', 'suggestion', 'respond_by', 'dispute_category', 'decision', 'decided_by', 'decided_date'];
+export const queueCsv = (r) => toCsv(r.items.map((i) => ({ ...i, flags: i.flags.join('; '), respond_by: i.respond_by || '', dispute_category: i.dispute_category || '', decision: '', decided_by: '', decided_date: '' })), QUEUE_COLUMNS);

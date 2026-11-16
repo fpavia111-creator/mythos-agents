@@ -1,0 +1,7 @@
+id,type,name,holder,issuer,expires,auto_renew,renewal_cost,owner,key_type,key_bits,signature,registrar_lock
+TLS-1,tls,shop.example.com,Example Shop,Example Public CA,2025-11-20,yes,0,Web team,RSA,2048,sha256WithRSAEncryption,
+TLS-2,tls,api.example.com,Example Shop,Example Public CA,2026-11-10,no,180,Web team,RSA,2048,sha256WithRSAEncryption,
+TLS-3,tls,intranet.example.internal,intranet.example.internal,intranet.example.internal,2027-06-01,no,0,IT desk,EC,256,ecdsa-with-SHA256,
+TLS-9,tls,legacy.example.com,Example Shop,Example Public CA,2027-01-15,no,90,Web team,RSA,2048,sha256WithRSAEncryption,
+DOM-1,domain,example.com,Example Shop,Example Registrar,2026-12-05,yes,24.99,Ops,,,,no
+LIC-1,license,City business licence,Example Shop,City of Example,2027-03-31,no,150,Finance,,,,

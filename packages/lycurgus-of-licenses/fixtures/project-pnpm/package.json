@@ -1,0 +1,27 @@
+{
+  "name": "kettle-app",
+  "version": "1.4.0",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express-lite": "^4.0.0",
+    "req-cli": "^2.0.0",
+    "hashy": "^3.1.0",
+    "dual-lib": "^1.0.0",
+    "gpl-widget": "^2.2.0",
+    "lgpl-codec": "^0.9.0",
+    "old-parse": "^1.0.1",
+    "internal-sdk": "^5.0.0",
+    "custom-fonts": "^1.0.0",
+    "mpl-thing": "^2.0.0",
+    "icons-cc": "^1.0.0",
+    "nolicense-pkg": "^0.1.0",
+    "expired-ex": "^1.0.0",
+    "@fict/logger": "^1.0.0",
+    "my-plugin": "link:packages/my-plugin"
+  },
+  "devDependencies": {
+    "test-runner-gpl": "^1.0.0"
+  },
+  "packageManager": "pnpm@9.0.0"
+}

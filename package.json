@@ -37,7 +37,12 @@
     "packages/solon-of-clauses"
   ],
   "scripts": {
-    "test": "npm test --workspaces"
+    "test": "npm test --workspaces",
+    "hostile": "node scripts/hostile-inputs.mjs",
+    "hostile:args": "node scripts/hostile-inputs.mjs --args",
+    "release:check": "node scripts/release-check.mjs",
+    "release:check:offline": "node scripts/release-check.mjs --offline",
+    "bench": "node scripts/bench.mjs"
   },
   "engines": {
     "node": ">=20"

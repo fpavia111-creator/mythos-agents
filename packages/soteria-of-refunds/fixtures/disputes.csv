@@ -1,0 +1,7 @@
+request_id,type,order_id,customer,amount,reason,reason_code,network,requested_at
+D-2001,chargeback,O-506,fay@example.com,210.00,product not received,13.1,visa,2026-11-09
+D-2002,chargeback,O-507,gil@example.com,95.00,card not present fraud,10.4,visa,2026-11-07
+D-2003,chargeback,O-508,hal@example.com,130.00,not as described,4853,mastercard,2026-11-11
+D-2004,chargeback,O-509,ivy@example.com,40.00,duplicate charge,P08,amex,2026-11-12
+D-2005,chargeback,O-510,jo@example.com,60.00,subscription cancelled,,,2026-11-10
+D-2006,chargeback,O-511,kai@example.com,75.00,never arrived,RG,discover,2026-11-13

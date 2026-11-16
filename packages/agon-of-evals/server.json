@@ -1,0 +1,37 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.fpavia111-creator/agon-of-evals",
+  "title": "Agon of Evals",
+  "description": "An MCP agent for private, fixture-based evals of one business process on one pinned model",
+  "version": "0.2.0",
+  "repository": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents",
+    "source": "github",
+    "subfolder": "packages/agon-of-evals"
+  },
+  "websiteUrl": "https://mythosmachines.com/",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "agon-of-evals",
+      "version": "0.2.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        },
+        {
+          "type": "named",
+          "name": "--root",
+          "description": "Folder holding the exports this agent may read and write (it cannot reach outside it)",
+          "isRequired": true,
+          "format": "filepath",
+          "valueHint": "exports_folder"
+        }
+      ]
+    }
+  ]
+}

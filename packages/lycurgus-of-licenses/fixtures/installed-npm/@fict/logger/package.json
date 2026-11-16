@@ -1,0 +1,6 @@
+{
+  "name": "@fict/logger",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "Fictional package for the Lycurgus fixtures"
+}

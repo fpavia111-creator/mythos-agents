@@ -11,7 +11,13 @@ export async function demo(manifest) {
   printStep('Inventory cookies and third parties; compare with the stated policy', r);
   for (const c of r.result.cookies) process.stdout.write(`    cookie ${c.name.padEnd(20)} ${c.party.padEnd(6)} ${String(c.purpose || '?').padEnd(10)} ${c.declared ? 'declared' : 'NOT declared'}  seen: ${c.seen_in.join(', ')}\n`);
   for (const x of r.result.findings.filter((y) => y.severity === 'error')) process.stdout.write(`    error  ${x.check.padEnd(28)} ${x.subject}\n`);
-  printStep('Write the report', await rt.call('britomartis_write_report', f));
+  const g = await rt.call('britomartis_inventory', { base_url: f.base_url, har_gpc: 'har/gpc-visit.har' });
+  printStep('Global Privacy Control: a first visit sent with Sec-GPC: 1', g);
+  for (const x of g.result.findings.filter((y) => y.check === 'gpc_signal_ignored')) process.stdout.write(`    ${x.severity}  ${x.check}  ${x.detail.slice(0, 150)}…\n`);
+  const guess = r.result.cookies.find((c) => c.vendor_list); if (guess) process.stdout.write(`    (purpose guesses cite their source, e.g. ${guess.name}: ${guess.purpose}, ${guess.vendor_list})\n`);
+  const d0 = await rt.call('britomartis_diff_inventory', { ...f, har_gpc: 'har/gpc-visit.har', previous: 'inventory-previous.json' });
+  printStep('Compare with last month\'s scan (inventory-previous.json)', d0);
+  printStep('Write the report (markdown, HTML, CSVs, inventory.json for next time)', await rt.call('britomartis_write_report', { ...f, har_gpc: 'har/gpc-visit.har' }));
   const d = await rt.call('britomartis_draft_policy_table', f);
   printStep('Auto: draft a cookie table (site and policy untouched)', d);
   const req = { proposal: d.result.proposal, proposal_sha256: d.result.proposal_sha256 };

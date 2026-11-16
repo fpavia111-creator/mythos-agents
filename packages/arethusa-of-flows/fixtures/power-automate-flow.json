@@ -1,0 +1,23 @@
+{
+  "name": "a1b2c3d4-0000-4000-8000-000000000001",
+  "properties": {
+    "displayName": "Leads to ERP",
+    "state": "Started",
+    "connectionReferences": {
+      "shared_office365": { "connectionName": "shared-office365-fake-0001", "api": { "name": "shared_office365" } },
+      "shared_sharepointonline": { "connectionName": "shared-sharepoint-fake-0002", "api": { "name": "shared_sharepointonline" } }
+    },
+    "definition": {
+      "triggers": {
+        "When a lead is posted": { "type": "Request", "kind": "Http", "inputs": { "schema": {}, "triggerAuthenticationType": "All" } }
+      },
+      "actions": {
+        "Forward to order sync": { "type": "Http", "runAfter": {}, "inputs": { "method": "POST", "uri": "https://n8n.example.com/webhook/orders-in", "headers": { "X-API-Key": "FAKE-demo-api-key-9999", "X-Trace": "FAKEq7v9Zp2LxK8mR4tW1bN6cY3hJ5dF0gS" } } },
+        "Delete old lead items": { "type": "OpenApiConnection", "runAfter": { "Forward to order sync": ["Succeeded"] }, "inputs": { "host": { "connectionName": "shared_sharepointonline", "operationId": "DeleteItem", "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline" }, "parameters": { "dataset": "https://intranet.example.com/sites/ops", "table": "Leads", "id": "@triggerBody()?['id']" } } },
+        "Send confirmation": { "type": "OpenApiConnection", "runAfter": { "Delete old lead items": ["Succeeded"] }, "inputs": { "host": { "connectionName": "shared_office365", "operationId": "SendEmailV2", "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365" }, "parameters": { "emailMessage/To": "ops@example.com", "emailMessage/Subject": "Lead received" } } },
+        "Post to audit log": { "type": "Http", "runAfter": { "Send confirmation": ["Succeeded"] }, "inputs": { "method": "POST", "uri": "https://logs.example.com/ingest?sig=FAKEsig00000000000000000000" } },
+        "Orphan compose": { "type": "Compose", "runAfter": { "Removed step": ["Succeeded"] }, "inputs": "left over" }
+      }
+    }
+  }
+}

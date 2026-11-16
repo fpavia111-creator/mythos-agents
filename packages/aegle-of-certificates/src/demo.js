@@ -9,7 +9,17 @@ export async function demo(manifest) {
   printStep('Scan certificates, domains, licences and vendor COIs', r);
   for (const i of r.result.items) process.stdout.write(`    ${i.status.padEnd(9)} ${i.id.padEnd(6)} ${String(i.days_left).padStart(4)}d  ${i.name.padEnd(26)} ${i.next_step}\n`);
   for (const v of r.result.vendors) process.stdout.write(`    COI ${v.vendor}: ${v.gaps.length ? v.gaps.map((g) => g.issue).join(', ') : 'ok'}\n`);
-  printStep('Write the report, CSV and calendar file', await rt.call('aegle_write_report', f));
+  const pr = await rt.call('aegle_scan', { ...f, requirements: 'requirements.json' });
+  printStep('Same COIs against a requirement profile (electrical vendors need more)', pr);
+  for (const v of pr.result.vendors) process.stdout.write(`    COI ${v.vendor} [${v.requirement_set}]: ${v.gaps.length ? v.gaps.map((g) => g.issue).join(', ') : 'ok'}\n`);
+  const df = await rt.call('aegle_diff_inventory', { previous: 'certificates-previous.csv', certificates: 'certificates.csv', as_of: f.as_of });
+  printStep('What changed since the last review', df);
+  for (const c of df.result.changes) process.stdout.write(`    ${c.change.padEnd(22)} ${c.id.padEnd(6)} ${c.detail}\n`);
+  const x = await rt.call('aegle_extract_coi', { files: ['coi-text/acme-plumbing-coi.txt', 'coi-text/bright-electric-coi.txt'] });
+  printStep('Extract COI fields from certificate text (every row marked for review)', x);
+  for (const d of x.result.documents) for (const r of d.rows) process.stdout.write(`    ${r.vendor.padEnd(28)} ${r.coverage.padEnd(18)} ${String(r.limit || '—').padStart(8)}  exp ${r.expires || '—'}${r.warnings.length ? '  ⚠ ' + r.warnings.join('; ') : ''}\n`);
+  printStep('Write the report (md, html), CSV and calendar file', await rt.call('aegle_write_report', f));
+  printStep('Live TLS check (opt-in network): needs a human yes, nothing is contacted yet', await rt.call('aegle_tls_live_check', { hosts: ['shop.example.com'], as_of: f.as_of }));
   const d = await rt.call('aegle_draft_chase', f);
   printStep('Auto: draft chase emails (opted in; nothing is sent)', d);
   const ren = { id: 'DOM-1', cost: 24.99, reason: 'example.com expires 2026-12-05 and auto-renew is off' };

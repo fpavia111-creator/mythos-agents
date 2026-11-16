@@ -1,7 +1,8 @@
 {
   "name": "urania-of-flux",
-  "version": "0.1.0",
-  "description": "Urania of Flux: an MCP agent that assembles a board pack from locked source figures and source documents, computes variances, drafts commentary that cites figure ids, and checks every number in the pack against its citation. Controller sign-off and distribution are each one human click.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/urania-of-flux",
+  "description": "Urania of Flux: an MCP agent that assembles a board pack from locked source figures and source documents, computes variances, compares with the prior pack, draws charts that trace to figure ids, drafts commentary that cites figure ids, and checks every number in the pack against its citation. Controller sign-off and distribution are each one human click.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -22,6 +23,7 @@
     "fixtures",
     "evals",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -30,7 +32,7 @@
     "eval": "node bin/urania-of-flux.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -50,6 +52,8 @@
     "month-end-close",
     "fp-and-a",
     "citations",
+    "restatement",
+    "svg-charts",
     "ai-agents",
     "mythos"
   ]

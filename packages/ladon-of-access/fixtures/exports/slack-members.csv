@@ -1,0 +1,6 @@
+username,email,status,billing-active,has-2fa,has-sso,userid,fullname,displayname,expiration-timestamp
+avery,avery.stone@example.com,Primary Owner,1,1,0,U0000001,Avery Stone (fictional),Avery,
+riley,riley.park@example.com,Member,1,1,0,U0000002,Riley Park (fictional),Riley,
+jordan,jordan.lee@example.com,Admin,1,0,0,U0000003,Jordan Lee (fictional),Jordan,
+casey,casey.moss@example.com,Deactivated,0,0,0,U0000004,Casey Moss (fictional),Casey,
+deploybot,deploybot@example.com,Bot,0,0,0,U0000005,Deploy Bot,deploybot,

@@ -1,0 +1,5 @@
+userPrincipalName,displayName,surname,mail,givenName,id,userType,jobTitle,department,accountEnabled,usageLocation,city,country,companyName,creationType,directorySynced,invitationState,createdDateTime
+avery.stone@example.com,Avery Stone (fictional),Stone,avery.stone@example.com,Avery,11111111-aaaa-4bbb-8ccc-000000000001,Member,Global Admin,IT,True,US,Duluth,United States,Example Co,,False,,2024-02-01T09:00:00Z
+riley.park@example.com,Riley Park (fictional),Park,riley.park@example.com,Riley,11111111-aaaa-4bbb-8ccc-000000000002,Member,A/P Clerk,Finance,True,US,Duluth,United States,Example Co,,False,,2024-03-11T09:00:00Z
+jordan.lee_partner.example#EXT#@example.onmicrosoft.com,Jordan Lee (fictional),Lee,,Jordan,11111111-aaaa-4bbb-8ccc-000000000003,Guest,,,True,,,,,Invitation,False,Accepted,2025-06-20T09:00:00Z
+casey.moss@example.com,Casey Moss (fictional),Moss,casey.moss@example.com,Casey,11111111-aaaa-4bbb-8ccc-000000000004,Member,Analyst,Finance,False,US,Duluth,United States,Example Co,,False,,2022-01-05T09:00:00Z

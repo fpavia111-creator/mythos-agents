@@ -1,0 +1,9 @@
+Date (UTC),Description,Amount,Status,Source Account,Bank Description,Reference,Note,Last Four Digits,Name On Card,Category,GL Code,Timestamp,Original Currency,Check Number,Tags
+10-02-2026,Northwind (fictional),2500.00,Sent,Checking ••0042,Deposit,DEP-1001,,,,,,10-02-2026 15:04:11,USD,,
+10-05-2026,Rent,-1200.00,Sent,Checking ••0042,Check 4101,4101,,,,,,10-05-2026 16:20:00,USD,4101,
+10-09-2026,Acme Supply (fictional),-845.50,Sent,Checking ••0042,ACH Acme Supply,,,,,,,10-09-2026 12:00:00,USD,,
+10-12-2026,Acme Supply (fictional),-845.50,Failed,Checking ••0042,ACH Acme Supply retry,,,,,,,10-12-2026 12:00:00,USD,,
+10-15-2026,Mobile deposit batch,1500.00,Sent,Checking ••0042,Mobile deposit batch,,,,,,,10-15-2026 18:30:00,USD,,
+10-20-2026,Utilities,-310.00,Sent,Checking ••0042,Check 4102,4102,,,,,,10-20-2026 14:00:00,USD,4102,
+10-31-2026,Monthly service fee,-25.00,Sent,Checking ••0042,Monthly service fee,,,,,,,10-31-2026 23:00:00,USD,,
+10-31-2026,Interest paid,3.12,Sent,Checking ••0042,Interest paid,,,,,,,10-31-2026 23:01:00,USD,,

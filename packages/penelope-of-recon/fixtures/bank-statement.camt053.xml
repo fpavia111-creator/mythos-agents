@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Fictional camt.053 statement for tests and demos. Same lines as bank-statement.csv. -->
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02">
+  <BkToCstmrStmt>
+    <GrpHdr><MsgId>STMT-2026-10-FICTIONAL</MsgId><CreDtTm>2026-11-01T06:00:00Z</CreDtTm></GrpHdr>
+    <Stmt>
+      <Id>2026-10</Id>
+      <Acct><Id><Othr><Id>000123456789</Id></Othr></Id><Ccy>USD</Ccy></Acct>
+      <Bal><Tp><CdOrPrtry><Cd>OPBD</Cd></CdOrPrtry></Tp><Amt Ccy="USD">10800.26</Amt><CdtDbtInd>CRDT</CdtDbtInd><Dt><Dt>2026-10-01</Dt></Dt></Bal>
+      <Bal><Tp><CdOrPrtry><Cd>CLBD</Cd></CdOrPrtry></Tp><Amt Ccy="USD">12422.88</Amt><CdtDbtInd>CRDT</CdtDbtInd><Dt><Dt>2026-10-31</Dt></Dt></Bal>
+      <Ntry><NtryRef>DEP-1001</NtryRef><Amt Ccy="USD">2500.00</Amt><CdtDbtInd>CRDT</CdtDbtInd><Sts>BOOK</Sts><BookgDt><Dt>2026-10-02</Dt></BookgDt><AddtlNtryInf>Deposit</AddtlNtryInf></Ntry>
+      <Ntry><NtryRef>4101</NtryRef><Amt Ccy="USD">1200.00</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts>BOOK</Sts><BookgDt><Dt>2026-10-05</Dt></BookgDt><AddtlNtryInf>Check 4101</AddtlNtryInf></Ntry>
+      <Ntry><Amt Ccy="USD">845.50</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts>BOOK</Sts><BookgDt><Dt>2026-10-09</Dt></BookgDt><NtryDtls><TxDtls><Refs><EndToEndId>NOTPROVIDED</EndToEndId></Refs><RmtInf><Ustrd>ACH Acme Supply (fictional)</Ustrd></RmtInf></TxDtls></NtryDtls></Ntry>
+      <Ntry><Amt Ccy="USD">1500.00</Amt><CdtDbtInd>CRDT</CdtDbtInd><Sts>BOOK</Sts><BookgDt><Dt>2026-10-15</Dt></BookgDt><AddtlNtryInf>Mobile deposit batch</AddtlNtryInf></Ntry>
+      <Ntry><NtryRef>4102</NtryRef><Amt Ccy="USD">310.00</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts>BOOK</Sts><BookgDt><Dt>2026-10-20</Dt></BookgDt><AddtlNtryInf>Check 4102</AddtlNtryInf></Ntry>
+      <Ntry><Amt Ccy="USD">25.00</Amt><CdtDbtInd>DBIT</CdtDbtInd><Sts>BOOK</Sts><BookgDt><Dt>2026-10-31</Dt></BookgDt><AddtlNtryInf>Monthly service fee</AddtlNtryInf></Ntry>
+      <Ntry><Amt Ccy="USD">3.12</Amt><CdtDbtInd>CRDT</CdtDbtInd><Sts>BOOK</Sts><BookgDt><Dt>2026-10-31</Dt></BookgDt><AddtlNtryInf>Interest paid</AddtlNtryInf></Ntry>
+    </Stmt>
+  </BkToCstmrStmt>
+</Document>

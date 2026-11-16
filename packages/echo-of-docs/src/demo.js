@@ -9,6 +9,12 @@ export async function demo(manifest) {
   printStep('Compare README, docs and SKILL.md with the tool list and package.json', r);
   for (const x of r.result.findings) process.stdout.write(`    ${x.severity.padEnd(8)} ${x.check.padEnd(24)} ${x.file}${x.line ? ':' + x.line : ''}\n`);
   printStep('Write the report', await rt.call('echo_write_report', f));
+  const api = await rt.call('echo_check', { pack: 'ladle-of-api', openapi: 'ladle-of-api/openapi.json' });
+  printStep('Compare a README with its OpenAPI spec and CHANGELOG (fictional "ladle-of-api")', api);
+  for (const x of api.result.findings) process.stdout.write(`    ${x.severity.padEnd(8)} ${x.check.padEnd(24)} ${x.file}${x.line ? ':' + x.line : ''}\n`);
+  const ci = await rt.call('echo_ci', { ...f, out_dir: 'mythos-out/ci' });
+  printStep('CI gate: SARIF for code scanning and a drift.json baseline (the ci command exits 1 here)', ci);
+  printStep('CI gate against that baseline, failing on new drift only', await rt.call('echo_ci', { ...f, baseline: 'mythos-out/ci/drift.json', new_only: true, out_dir: 'mythos-out/ci2' }));
   const d = await rt.call('echo_draft_fixes', f);
   printStep('Auto: draft mechanical fixes as copies (docs untouched)', d);
   const req = { proposal: d.result.proposal, proposal_sha256: d.result.proposal_sha256 };

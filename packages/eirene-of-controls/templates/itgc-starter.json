@@ -1,0 +1,12 @@
+{
+  "name": "IT general controls starter (rename the ids to match your own control list)",
+  "description": "A starting point for pairing agent logs and evidence files with common IT general control areas. Ids are placeholders, not an official framework mapping, and matching evidence is not proof a control works.",
+  "controls": [
+    { "id": "ITGC-AC-01", "title": "User access is reviewed periodically", "evidence_files": ["**/access-review*"], "frequency": "quarterly", "owner": "" },
+    { "id": "ITGC-AC-02", "title": "Agent access to sensitive paths is blocked", "match": { "status": "blocked" }, "frequency": "monthly", "owner": "" },
+    { "id": "ITGC-CM-01", "title": "Changes are approved before they take effect", "evidence_files": ["**/change-log*"], "match_any": [ { "decision": "ask", "status": "executed" } ], "frequency": "monthly", "owner": "" },
+    { "id": "ITGC-CM-02", "title": "Production deploys need a person", "match": { "category": "production_deploy" }, "owner": "" },
+    { "id": "ITGC-OP-01", "title": "Backups are restored in a test at least yearly", "evidence_files": ["**/backup-restore-test*"], "frequency": "annual", "owner": "" },
+    { "id": "ITGC-OP-02", "title": "Incident response is exercised", "evidence_files": ["**/incident-drill*"], "frequency": "annual", "owner": "" }
+  ]
+}

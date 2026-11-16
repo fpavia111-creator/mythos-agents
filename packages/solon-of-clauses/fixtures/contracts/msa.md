@@ -4,7 +4,7 @@ This Master Services Agreement is between Kettle Labs Ltd ("Supplier") and Fernh
 
 ## 1. Definitions
 
-"Services" means the work described in each statement of work. "Confidential Information" means non-public information a party shares under this Agreement.
+"Services" means the work described in each statement of work. "Confidential Information" means non-public information a party shares under this Agreement. "Deliverables" means the items Supplier hands over under a statement of work.
 
 ## 2. Services
 

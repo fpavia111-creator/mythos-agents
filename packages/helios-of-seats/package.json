@@ -1,7 +1,8 @@
 {
   "name": "helios-of-seats",
-  "version": "0.1.0",
-  "description": "Helios of Seats: an MCP agent that finds unused, idle, duplicate, leaver and over-tiered SaaS seats (including AI tools) in CSV/JSON exports and estimates the saving. Revoking is always one human click; it never changes any app itself.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/helios-of-seats",
+  "description": "Helios of Seats: an MCP agent that finds unused, idle, duplicate, leaver and over-tiered SaaS seats (including AI tools) in CSV/JSON exports and estimates the saving, timed to each contract renewal and notice window. Writes a review sheet, a renewal calendar (.ics) and owner confirmation drafts, and compares two exports. Revoking is always one human click; it never changes any app itself.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -22,6 +23,7 @@
     "fixtures",
     "evals",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -30,7 +32,7 @@
     "eval": "node bin/helios-of-seats.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -48,6 +50,7 @@
     "license-management",
     "seat-optimization",
     "finops",
+    "renewal-management",
     "ai-agents",
     "mythos"
   ]

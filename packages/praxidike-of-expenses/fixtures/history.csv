@@ -1,0 +1,4 @@
+report_id,line_id,employee,date,submitted_on,category,merchant,amount,currency,receipt,purpose
+H-090,1,Ana Ortiz,2026-10-06,2026-10-09,meals,Lakeside Grill,210.00,USD,r090-dinner-scan.txt,Client dinner
+H-091,1,Dev Patel,2026-11-02,2026-11-04,ground,Metro Rideshare Inc,31.20,USD,,Client site visit
+H-092,1,Ben Cho,2026-09-12,2026-09-14,software,Diagram Tool,49.00,USD,,Team diagram licence

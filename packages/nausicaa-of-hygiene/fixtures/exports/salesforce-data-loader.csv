@@ -1,0 +1,4 @@
+Id,FirstName,LastName,Email,AccountId,HasOptedOutOfEmail,EmailBouncedReason,EmailBouncedDate,LastActivityDate,CreatedDate
+0035e00000AAA001,Ana,Lopez,ana.lopez@example.com,0015e00000BBB001,false,,,2026-10-30,2026-01-10T09:00:00.000Z
+0035e00000AAA004,Cy,Reyes,cy.reyes@example.com,0015e00000BBB004,false,550 5.1.1 The email account that you tried to reach does not exist,2025-01-20T10:00:00.000Z,2025-01-15,2024-03-05T10:00:00.000Z
+0035e00000AAA005,Dee,Park,dee.park@example.com,0015e00000BBB005,true,,,2026-08-02,2024-08-19T10:00:00.000Z

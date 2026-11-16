@@ -1,0 +1,7 @@
+{
+  "$comment": "Fictional audit config for the shop fixture.",
+  "base_url": "https://shop.example.com",
+  "ignore": ["canonical_missing"],
+  "contrast": { "normal": 4.5, "large": 3 },
+  "template_min_pages": 3
+}

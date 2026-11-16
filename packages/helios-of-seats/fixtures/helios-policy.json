@@ -1,0 +1,11 @@
+{
+  "idle_days": 60,
+  "currency": "USD",
+  "default_owner": "it-admin@example.com",
+  "apps": {
+    "Salesforce": { "billing": "annual", "renewal_date": "2027-03-01", "notice_days": 60, "min_seats": 1, "owner": "sales-ops@example.com" },
+    "Figma": { "billing": "monthly", "owner": "design-lead@example.com" },
+    "Zoom": { "billing": "annual", "renewal_date": "2026-12-01", "notice_days": 30, "owner": "it-admin@example.com" },
+    "ChatGPT": { "billing": "annual", "renewal_date": "2027-06-30", "notice_days": 30, "min_seats": 2, "owner": "ai-tools@example.com" }
+  }
+}

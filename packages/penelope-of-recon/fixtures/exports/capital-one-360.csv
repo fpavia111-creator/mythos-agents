@@ -1,0 +1,8 @@
+Account Number,Transaction Description,Transaction Date,Transaction Type,Transaction Amount,Balance
+0042,Deposit DEP-1001,10/02/26,Credit,2500.00,12500.00
+0042,Check 4101,10/05/26,Debit,1200.00,11300.00
+0042,ACH Acme Supply (fictional),10/09/26,Debit,845.50,10454.50
+0042,Mobile deposit batch,10/15/26,Credit,1500.00,11954.50
+0042,Check 4102,10/20/26,Debit,310.00,11644.50
+0042,Monthly service fee,10/31/26,Debit,25.00,11619.50
+0042,Interest paid,10/31/26,Credit,3.12,11622.62

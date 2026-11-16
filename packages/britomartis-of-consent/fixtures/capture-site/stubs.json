@@ -1,0 +1,7 @@
+{
+  "https://fonts.googleapis.com/css2": { "status": 200, "contentType": "text/css", "body": "" },
+  "https://www.googletagmanager.com/gtag/js": { "status": 200, "contentType": "application/javascript", "body": "document.cookie='_ga=GA1.1.000.000; path=/; max-age=63072000'; document.cookie='_gid=GA1.1.000.000; path=/; max-age=86400'; fetch('https://www.google-analytics.com/g/collect?v=2&tid=G-FICTION0', { method: 'POST', mode: 'no-cors' }); var s = document.createElement('script'); s.src = '/app.js'; document.head.appendChild(s);" },
+  "https://www.google-analytics.com/g/collect": { "status": 204 },
+  "https://www.youtube.com/embed/": { "status": 200, "contentType": "text/html", "headers": { "Set-Cookie": ["YSC=y000; Domain=.youtube.com; Path=/; Secure; SameSite=None", "VISITOR_INFO1_LIVE=v000; Domain=.youtube.com; Path=/; Max-Age=15552000; SameSite=None"] }, "body": "<!doctype html><title>video (fictional)</title>" },
+  "https://js.stripe.com/v3/": { "status": 200, "contentType": "application/javascript", "headers": { "Set-Cookie": ["__stripe_mid=m000; Domain=.stripe.com; Path=/; Max-Age=31536000; Secure; SameSite=Strict"] }, "body": "" }
+}

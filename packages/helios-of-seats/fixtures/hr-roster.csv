@@ -1,6 +1,6 @@
-email,name,status
-avery.stone@example.com,Avery Stone (fictional),active
-riley.park@example.com,Riley Park (fictional),terminated
-sam.rivera@example.com,Sam Rivera (fictional),active
-casey.wong@example.com,Casey Wong (fictional),active
-jordan.lee@example.com,Jordan Lee (fictional),active
+email,name,status,manager_email
+avery.stone@example.com,Avery Stone (fictional),active,ops-manager@example.com
+riley.park@example.com,Riley Park (fictional),terminated,sales-manager@example.com
+sam.rivera@example.com,Sam Rivera (fictional),active,design-manager@example.com
+casey.wong@example.com,Casey Wong (fictional),active,design-manager@example.com
+jordan.lee@example.com,Jordan Lee (fictional),active,ops-manager@example.com

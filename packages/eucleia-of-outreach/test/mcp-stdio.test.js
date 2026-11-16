@@ -43,6 +43,8 @@ test('stdio MCP smoke test: initialize, list tools, call one', async () => {
     assert.ok(names.includes('mythos_info'));
     assert.ok(names.includes('eucleia_check_batch'));
     for (const t of list.result.tools) assert.equal(t.inputSchema.type, 'object');
+    const prompts = await s.request('prompts/list', {});
+    assert.ok(prompts.result.prompts.length >= 1, 'ships at least one workflow prompt');
     const call = await s.request('tools/call', { name: 'eucleia_check_batch', arguments: { drafts: "drafts.csv", suppression: "suppression.csv", config: "eucleia.json" } });
     assert.equal(call.result.isError, false, call.result.content[0].text);
     assert.equal(call.result.structuredContent.status, 'executed');

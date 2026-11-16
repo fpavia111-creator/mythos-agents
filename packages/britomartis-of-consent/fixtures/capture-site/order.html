@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Order (fictional, capture fixture)</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+    // Planted bug for the fixture: analytics still fires on this page after a reject.
+    fetch('https://www.google-analytics.com/g/collect?v=2&tid=G-FICTION0', { method: 'POST', mode: 'no-cors' });
+  </script>
+</head>
+<body><h1>Order a box</h1></body>
+</html>

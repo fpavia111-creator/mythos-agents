@@ -133,5 +133,48 @@
   "A": [
    "192.0.2.50"
   ]
+ },
+ "default._bimi.good.example.org": {
+  "TXT": [
+   "v=BIMI1; l=https://brand.good.example.org/logo.svg; a=https://brand.good.example.org/vmc.pem"
+  ]
+ },
+ "brand.example.net": {
+  "TXT": [
+   "v=spf1 ip4:198.51.100.0/24 -all"
+  ],
+  "MX": [
+   "10 mx.brand.example.net."
+  ]
+ },
+ "mx.brand.example.net": {
+  "A": [
+   "198.51.100.25"
+  ]
+ },
+ "_dmarc.brand.example.net": {
+  "TXT": [
+   "v=DMARC1; p=quarantine; pct=50; rua=mailto:dmarc@brand.example.net"
+  ]
+ },
+ "s1._domainkey.brand.example.net": {
+  "TXT": [
+   "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAujLCOM/+gJxzMAG+s2szjfAESYtpn/wsen1MruxAJ6HrFWHMQ4/8RHhJEkL3serC1ZagGi+Cz/sFNr67mh6vMnfMoEQfaS86nXA1GTcTiC8wAtblcmGmi5wRK1RpjHndFkWBwelsZIdNBKubq1WUfeOuBqwE5Qp4t9oH5PaOj9Oo/e3JuhRme+Gbvs69YS0qM0hT5zEQhSaPgpAjScBkCApnLFU8B/JcE+EG5YVJBxZw2fSFwDn3OzFXP1zGS992mJqUZ0GvSq8OYkvBU8dgudiPGokFqlFldi7KO7Zy6WqGEEI973xp813EtdgSwr5XfobB2H6LJMDieWUAlWEJUwIDAQAB"
+  ]
+ },
+ "_mta-sts.brand.example.net": {
+  "TXT": [
+   "v=STSv1; id=20261101"
+  ]
+ },
+ "_smtp._tls.brand.example.net": {
+  "TXT": [
+   "v=TLSRPTv1; rua=mailto:tls@brand.example.net"
+  ]
+ },
+ "default._bimi.brand.example.net": {
+  "TXT": [
+   "v=BIMI1; l=http://brand.example.net/logo.png"
+  ]
  }
 }

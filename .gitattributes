@@ -1,0 +1,3 @@
+# Keep every file byte-for-byte as committed on every OS: fixtures are checked by hash,
+# and some exports are meant to have their own line endings.
+* -text

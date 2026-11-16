@@ -2,14 +2,22 @@ import { fileURLToPath } from 'node:url';
 import { demoRuntime, printStep } from 'mythos-agent-core';
 
 export async function demo(manifest) {
-  const rt = demoRuntime(manifest, fileURLToPath(new URL('../fixtures', import.meta.url)), { mode: 'auto', autoActions: ['epeius_draft_rfi'] });
-  process.stdout.write(`Epeius of RFIs demo (fictional project and documents) in ${rt.root} — Auto on for epeius_draft_rfi only\nNot design or engineering advice. Epeius never sends.\n`);
+  const rt = demoRuntime(manifest, fileURLToPath(new URL('../fixtures', import.meta.url)), { mode: 'auto', autoActions: ['epeius_draft_rfi', 'epeius_draft_transmittal'] });
+  process.stdout.write(`Epeius of RFIs demo (fictional project and documents) in ${rt.root} — Auto on for epeius_draft_rfi and epeius_draft_transmittal only\nNot design or engineering advice. Epeius never sends.\n`);
   const f = { documents: 'documents.csv', rfis: 'rfis.csv', submittals: 'submittals.csv', as_of: '2026-11-14' };
   const r = await rt.call('epeius_review_log', f);
   printStep('Review the RFI and submittal log against the document index', r);
   for (const i of r.result.items) process.stdout.write(`    RFI ${i.rfi_no} ${i.status.padEnd(8)} ${i.subject.padEnd(30)} ${i.flags.join(', ') || '—'}\n`);
   for (const s of r.result.submittal_items) process.stdout.write(`    ${s.submittal_no.padEnd(12)} ${s.status.padEnd(15)} ${s.flags.join(', ') || '—'}\n`);
-  printStep('Write the log review', await rt.call('epeius_write_log_report', f));
+  const bic = await rt.call('epeius_ball_in_court', f);
+  printStep('Ball in court: who holds what, and for how long', bic);
+  for (const p of bic.result.parties) process.stdout.write(`    ${p.party.padEnd(32)} open ${p.open_items}  overdue ${p.overdue}  0-7:${p['0-7']} 8-14:${p['8-14']} 15-30:${p['15-30']} 31+:${p['31+']}  oldest ${p.oldest_item} (${p.oldest_days} d)\n`);
+  for (const c of bic.result.chase_list.slice(0, 3)) process.stdout.write(`    chase ${c.rank}. ${c.reason}\n`);
+  printStep('Compare with last week\'s log export', await rt.call('epeius_diff_logs', { previous_rfis: 'rfis-previous.csv', rfis: 'rfis.csv', as_of: f.as_of }));
+  printStep('Write the log review (markdown, CSVs, ball-in-court.csv, .ics of due dates, weekly diff)', await rt.call('epeius_write_log_report', { ...f, previous_rfis: 'rfis-previous.csv' }));
+  const tb = await rt.call('epeius_index_title_blocks', { folder: 'titleblocks', documents: 'documents.csv' });
+  printStep('Read title-block text and compare with the index (index not changed)', tb);
+  for (const x of tb.result.findings) process.stdout.write(`    ${x.check.padEnd(24)} ${x.doc_id || x.file}\n`);
   const q = { documents: 'documents.csv', rfis: 'rfis.csv', subject: 'Closer at exam room doors with vision lite', question: 'A-501 detail 6 shows door type D3 with a vision lite, and hardware set HW-4 includes a closer. Confirm the closer mounting side and whether the lite height clears the closer arm.', references: ['A-501', '08 71 00 2.3.B', 'A-201 rev 2'], search: ['D3', 'HW-4'], project: 'Maple Street Clinic fit-out (fictional)', to: 'Project architect (fictional)', from: 'Pat, Example Builders (fictional)' };
   const d = await rt.call('epeius_draft_rfi', q);
   printStep('Auto: draft an RFI citing only the documents provided (opted in; nothing sent)', d);
@@ -24,6 +32,12 @@ export async function demo(manifest) {
   const b = await rt.call('epeius_request_send', send2); rt.approvals.approve(b.approval_id, 'Pat Project Engineer (fictional)');
   process.stdout.write(`    (demo: "Pat Project Engineer" approves ${b.approval_id})\n`);
   printStep('Send request after the human click (recorded, not sent)', await rt.call('epeius_request_send', send2));
+  const tr = await rt.call('epeius_draft_transmittal', { documents: 'documents.csv', items: ['A-201', 'A-501', '08 71 00'], subject: 'Door package for pricing', purpose: 'For review', project: 'Maple Street Clinic fit-out (fictional)', to: 'Example Builders (fictional)', from: 'Pat, Example Builders (fictional)', date: f.as_of, action_by: '2026-11-21' });
+  printStep('Auto: draft a transmittal listing only indexed documents on their current revisions', tr);
+  const trSend = { draft: tr.result.draft, draft_sha256: tr.result.draft_sha256, to: 'Example Builders (fictional)' };
+  const tc = await rt.call('epeius_request_send', trSend); printStep('Auto: send the transmittal — stays one-click (binding send)', tc);
+  rt.approvals.approve(tc.approval_id, 'Pat Project Engineer (fictional)');
+  printStep('Transmittal send request after the click (recorded, not sent)', await rt.call('epeius_request_send', trSend));
   printStep('Agent tries to submit to the project portal itself', await rt.call('project_portal_submit', {}));
   process.stdout.write(`\nAudit log: ${rt.stateDir}/audit.jsonl\n`);
 }

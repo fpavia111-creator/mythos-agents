@@ -45,3 +45,12 @@ test('posting is one-click even in Auto and never touches an ERP', async () => {
   new ApprovalStore(join(root, '.mythos')).approve(a.approval_id, 'Dana');
   const b = await rt.call('ananke_request_posting', args); assert.equal(b.status, 'executed'); assert.match(b.result.summary, /Nothing was posted or paid/);
 });
+
+test('the same vendor written two ways (Acme Inc / ACME, Inc.; 株式会社架空商事 / 架空商事(株)) is not a vendor mismatch', () => {
+  const p = [{ po: 'PO-J', vendor: '株式会社架空商事', line: '1', item: 'A', qty: '10', unit_price: '5' }, { po: 'PO-E', vendor: 'Acme Inc', line: '1', item: 'A', qty: '10', unit_price: '5' }];
+  const rcv = [{ po: 'PO-J', line: '1', qty: '10' }, { po: 'PO-E', line: '1', qty: '10' }];
+  const codesOf = (inv) => match(normPOs(p), normReceipts(rcv), normInvoices(inv)).items.flatMap((i) => i.exceptions.map((e) => e.code));
+  assert.ok(!codesOf([{ invoice: 'J1', vendor: '架空商事(株)', po: 'PO-J', line: '1', qty: '10', unit_price: '5' }]).includes('vendor_mismatch'));
+  assert.ok(!codesOf([{ invoice: 'E1', vendor: 'ACME, Inc.', po: 'PO-E', line: '1', qty: '10', unit_price: '5' }]).includes('vendor_mismatch'));
+  assert.ok(codesOf([{ invoice: 'J2', vendor: 'サンプル運輸(株)', po: 'PO-J', line: '1', qty: '10', unit_price: '5' }]).includes('vendor_mismatch'), 'a different vendor still is');
+});

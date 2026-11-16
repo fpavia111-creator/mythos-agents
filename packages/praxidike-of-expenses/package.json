@@ -1,7 +1,8 @@
 {
   "name": "praxidike-of-expenses",
-  "version": "0.1.0",
-  "description": "Praxidike of Expenses: an MCP agent that compares expense report lines and receipt text to your written expense policy, cites the policy section for every finding, recommends approve or reject, and pre-stages a reimbursement batch. Reimbursing is moving money: always one human click; paying is blocked.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/praxidike-of-expenses",
+  "description": "Praxidike of Expenses: an MCP agent that compares expense report lines and receipt text to your written expense policy (limits, per diem by location and date, dated mileage rates), cites the policy section for every finding, flags possible duplicates across periods, ranks reports for review and pre-stages a reimbursement batch. Reimbursing is moving money: always one human click; paying is blocked.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -22,6 +23,7 @@
     "fixtures",
     "evals",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -30,7 +32,7 @@
     "eval": "node bin/praxidike-of-expenses.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -50,6 +52,8 @@
     "reimbursement",
     "accounts-payable",
     "bookkeeping",
+    "per-diem",
+    "duplicate-detection",
     "ai-agents",
     "mythos"
   ]

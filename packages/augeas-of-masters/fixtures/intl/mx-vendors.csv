@@ -1,0 +1,7 @@
+Código de proveedor,Proveedor,RFC,Dirección,Estado
+P001,"Proveedora Norte, S.A. de C.V.",PNO010203AB1,"Calle Ficticia 1, Monterrey",Activo
+P002,Proveedora Norte SA de CV,PNO-010203-AB1,"Calle Ficticia 1, Monterrey",Inactivo
+P003,Global Parts Inc (fictional),XEXX010101000,"1 Example St, Austin",Activo
+P004,Euro Teile GmbH (fiktiv),XEXX010101000,"Beispielstr. 5, Köln",Activo
+P005,Cliente Mostrador,XAXX010101000,,Activo
+P006,Venta Público General,XAXX010101000,,Activo

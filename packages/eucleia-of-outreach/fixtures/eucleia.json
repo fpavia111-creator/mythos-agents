@@ -1,1 +1,9 @@
-{ "from_name": "Sample Sender, Example Consulting (fictional)", "postal_address": "100 Example Ave, Suite 1, Austin, TX 78701", "unsubscribe": "Reply STOP or visit https://example.com/unsubscribe" }
+{
+  "from_name": "Sample Sender, Example Consulting (fictional)",
+  "postal_address": "100 Example Ave, Suite 1, Austin, TX 78701",
+  "unsubscribe": "Reply STOP or visit https://example.com/unsubscribe",
+  "link_allowlist": ["example.com"],
+  "blackout_dates": ["2026-11-25"],
+  "max_per_day": 25,
+  "min_gap_minutes": 6
+}

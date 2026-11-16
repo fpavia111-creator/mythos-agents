@@ -1,0 +1,7 @@
+Record ID,First Name,Last Name,Email,Phone Number,Company Name,Contact owner,Lifecycle Stage,Lead Status,Create Date,Last Activity Date,Marketing contact status,Unsubscribed from all email,Email hard bounce reason,Legal basis for processing contact's data
+101,Ana,Lopez,ana.lopez@example.com,,Northwind (fictional),Sam Owner,Customer,,2026-01-10 09:00,2026-10-30 14:12,Marketing contact,false,,Freely given consent from contact
+102,,,info@globex.example,,Globex (fictional),Sam Owner,Lead,,2025-06-01 10:00,2026-09-01 08:00,Marketing contact,false,,Freely given consent from contact
+103,Ben,Okafor,ben.okafor@gmial.com,,Initech (fictional),Sam Owner,Lead,,2025-02-11 10:00,2026-10-12 08:00,Marketing contact,false,,
+104,Cy,Reyes,cy.reyes@example.com,,Umbrella (fictional),Sam Owner,Subscriber,,2024-03-05 10:00,2025-01-15 08:00,Marketing contact,false,Unknown user,Freely given consent from contact
+105,Dee,Park,dee.park@example.com,,Hooli (fictional),Sam Owner,Lead,,2024-08-19 10:00,2026-08-02 08:00,Non-marketing contact,true,,Freely given consent from contact
+106,Ana,Lopez,Ana.Lopez@example.com,,Northwind (fictional),Sam Owner,Lead,,2026-02-01 10:00,2026-10-01 08:00,Marketing contact,false,,

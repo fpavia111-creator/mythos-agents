@@ -1,0 +1,1 @@
+{ "types": { "contractor": [ { "id": "nda", "title": "NDA signed", "kind": "document", "requries": ["w9"] } ] } }

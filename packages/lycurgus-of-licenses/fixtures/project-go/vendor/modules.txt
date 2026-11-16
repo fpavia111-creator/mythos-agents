@@ -1,0 +1,48 @@
+# example.test/fict/express-lite v4.0.0
+## explicit; go 1.20
+example.test/fict/express-lite
+# example.test/fict/tiny-fmt v1.2.0
+## explicit; go 1.20
+example.test/fict/tiny-fmt
+# example.test/fict/req-cli v2.0.0
+## explicit; go 1.20
+example.test/fict/req-cli
+# example.test/fict/hashy v3.1.0
+## explicit; go 1.20
+example.test/fict/hashy
+# example.test/fict/dual-lib v1.0.0
+## explicit; go 1.20
+example.test/fict/dual-lib
+# example.test/fict/gpl-widget v2.2.0
+## explicit; go 1.20
+example.test/fict/gpl-widget
+# example.test/fict/lgpl-codec v0.9.0
+## explicit; go 1.20
+example.test/fict/lgpl-codec
+# example.test/fict/old-parse v1.0.1
+## explicit; go 1.20
+example.test/fict/old-parse
+# example.test/fict/internal-sdk v5.0.0
+## explicit; go 1.20
+example.test/fict/internal-sdk
+# example.test/fict/custom-fonts v1.0.0
+## explicit; go 1.20
+example.test/fict/custom-fonts
+# example.test/fict/mpl-thing v2.0.0
+## explicit; go 1.20
+example.test/fict/mpl-thing
+# example.test/fict/icons-cc v1.0.0
+## explicit; go 1.20
+example.test/fict/icons-cc
+# example.test/fict/nolicense-pkg v0.1.0
+## explicit; go 1.20
+example.test/fict/nolicense-pkg
+# example.test/fict/expired-ex v1.0.0
+## explicit; go 1.20
+example.test/fict/expired-ex
+# example.test/fict/logger v1.0.0
+## explicit; go 1.20
+example.test/fict/logger
+# example.test/fict/my-plugin v0.0.0 => ../my-plugin
+## explicit; go 1.22
+example.test/fict/my-plugin

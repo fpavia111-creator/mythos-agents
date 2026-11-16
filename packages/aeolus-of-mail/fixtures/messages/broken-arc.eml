@@ -1,0 +1,12 @@
+Return-Path: <bounce@bounce.crm.example.org>
+Authentication-Results: mx.example.org; spf=pass smtp.mailfrom=bounce.crm.example.org; dkim=pass header.d=crm.example.org; dmarc=fail header.from=example.com; arc=fail
+ARC-Seal: i=3; a=rsa-sha256; cv=fail; d=relay.example.org; s=arc2026; t=1790000200; b=ZmFrZQ==
+ARC-Seal: i=1; a=rsa-sha256; cv=none; d=lists.example.net; s=arc; t=1790000000; b=ZmFrZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.example.net; s=arc; h=from; bh=ZmFrZQ==; b=ZmFrZQ==
+ARC-Authentication-Results: i=1; lists.example.net; spf=pass
+DKIM-Signature: v=1; a=rsa-sha1; d=crm.example.org; s=crm1; h=from:subject; bh=ZmFrZQ==; b=ZmFrZQ==
+From: Example Sales <sales@example.com>
+To: Robin Reader <robin@example.org>
+Subject: Offer (fictional)
+
+Fictional message for the Aeolus fixtures.

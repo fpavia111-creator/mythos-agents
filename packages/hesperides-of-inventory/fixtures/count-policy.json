@@ -1,0 +1,12 @@
+{
+  "name": "Example wholesaler cycle count policy (fictional)",
+  "classes": [
+    { "class": "A", "cumulative_share": 0.8, "counts_per_year": 12, "tolerance_pct": 0.01 },
+    { "class": "B", "cumulative_share": 0.95, "counts_per_year": 4, "tolerance_pct": 0.02 },
+    { "class": "C", "cumulative_share": 1, "counts_per_year": 1, "tolerance_pct": 0.05 }
+  ],
+  "start_date": "2027-01-04",
+  "weeks": 26,
+  "working_days": ["mon", "tue", "wed", "thu", "fri"],
+  "blind": true
+}

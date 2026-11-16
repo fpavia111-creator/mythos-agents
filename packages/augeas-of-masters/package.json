@@ -1,7 +1,8 @@
 {
   "name": "augeas-of-masters",
-  "version": "0.1.0",
-  "description": "Augeas of Masters: a domain-specific MCP agent that finds likely duplicate vendors or items in master-data exports (CSV/JSON), explains why, and applies one approved merge at a time to a copy of the file. Never edits your ERP.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/augeas-of-masters",
+  "description": "Augeas of Masters: a domain-specific MCP agent that finds likely duplicate vendors or items in master-data exports (CSV/JSON) with explainable match signals, previews field-level merge winners, and applies one approved merge at a time to a copy of the file with an undo log. Never edits your ERP.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -22,6 +23,7 @@
     "fixtures",
     "evals",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -30,7 +32,7 @@
     "eval": "node bin/augeas-of-masters.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -49,6 +51,8 @@
     "deduplication",
     "netsuite",
     "ai-agents",
+    "entity-resolution",
+    "survivorship",
     "mythos"
   ]
 }

@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Refund on cancelled order",
+    "running": true,
+    "code": { "number": 0, "keyword": "trigger", "provider": "workato_webhooks", "name": "new_event", "as": "cancel_hook", "input": { "webhook_name": "order-cancelled" }, "block": [
+      { "number": 1, "keyword": "action", "provider": "stripe", "name": "create_refund", "as": "refund", "input": { "charge": "#{_('data.workato_webhooks.cancel_hook.charge')}" } },
+      { "number": 2, "keyword": "action", "provider": "rest", "name": "make_request", "as": "open_ticket", "input": { "url": "https://git.example.com/api/issues", "method": "POST", "request_headers": [{ "name": "X-Git-Auth", "value": "ghp_FAKEdemo0000FAKEdemo0000" }] } }
+    ] },
+    "config": [ { "keyword": "application", "provider": "stripe", "name": "stripe", "account_id": { "zip_name": "stripe_production.connection.json", "name": "Stripe production" } } ]
+  },
+  {
+    "name": "Nightly contact purge",
+    "running": false,
+    "code": { "number": 0, "keyword": "trigger", "provider": "clock", "name": "scheduled_event", "input": { "time_unit": "days" }, "block": [
+      { "number": 1, "keyword": "action", "provider": "salesforce", "name": "search_sobjects", "input": { "sobject_name": "Contact" } },
+      { "number": 2, "keyword": "if", "input": { "type": "compound", "conditions": [] }, "block": [
+        { "number": 3, "keyword": "action", "provider": "salesforce", "name": "delete_sobject", "as": "delete_contact", "input": { "sobject_name": "Contact" } }
+      ] },
+      { "number": 4, "keyword": "action", "provider": "stripe", "name": "search_customers", "skip": true, "input": { "api_key": "sk_test_FAKE00000000demo" } },
+      { "number": 5, "keyword": "catch", "block": [ { "number": 6, "keyword": "action", "provider": "email", "name": "send_mail", "input": { "to": "ops@example.com" } } ] }
+    ] },
+    "config": [
+      { "keyword": "application", "provider": "stripe", "account_id": { "name": "Stripe production" } },
+      { "keyword": "application", "provider": "salesforce", "account_id": { "name": "Salesforce ops" } }
+    ]
+  }
+]

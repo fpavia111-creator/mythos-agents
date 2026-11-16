@@ -33,13 +33,15 @@ test('payments split by method and year', () => {
 test('readiness statuses, priorities and request state', () => {
   const r = check(rd('vendors.csv'), rd('payments.csv'), { as_of });
   const by = Object.fromEntries(r.items.map((i) => [i.vendor_id, i]));
-  assert.equal(by.V1.status, 'ready'); assert.equal(by.V4.status, 'ready'); assert.match(by.V4.notes[0], /ask your preparer/);
+  // 0.2.0: fixture TINs are deliberately invalid placeholders, so the new pattern rules move V1 and V4 from ready to fix_details.
+  assert.equal(by.V1.status, 'fix_details'); assert.deepEqual(by.V1.flags, ['tin_pattern_invalid']); assert.equal(by.V4.status, 'fix_details'); assert.match(by.V4.notes[0], /ask your preparer/);
   assert.equal(by.V2.status, 'request_w9'); assert.equal(by.V2.priority, 'high'); assert.equal(by.V2.request, 'first_request');
   assert.deepEqual(by.V3.flags, ['w9_unsigned', 'tin_format_invalid']); assert.equal(by.V3.status, 'fix_details');
   assert.equal(by.V5.status, 'ask_preparer'); assert.equal(by.V7.request, 'reminder'); assert.equal(by.V8.request, 'requested_recently');
   assert.ok(by.V6.flags.includes('w9_older_than_3y') && by.V6.flags.includes('llc_classification_missing'));
-  assert.equal(r.over_threshold_not_ready, 3); assert.equal(r.items[0].priority, 'high');
-  assert.equal(check(rd('vendors.csv'), rd('payments.csv'), { as_of, threshold: 600 }).over_threshold_not_ready, 4);
+  assert.equal(by.V5.request, 'first_request', '0.2.0: foreign vendors without a W-8 get a W-8 request');
+  assert.equal(r.over_threshold_not_ready, 5); assert.equal(r.items[0].priority, 'high');
+  assert.equal(check(rd('vendors.csv'), rd('payments.csv'), { as_of, threshold: 600 }).over_threshold_not_ready, 6);
 });
 test('drafts on Auto (no TIN in text); send is one-click; IRS filing and email blocked', async () => {
   const root = tmpRoot('auxo-');
@@ -47,7 +49,8 @@ test('drafts on Auto (no TIN in text); send is one-click; IRS filing and email b
   const rt = new AgentRuntime(manifest, { root, mode: 'auto', autoActions: ['auxo_draft_requests'] });
   const d = await rt.call('auxo_draft_requests', f); assert.equal(d.status, 'executed');
   const names = readdirSync(join(root, 'mythos-out/auxo/requests')).sort();
-  assert.deepEqual(names, ['V2-pat-rivera.md', 'V3-blue-fern-cleaning.md', 'V6-quick-courier-llc.md', 'V7-sunny-catering.md']);
+  // 0.2.0: V1/V4 (TIN pattern) and V5 (W-8) now also get drafts.
+  assert.deepEqual(names, ['V1-northwind-design-llc.md', 'V2-pat-rivera.md', 'V3-blue-fern-cleaning.md', 'V4-oak-iron-inc.md', 'V5-maple-studio-gmbh.md', 'V6-quick-courier-llc.md', 'V7-sunny-catering.md']);
   const rem = readFileSync(join(root, 'mythos-out/auxo/requests/V7-sunny-catering.md'), 'utf8');
   assert.match(rem, /^DRAFT — not sent/); assert.match(rem, /Subject: Reminder:/); assert.match(rem, /do not email your taxpayer identification number/);
   assert.throws(() => new AgentRuntime(manifest, { audit: false, mode: 'auto', autoActions: ['auxo_request_send'] }), /one-click/);
@@ -64,4 +67,20 @@ test('tracker CSV has blank follow-up columns and readiness disclaims tax advice
   const r = await new AgentRuntime(manifest, { root, audit: false }).call('auxo_write_tracker', { vendors: 'vendors.csv', payments: 'payments.csv', as_of });
   const rows = parseCsv(readFileSync(r.result.files[0], 'utf8')); assert.equal(rows.length, 8); assert.equal(rows[0].owner, '');
   assert.match(readFileSync(r.result.files[1], 'utf8'), /Not tax advice and not a filing/);
+});
+
+test('duplicate check scales: 5,000 vendors with planted duplicates finish quickly and find them', async () => {
+  const { findDuplicates } = await import('../src/vendors.js');
+  const SYL = ['ka', 'ver', 'lo', 'mi', 'dra', 'sun', 'tel', 'ox', 'bri', 'na', 'qu', 'zen', 'har', 'pol', 'ris', 'vo', 'jux', 'em', 'fro', 'gru', 'hy', 'ic', 'jen', 'cle'];
+  let s = 11; const g = () => { s = (Math.imul(s, 1103515245) + 12345) >>> 0; return (s >>> 8) / 16777216; };
+  const word = () => { let w = ''; for (let i = 0; i < 3; i++) w += SYL[Math.floor(g() * SYL.length)]; return w; };
+  const vendors = [];
+  for (let i = 0; i < 5000; i++) vendors.push({ vendor_id: `V${i}`, name: `${word()} ${word()}`, country: 'US', entity_type: 'c-corp', tin: String(100000000 + i * 7), address: `${i} Example Way`, email: `ap${i}@vendor${i}.example` });
+  vendors.push({ vendor_id: 'DUP1', name: vendors[10].name + ' Inc', country: 'US', entity_type: 'c-corp', tin: '', address: '', email: '' });
+  vendors.push({ vendor_id: 'DUP2', name: 'Other Name', country: 'US', entity_type: 'c-corp', tin: vendors[20].tin, address: '', email: '' });
+  const t = Date.now();
+  const r = findDuplicates(vendors, [], { year: 2025 });
+  assert.ok(Date.now() - t < 20000, `took ${Date.now() - t} ms`);
+  assert.ok(r.pairs.some((p) => p.a === 'V10' && p.b === 'DUP1' && p.reasons.includes('similar_name')));
+  assert.ok(r.pairs.some((p) => p.a === 'V20' && p.b === 'DUP2' && p.reasons.includes('same_tin')));
 });

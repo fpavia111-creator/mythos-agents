@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Fernhill Bakery (fictional, capture fixture)</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FICTION0"></script>
+</head>
+<body>
+  <h1>Fresh bread every morning</h1>
+  <iframe src="https://www.youtube.com/embed/fictional00" title="How we bake"></iframe>
+  <div id="cookie-banner">
+    <p>We use cookies.</p>
+    <button id="reject-all">Reject all</button>
+    <button id="accept-all">Accept all</button>
+  </div>
+  <script>
+    // Planted bug for the fixture: "Reject all" clears _gid and promo_seen but forgets _ga.
+    document.getElementById('reject-all').onclick = function () {
+      document.cookie = '_gid=; Max-Age=0; path=/';
+      document.cookie = 'promo_seen=; Max-Age=0; path=/';
+      document.getElementById('cookie-banner').hidden = true;
+    };
+    document.getElementById('accept-all').onclick = function () { document.getElementById('cookie-banner').hidden = true; };
+  </script>
+</body>
+</html>

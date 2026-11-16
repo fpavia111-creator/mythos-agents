@@ -1,7 +1,8 @@
 {
   "name": "daphne-of-pages",
-  "version": "0.1.0",
-  "description": "Daphne of Pages: an MCP agent that audits a folder of exported HTML pages for broken links and anchors, basic SEO gaps and automatable WCAG checklist issues, writes a fix list and drafts mechanical fixes as copies. Publishing changes is a production deploy: always one human click. A technical checklist, not a legal opinion.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/daphne-of-pages",
+  "description": "Daphne of Pages: an MCP agent that audits a folder of exported HTML pages for broken links and anchors, basic SEO gaps, sitemap and robots.txt consistency, and automatable WCAG checklist issues (including contrast from static CSS and ARIA misuse), writes a prioritised fix list and drafts mechanical fixes as copies and a unified diff. Publishing changes is a production deploy: always one human click. A technical checklist, not a legal opinion.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -22,6 +23,7 @@
     "fixtures",
     "evals",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -30,7 +32,7 @@
     "eval": "node bin/daphne-of-pages.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -51,6 +53,9 @@
     "broken-links",
     "link-checker",
     "static-site",
+    "color-contrast",
+    "aria",
+    "sitemap",
     "ai-agents",
     "mythos"
   ]

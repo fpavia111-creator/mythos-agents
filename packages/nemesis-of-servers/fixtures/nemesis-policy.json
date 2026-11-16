@@ -1,0 +1,9 @@
+{
+  "egress_allowlist": ["upstream.example.com"],
+  "suppress": [
+    { "rule": "NEM-BIND-ALL", "path": "src/server.js", "reason": "Runs only inside a sample container network (fictional review note)", "reviewer": "Dana Reviewer (fictional)" }
+  ],
+  "severity_overrides": { "NEM-LOCK-NO-INTEGRITY": "medium" },
+  "advisories": "advisories.json",
+  "fail_on": "high"
+}

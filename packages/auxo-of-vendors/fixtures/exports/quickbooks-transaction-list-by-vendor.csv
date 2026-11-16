@@ -1,0 +1,16 @@
+Transaction List by Vendor
+Example Co (fictional)
+January - December 2026
+
+,Date,Transaction Type,Num,Posting,Memo/Description,Account,Amount
+Northwind Design,,,,,,,
+,03/15/2026,Bill Payment (Check),1001,Yes,March design work,Checking,"-1,300.00"
+,07/15/2026,Bill Payment (Check),1044,Yes,July design work,Checking,"-1,300.00"
+Total for Northwind Design,,,,,,,"$2,600.00"
+Pat Rivera,,,,,,,
+,05/20/2026,Bill,778,Yes,Photography invoice,Accounts Payable (A/P),"2,400.00"
+,04/02/2026,Bill Payment (Check),1010,Yes,Photography,Checking,"-2,400.00"
+Total for Pat Rivera,,,,,,,$0.00
+Harbor Freight Lines,,,,,,,
+,09/09/2026,Credit Card Expense,,Yes,Freight,Company Card,980.00
+Total for Harbor Freight Lines,,,,,,,$980.00

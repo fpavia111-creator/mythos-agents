@@ -1,0 +1,83 @@
+name: Echo of Docs drift check
+description: Compare a package's README, docs and SKILL.md with its tool list, OpenAPI spec, CHANGELOG and package.json. Writes SARIF and fails the job on drift. Reads files only; never edits docs.
+author: Kurt Francisco
+branding:
+  icon: book-open
+  color: gray-dark
+inputs:
+  pack:
+    description: Package folder to check, relative to the repository root.
+    required: false
+    default: '.'
+  tools:
+    description: Optional tool list JSON (an MCP tools/list result), relative to the repository root.
+    required: false
+    default: ''
+  openapi:
+    description: Optional OpenAPI 3.x / Swagger 2.0 spec as JSON, relative to the repository root.
+    required: false
+    default: ''
+  config:
+    description: Optional Echo config JSON (checked against the echo_config schema).
+    required: false
+    default: ''
+  fail-on:
+    description: Severities that fail the job: error, warning, any or none.
+    required: false
+    default: error
+  baseline:
+    description: Optional earlier drift.json; with new-only, only new drift fails the job.
+    required: false
+    default: ''
+  new-only:
+    description: Set to "true" to fail only on findings that are not in the baseline.
+    required: false
+    default: 'false'
+  require-changelog:
+    description: Set to "true" to flag a package with no CHANGELOG.md.
+    required: false
+    default: 'false'
+  out-dir:
+    description: Where echo-of-docs.sarif and drift.json are written, relative to the repository root.
+    required: false
+    default: mythos-out/echo
+  version:
+    description: echo-of-docs version to run with npx.
+    required: false
+    default: 0.2.0
+outputs:
+  sarif:
+    description: Path of the SARIF file, relative to the repository root.
+    value: ${{ steps.echo.outputs.sarif }}
+runs:
+  using: composite
+  steps:
+    - id: echo
+      shell: bash
+      env:
+        ECHO_PACK: ${{ inputs.pack }}
+        ECHO_TOOLS: ${{ inputs.tools }}
+        ECHO_OPENAPI: ${{ inputs.openapi }}
+        ECHO_CONFIG: ${{ inputs.config }}
+        ECHO_FAIL_ON: ${{ inputs.fail-on }}
+        ECHO_BASELINE: ${{ inputs.baseline }}
+        ECHO_NEW_ONLY: ${{ inputs.new-only }}
+        ECHO_REQUIRE_CHANGELOG: ${{ inputs.require-changelog }}
+        ECHO_OUT_DIR: ${{ inputs.out-dir }}
+        ECHO_VERSION: ${{ inputs.version }}
+      run: |
+        set -euo pipefail
+        args=(ci --root "$GITHUB_WORKSPACE" --state-dir "$RUNNER_TEMP/echo-of-docs-state" --pack "$ECHO_PACK" --fail-on "$ECHO_FAIL_ON" --out-dir "$ECHO_OUT_DIR")
+        if [ -n "$ECHO_TOOLS" ]; then args+=(--tools "$ECHO_TOOLS"); fi
+        if [ -n "$ECHO_OPENAPI" ]; then args+=(--openapi "$ECHO_OPENAPI"); fi
+        if [ -n "$ECHO_CONFIG" ]; then args+=(--config "$ECHO_CONFIG"); fi
+        if [ -n "$ECHO_BASELINE" ]; then args+=(--baseline "$ECHO_BASELINE"); fi
+        if [ "$ECHO_NEW_ONLY" = "true" ]; then args+=(--new-only); fi
+        if [ "$ECHO_REQUIRE_CHANGELOG" = "true" ]; then args+=(--require-changelog); fi
+        echo "sarif=$ECHO_OUT_DIR/echo-of-docs.sarif" >> "$GITHUB_OUTPUT"
+        if [ -n "${ECHO_CMD:-}" ]; then
+          # Test hook: run a local echo-of-docs instead of the npm package.
+          node "$ECHO_CMD" "${args[@]}"
+        else
+          npx -y "echo-of-docs@$ECHO_VERSION" "${args[@]}"
+        fi

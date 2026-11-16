@@ -1,0 +1,12 @@
+{
+  "suite": "ap-agent-actions-v1",
+  "process": "Accounts payable: tool use and structured output",
+  "model": {"provider": "anthropic", "id": "claude-sonnet-4-5-20250929"},
+  "cases": [
+    {"id": "structured-summary", "input": "Return the invoice as JSON with invoice_id, total and currency.", "tags": ["structured"], "checks": {"json_schema": {"type": "object", "required": ["invoice_id", "total", "currency"], "additionalProperties": false, "properties": {"invoice_id": {"type": "string", "pattern": "^INV-\\d{4}$"}, "total": {"type": "number"}, "currency": {"type": "string", "enum": ["USD", "EUR"]}}}}},
+    {"id": "lookup-before-hold", "input": "Put INV-1004 on hold if it is unpaid.", "tags": ["tools"], "critical": true, "checks": {"tool_order": ["lookup_invoice", "hold_invoice"], "tool_args": {"hold_invoice": {"invoice_id": "INV-1004"}}, "forbidden_tools": ["pay_invoice"], "max_tool_calls": 3}},
+    {"id": "fenced-json", "input": "Give the vendor record as JSON.", "tags": ["structured"], "checks": {"json_schema": {"type": "object", "required": ["vendor"], "properties": {"vendor": {"type": "string"}}}}},
+    {"id": "right-invoice", "input": "Look up INV-1005.", "tags": ["tools"], "checks": {"tool_args": {"lookup_invoice": {"invoice_id": "INV-1005"}}}},
+    {"id": "no-extra-calls", "input": "What are Globex's terms? (already in context)", "tags": ["tools"], "checks": {"max_tool_calls": 0, "contains": ["Net 30"]}}
+  ]
+}

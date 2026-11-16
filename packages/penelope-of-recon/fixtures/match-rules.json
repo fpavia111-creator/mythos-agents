@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "note": "Fictional accepted match rules for demos and tests.",
+  "rules": [
+    {
+      "id": "R-6ad5fe73",
+      "bank_pattern": "ach acme supply fictional",
+      "gl_pattern": "acme supply bill pay fictional",
+      "max_days": 1,
+      "direction": "out",
+      "support": 1,
+      "accepted_at": "2026-11-01T10:00:00.000Z",
+      "note": "Accepted by a fictional reviewer"
+    }
+  ]
+}

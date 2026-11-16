@@ -1,0 +1,8 @@
+{
+  "total_seats": 3,
+  "seats": [
+    { "created_at": "2025-03-01T09:00:00Z", "updated_at": "2026-11-10T08:00:00Z", "pending_cancellation_date": null, "last_activity_at": "2026-11-10T08:12:44Z", "last_activity_editor": "vscode/1.99.0/copilot/1.250.0", "plan_type": "business", "assignee": { "login": "averystone-example", "id": 1000001, "type": "User" } },
+    { "created_at": "2025-03-01T09:00:00Z", "updated_at": "2026-07-01T08:00:00Z", "pending_cancellation_date": null, "last_activity_at": "2026-06-01T11:00:00Z", "last_activity_editor": "vscode/1.90.0/copilot/1.200.0", "plan_type": "business", "assignee": { "login": "jordanlee-example", "id": 1000003, "type": "User" } },
+    { "created_at": "2026-01-15T09:00:00Z", "updated_at": "2026-01-15T09:00:00Z", "pending_cancellation_date": null, "last_activity_at": null, "last_activity_editor": null, "plan_type": "business", "assignee": { "login": "rileypark-example", "id": 1000002, "type": "User" } }
+  ]
+}

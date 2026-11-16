@@ -1,0 +1,4 @@
+*ContactName,EmailAddress,POAddressLine1,POCity,PORegion,POPostalCode,POCountry,*InvoiceNumber,Reference,*InvoiceDate,*DueDate,Total,InventoryItemCode,Description,*Quantity,*UnitAmount,*AccountCode,*TaxType,TaxAmount,TrackingName1,TrackingOption1,Currency
+Acme Supply (fictional),,,,,,,INV-2001,PO-4471,4/11/2026,4/12/2026,1200.00,BOX-12,Boxes,100,12.00,300,Tax Exempt,0,,,USD
+Acme Supply (fictional),,,,,,,INV-2002,PO-4471,4/11/2026,4/12/2026,200.00,TAPE-3,Tape,50,4.00,300,Tax Exempt,0,,,USD
+Globex Furniture (fictional),,,,,,,INV-2003,PO-4472,16/11/2026,16/12/2026,1950.00,CHAIR-A,Chairs,10,195.00,300,Tax Exempt,0,,,USD

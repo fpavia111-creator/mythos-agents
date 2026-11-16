@@ -1,7 +1,8 @@
 {
   "name": "lycurgus-of-licenses",
-  "version": "0.1.0",
-  "description": "Lycurgus of Licenses: an MCP agent and CLI that reads a project's npm lockfile and installed packages, applies your written license policy (allow, review, deny, unknown, exceptions with owners and expiry), writes a report, CycloneDX SBOM and SARIF, and fails the check without changing files. Publishing a release is a production deploy: always one human click. Helps you apply your policy; not legal advice.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/lycurgus-of-licenses",
+  "description": "Lycurgus of Licenses: an MCP agent and CLI that reads a project's npm, pnpm, yarn, Python or Go lockfile and installed packages, applies your written license policy (allow, review, deny, unknown, exceptions with owners and expiry), identifies license texts for packages that declare none, writes a report, CycloneDX SBOM, SARIF and a third-party notices draft, and fails the check without changing files. Publishing a release is a production deploy: always one human click. Helps you apply your policy; not legal advice.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -22,6 +23,7 @@
     "fixtures",
     "evals",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -30,7 +32,7 @@
     "eval": "node bin/lycurgus-of-licenses.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -53,6 +55,12 @@
     "sarif",
     "open-source-compliance",
     "npm",
+    "pnpm",
+    "yarn",
+    "python",
+    "golang",
+    "third-party-notices",
+    "attribution",
     "ai-agents",
     "mythos"
   ]

@@ -1,0 +1,6 @@
+{
+  "name": "test-runner-gpl",
+  "version": "1.0.0",
+  "license": "GPL-2.0-only",
+  "description": "Fictional package for the Lycurgus fixtures"
+}

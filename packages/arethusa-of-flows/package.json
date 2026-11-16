@@ -1,7 +1,8 @@
 {
   "name": "arethusa-of-flows",
-  "version": "0.1.0",
-  "description": "Arethusa of Flows: an MCP agent that audits workflow automation exports (n8n, Zapier, Make) for broken and risky flows: no trigger, disconnected or disabled steps, failing runs, hardcoded secrets, open webhooks, destructive or money-moving steps. Enabling or changing a production flow is always one human click.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/arethusa-of-flows",
+  "description": "Arethusa of Flows: an MCP agent that audits workflow automation exports (n8n, Zapier, Make, Power Automate, Workato) for broken and risky flows: no trigger, disconnected or disabled steps, failing runs, hardcoded secrets (known formats and entropy, never shown), open webhooks, destructive or money-moving steps, and credentials shared across flows. Enabling or changing a production flow is always one human click.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -22,6 +23,7 @@
     "fixtures",
     "evals",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -30,7 +32,7 @@
     "eval": "node bin/arethusa-of-flows.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -51,6 +53,10 @@
     "integromat",
     "automation-audit",
     "security-review",
+    "power-automate",
+    "workato",
+    "secret-scanning",
+    "sarif",
     "ai-agents",
     "mythos"
   ]

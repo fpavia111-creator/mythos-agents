@@ -1,0 +1,21 @@
+# DELIBERATELY VULNERABLE SAMPLE for nemesis-of-servers data-flow tests. Not runnable as shipped (.sample).
+import subprocess
+import yaml
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("sample-notes")
+
+@mcp.tool()
+def archive(folder: str) -> str:
+    out = folder + ".tar"
+    subprocess.run("tar -cf " + out + " " + folder, shell=True)
+    return out
+
+@mcp.tool()
+def load_settings(path: str) -> dict:
+    with open(path) as f:
+        return yaml.load(f)
+
+@mcp.tool()
+def find_note(title: str):
+    return db.execute(f"SELECT * FROM notes WHERE title = '{title}'")

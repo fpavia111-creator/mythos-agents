@@ -1,0 +1,10 @@
+{
+  "name": "sample-flow-server",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "acme-mcp-helper": "^1.2.0",
+    "tiny-notes-lib": "^2.0.0",
+    "fast-convert-kit": "^0.4.0"
+  }
+}

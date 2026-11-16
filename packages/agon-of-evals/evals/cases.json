@@ -1,15 +1,268 @@
 {
   "suite": "agon-of-evals",
   "root": "..",
-  "data_note": "Fictional suite and hand-written recorded responses in ../fixtures. Deterministic checks; no model is called.",
+  "data_note": "Fictional suites, hand-written recorded responses (single and five-trial runs), a rubric, recorded judgments and a gate in ../fixtures. Deterministic checks; no model is called.",
   "cases": [
-    { "id": "suite-valid", "tool": "agon_validate_suite", "args": { "suite": "fixtures/suite.json" }, "expect": { "equals": { "result.ok": true, "result.cases": 6 } } },
-    { "id": "grades-candidate", "tool": "agon_grade", "args": { "suite": "fixtures/suite.json", "responses": "fixtures/candidate.jsonl" },
-      "expect": { "contains": ["expected a refusal", "called forbidden tool update_vendor_bank"], "equals": { "result.passed": 5, "result.comparable": true } } },
-    { "id": "finds-regression", "tool": "agon_compare", "args": { "suite": "fixtures/suite.json", "baseline": "fixtures/baseline.jsonl", "candidate": "fixtures/candidate.jsonl" },
-      "expect": { "contains": ["no-bank-change", "short-answer"], "equals": { "result.verdict": "regressed" } } },
-    { "id": "other-model-not-comparable", "tool": "agon_grade", "args": { "suite": "fixtures/suite.json", "responses": "fixtures/other-model.jsonl" }, "expect": { "contains": ["not comparable"], "equals": { "result.comparable": false } } },
-    { "id": "report-written", "tool": "agon_write_report", "args": { "suite": "fixtures/suite.json", "responses": "fixtures/candidate.jsonl", "out_dir": "mythos-out/eval" }, "expect": { "contains": ["junit.xml"] } },
-    { "id": "never-publishes", "tool": "agon_publish_results", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+    {
+      "id": "suite-valid",
+      "tool": "agon_validate_suite",
+      "args": {
+        "suite": "fixtures/suite.json"
+      },
+      "expect": {
+        "equals": {
+          "result.ok": true,
+          "result.cases": 6
+        }
+      }
+    },
+    {
+      "id": "grades-candidate",
+      "tool": "agon_grade",
+      "args": {
+        "suite": "fixtures/suite.json",
+        "responses": "fixtures/candidate.jsonl"
+      },
+      "expect": {
+        "contains": [
+          "expected a refusal",
+          "called forbidden tool update_vendor_bank"
+        ],
+        "equals": {
+          "result.passed": 5,
+          "result.comparable": true
+        }
+      }
+    },
+    {
+      "id": "finds-regression",
+      "tool": "agon_compare",
+      "args": {
+        "suite": "fixtures/suite.json",
+        "baseline": "fixtures/baseline.jsonl",
+        "candidate": "fixtures/candidate.jsonl"
+      },
+      "expect": {
+        "contains": [
+          "no-bank-change",
+          "short-answer"
+        ],
+        "equals": {
+          "result.verdict": "regressed"
+        }
+      }
+    },
+    {
+      "id": "other-model-not-comparable",
+      "tool": "agon_grade",
+      "args": {
+        "suite": "fixtures/suite.json",
+        "responses": "fixtures/other-model.jsonl"
+      },
+      "expect": {
+        "contains": [
+          "not comparable"
+        ],
+        "equals": {
+          "result.comparable": false
+        }
+      }
+    },
+    {
+      "id": "report-written",
+      "tool": "agon_write_report",
+      "args": {
+        "suite": "fixtures/suite.json",
+        "responses": "fixtures/candidate.jsonl",
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "contains": [
+          "junit.xml"
+        ]
+      }
+    },
+    {
+      "id": "never-publishes",
+      "tool": "agon_publish_results",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      }
+    },
+    {
+      "id": "trials-and-flaky",
+      "tool": "agon_grade",
+      "args": {
+        "suite": "fixtures/suite.json",
+        "responses": "fixtures/trials-baseline.jsonl"
+      },
+      "expect": {
+        "contains": [
+          "(1/5 trials)"
+        ],
+        "equals": {
+          "result.score": 96.67,
+          "result.trials.flaky_cases": [
+            "cites-po"
+          ],
+          "result.passed": 6
+        }
+      }
+    },
+    {
+      "id": "noise-not-flagged",
+      "tool": "agon_compare",
+      "args": {
+        "suite": "fixtures/suite.json",
+        "baseline": "fixtures/trials-baseline.jsonl",
+        "candidate": "fixtures/trials-candidate-noise.jsonl"
+      },
+      "expect": {
+        "equals": {
+          "result.stats.verdict": "within_noise",
+          "result.stats.significant": false,
+          "result.stats.significant_case_regressions": []
+        }
+      }
+    },
+    {
+      "id": "seeded-regression-flagged",
+      "tool": "agon_compare",
+      "args": {
+        "suite": "fixtures/suite.json",
+        "baseline": "fixtures/trials-baseline.jsonl",
+        "candidate": "fixtures/trials-candidate-regressed.jsonl",
+        "gate": "fixtures/gate.json"
+      },
+      "expect": {
+        "equals": {
+          "result.stats.verdict": "regression",
+          "result.stats.significant_case_regressions": [
+            "no-bank-change"
+          ],
+          "result.gate.result": "fail"
+        },
+        "max": {
+          "result.stats.ci_high": -0.01
+        }
+      }
+    },
+    {
+      "id": "single-trial-wide-interval",
+      "tool": "agon_compare",
+      "args": {
+        "suite": "fixtures/suite.json",
+        "baseline": "fixtures/baseline.jsonl",
+        "candidate": "fixtures/candidate.jsonl"
+      },
+      "expect": {
+        "contains": [
+          "paired bootstrap over cases"
+        ],
+        "equals": {
+          "result.verdict": "regressed",
+          "result.stats.verdict": "within_noise"
+        }
+      }
+    },
+    {
+      "id": "rubric-cites-criteria",
+      "tool": "agon_grade_rubric",
+      "args": {
+        "suite": "fixtures/suite.json",
+        "rubric": "fixtures/rubric.json",
+        "responses": "fixtures/baseline.jsonl",
+        "judgments": "fixtures/judgments.jsonl"
+      },
+      "expect": {
+        "contains": [
+          "\"criterion\":\"R2\"",
+          "verify by phone",
+          "citation_not_found",
+          "cites a criterion that is not in the rubric"
+        ],
+        "equals": {
+          "result.score": 87.5,
+          "result.unverified_citations": 1
+        }
+      }
+    },
+    {
+      "id": "agent-checks",
+      "tool": "agon_grade",
+      "args": {
+        "suite": "fixtures/suite-agent.json",
+        "responses": "fixtures/agent-run.jsonl"
+      },
+      "expect": {
+        "contains": [
+          "no lookup_invoice call with invoice_id",
+          "1 tool calls > 0"
+        ],
+        "equals": {
+          "result.passed": 3
+        }
+      }
+    },
+    {
+      "id": "suite-typo-pointer",
+      "tool": "agon_grade",
+      "args": {
+        "suite": "fixtures/gate.json",
+        "responses": "fixtures/baseline.jsonl"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "/min_score"
+        ]
+      }
+    },
+    {
+      "id": "dashboard-written",
+      "tool": "agon_write_dashboard",
+      "args": {
+        "suite": "fixtures/suite.json",
+        "runs": [
+          "fixtures/trials-baseline.jsonl",
+          "fixtures/trials-candidate-noise.jsonl",
+          "fixtures/trials-candidate-regressed.jsonl"
+        ],
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "contains": [
+          "dashboard.html"
+        ],
+        "equals": {
+          "result.regressions": [
+            "no-bank-change"
+          ],
+          "result.latest_score": 80
+        },
+        "matches": [
+          "\"output_sha256\":\"[0-9a-f]{64}\""
+        ]
+      }
+    },
+    {
+      "id": "report-with-gate",
+      "tool": "agon_write_report",
+      "args": {
+        "suite": "fixtures/suite.json",
+        "responses": "fixtures/trials-candidate-noise.jsonl",
+        "baseline": "fixtures/trials-baseline.jsonl",
+        "gate": "fixtures/gate.json",
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "equals": {
+          "result.gate.result": "pass",
+          "result.stat_verdict": "within_noise"
+        }
+      }
+    }
   ]
 }

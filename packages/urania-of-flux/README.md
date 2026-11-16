@@ -10,10 +10,12 @@ Give Urania a figures CSV (`id, metric, period, actual, budget, prior, source`) 
 - **locks** the figures file by hash. A pack is only built from locked figures, and sign-off is refused if they change afterwards;
 - computes the variance of each figure against budget (or prior period when there is no budget) and flags material ones (`materiality_abs`, default 50,000, or `materiality_pct`, default 10%);
 - drafts commentary, one line per material variance, citing the figure id (for example `[F1]`). Each "Reason" is left as `[TO WRITE]` for the line owner, because Urania does not guess causes;
-- **checks claims**: every sentence with a number must cite a known figure id, and each number must match a value of a cited figure (actual, budget, prior, variance or variance %) at the precision written, so `$1.23M` matches 1,234,000 but `1.3M` does not. It reports uncited numbers, unknown citations and mismatches;
-- assembles `board-pack.md` (variance table, commentary, each document with its hash, figure sources, claims-check result), `citations.csv` and `pack-manifest.json`.
+- **checks claims**: every sentence with a number must cite a known figure id, and each number must match a value of a cited figure (actual, budget, prior, variance or variance %) at the precision written, so `$1.23M` matches 1,234,000 but `1.3M` does not, and `up 12%` matches a 12.18% variance but `up 12.3%` does not. A hedge ("about", "roughly", "nearly", "~") widens the match to one full unit of the last digit. A percentage can also be a ratio or change between two cited figures (`58.5% of revenue [F3, F1]`). When a sentence uses only "up" words (up, above, over, rose…) or only "down" words (down, below, under, fell…), a number that matched a variance must have that sign, so "5,000 above budget" on a figure that is 5,000 *under* budget is flagged. It reports uncited numbers, unknown citations, mismatches and wrong directions;
+- **compares with the prior pack**: given last month's figures file, it flags prior-period values that no longer equal what was reported (restatements), same-period values that changed, new and dropped metrics and changed figure ids, and lists every sentence that cites an affected figure so its author can re-read it. With the prior `pack-manifest.json` it also checks the prior figures file is the one that pack was built from;
+- **draws charts** from the locked figures only: self-contained SVG (no scripts, no links, no external references) for variance, variance % and actual against budget. Every bar carries `data-figure-id`, `data-field` and `data-value`, and `charts.json` lists each point, so every mark traces to a figure id;
+- assembles `board-pack.md` (variance table, commentary, each document with its hash, figure sources, claims-check result), `citations.csv` and `pack-manifest.json`, and on request a self-contained `board-pack.html` (no scripts; the charts inline). The pack hash is recorded as `output_sha256` in the audit line.
 
-Sign-off names the pack by its hash. It is refused while claims issues or `[TO WRITE]` markers remain, unless the controller accepts them with a note. Distribution is refused unless the sign-off matches the current pack exactly.
+Sign-off names the pack by its hash. It is refused while claims issues or `[TO WRITE]` markers remain, unless the controller accepts them with a note, and refused if `board-pack.md` or `board-pack.html` changed after assembly. Distribution is refused unless the sign-off matches the current pack exactly. `pack-manifest.json` is validated against a JSON Schema whenever Urania reads it back (`urania-of-flux validate-config pack_manifest <file>`).
 
 ## Install
 
@@ -27,13 +29,13 @@ urania-of-flux demo        # runs on the bundled fictional sample data
 **Claude Code**
 
 ```bash
-claude mcp add urania-of-flux -- npx -y urania-of-flux@0.1.0 mcp --root /path/to/your/exports
+claude mcp add urania-of-flux -- npx -y urania-of-flux@0.2.0 mcp --root /path/to/your/exports
 ```
 
 **Cursor / Claude Desktop / VS Code / Windsurf**
 
 ```json
-{ "mcpServers": { "urania-of-flux": { "command": "npx", "args": ["-y", "urania-of-flux@0.1.0", "mcp", "--root", "/path/to/your/exports"] } } }
+{ "mcpServers": { "urania-of-flux": { "command": "npx", "args": ["-y", "urania-of-flux@0.2.0", "mcp", "--root", "/path/to/your/exports"] } } }
 ```
 
 `--root` is the only folder the tools can read or write. Paths outside it are refused.
@@ -46,13 +48,19 @@ claude mcp add urania-of-flux -- npx -y urania-of-flux@0.1.0 mcp --root /path/to
 | `urania_variance` | **allow** | Variances and materiality, plus the lock state |
 | `urania_draft_commentary` | **ask (Auto-eligible)** | Write `commentary.md` with cited lines and owner `[TO WRITE]` reasons |
 | `urania_check_claims` | **allow** | Check every number in the documents against its cited figure |
-| `urania_assemble_pack` | **allow** | Write `board-pack.md`, `citations.csv`, `pack-manifest.json` (needs locked, unchanged figures) |
+| `urania_compare_prior` | **allow** | Restatements, new/dropped metrics and changed ids against the prior pack's figures, with the sentences they touch |
+| `urania_charts` | **allow** | Write SVG charts and `charts.json` from locked, unchanged figures; every point traces to a figure id |
+| `urania_assemble_pack` | **allow** | Write `board-pack.md`, `citations.csv`, `pack-manifest.json`, and `board-pack.html` with `html: true` (needs locked, unchanged figures) |
 | `urania_record_signoff` | **ask · one-click** | After the controller's named click, write `signoff.json` for that pack hash |
 | `urania_request_distribution` | **ask · one-click** | After a named click, record distribution of the signed pack |
 | `board_portal_upload` | **block** | Listed so agents see the refusal. Urania never uploads. |
 | `send_email` | **block** | Listed so agents see the refusal. Urania never sends. |
 
 Any other tool name is blocked. `mythos_info` shows the pinned model, mode, caps and every decision.
+
+### MCP prompt
+
+`urania_board_pack` (arguments `figures`, `docs`, `period`, optional `prior_figures`) walks a host model through the whole workflow in order: variances, prior-pack comparison, lock, commentary draft, claims check, charts, assembly, and where the controller's sign-off and distribution clicks come in.
 
 ## Modes
 
@@ -77,7 +85,9 @@ Every call is written to `.mythos/audit.jsonl` (hash-chained JSONL; arguments st
 ## What it is not
 
 - Not a close or consolidation tool. It does not produce your figures; it checks that the pack matches the figures you lock.
-- The claims check is numeric. It cannot tell whether a sentence without numbers is true, and it checks values, not whether a figure id fits the sentence's meaning.
+- The claims check is numeric. It cannot tell whether a sentence without numbers is true, and it checks values, not whether a figure id fits the sentence's meaning. The direction check is a word list (English only); it skips sentences that mix "up" and "down" words, and numbers that also match a level (actual, budget or prior).
+- Prior-pack comparison matches figures by metric name, then by id. A renamed metric shows up as one dropped and one new metric.
+- Charts are plain horizontal bars. They do not replace your board-deck design; amounts on one chart share one scale, so very large lines (such as cash) can dwarf small ones — use `ids` to chart a subset.
 - Not accounting or audit advice, and it never distributes anything.
 - Not fully autonomous: anything risky waits for a named person.
 

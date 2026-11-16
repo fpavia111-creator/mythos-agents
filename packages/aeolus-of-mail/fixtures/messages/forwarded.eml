@@ -1,0 +1,23 @@
+Return-Path: <bounce+abc@bounce.mailhost.example.net>
+Authentication-Results: mx.example.org;
+ spf=pass smtp.mailfrom=bounce.mailhost.example.net;
+ dkim=pass header.d=example.com header.s=s1;
+ dmarc=pass header.from=example.com;
+ arc=pass
+ARC-Seal: i=2; a=rsa-sha256; cv=pass; d=relay.example.org; s=arc2026; t=1790000100; b=ZmljdGlvbmFsLXNpZ25hdHVyZQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=relay.example.org; s=arc2026; h=from:to:subject; bh=ZmFrZQ==; b=ZmFrZQ==
+ARC-Authentication-Results: i=2; relay.example.org; spf=pass smtp.mailfrom=bounce.mailhost.example.net; dkim=pass header.d=example.com
+ARC-Seal: i=1; a=rsa-sha256; cv=none; d=lists.example.net; s=arc; t=1790000000; b=ZmljdGlvbmFsLXNpZ25hdHVyZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=lists.example.net; s=arc; h=from:to:subject; bh=ZmFrZQ==; b=ZmFrZQ==
+ARC-Authentication-Results: i=1; lists.example.net; spf=pass smtp.mailfrom=bounce.mailhost.example.net; dkim=pass header.d=example.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=example.com; s=s1;
+ h=from:to:subject:date; bh=ZmFrZQ==; b=ZmljdGlvbmFsLXNpZ25hdHVyZQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailhost.example.net; s=mh;
+ h=from:to:subject:date; bh=ZmFrZQ==; b=ZmljdGlvbmFsLXNpZ25hdHVyZQ==
+From: Example News <news@example.com>
+To: Robin Reader <robin@example.org>
+Subject: October newsletter (fictional)
+Date: Thu, 01 Oct 2026 09:00:00 +0000
+Message-ID: <fictional-0001@example.com>
+
+Fictional message for the Aeolus fixtures. The signatures are placeholders.

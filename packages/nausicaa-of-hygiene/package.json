@@ -1,6 +1,7 @@
 {
   "name": "nausicaa-of-hygiene",
-  "version": "0.1.0",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/nausicaa-of-hygiene",
   "description": "Nausicaa of Hygiene: an MCP agent for CRM and contact-list hygiene from exports: invalid and typo emails, hard bounces, role and disposable addresses, duplicates, stale records, missing or conflicting consent. Bulk deletes are always one human click and only record a request.",
   "type": "module",
   "license": "MIT",
@@ -22,7 +23,8 @@
     "fixtures",
     "evals",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",
@@ -30,7 +32,7 @@
     "eval": "node bin/nausicaa-of-hygiene.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",

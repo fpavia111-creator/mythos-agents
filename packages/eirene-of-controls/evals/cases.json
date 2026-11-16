@@ -3,11 +3,229 @@
   "root": "..",
   "data_note": "Sample logs in ../fixtures. Deterministic tool-level checks; no model is called.",
   "cases": [
-    { "id": "talos-chain-verifies", "tool": "eirene_verify_chain", "args": { "log": "fixtures/talos-audit.jsonl" }, "expect": { "equals": { "result.format": "talos", "result.ok": true } } },
-    { "id": "mythos-chain-verifies", "tool": "eirene_verify_chain", "args": { "log": "fixtures/olympus-audit.jsonl" }, "expect": { "equals": { "result.format": "mythos", "result.ok": true } } },
-    { "id": "tamper-detected", "tool": "eirene_verify_chain", "args": { "log": "fixtures/tampered-audit.jsonl" }, "expect": { "equals": { "result.ok": false }, "contains": ["edited"] } },
-    { "id": "counts-approvals-and-blocks", "tool": "eirene_summarize_logs", "args": { "logs": ["fixtures/talos-audit.jsonl", "fixtures/olympus-audit.jsonl"] },
-      "expect": { "equals": { "result.events": 9, "result.blocked": 3, "result.approvals": 1, "result.approvers": ["Dana Reviewer (fictional)"], "result.auto_executed": 1 } } },
-    { "id": "refuse-send", "tool": "eirene_send_to_auditor", "args": {}, "expect": { "status": "blocked" } }
+    {
+      "id": "talos-chain-verifies",
+      "tool": "eirene_verify_chain",
+      "args": {
+        "log": "fixtures/talos-audit.jsonl"
+      },
+      "expect": {
+        "equals": {
+          "result.format": "talos",
+          "result.ok": true
+        }
+      }
+    },
+    {
+      "id": "mythos-chain-verifies",
+      "tool": "eirene_verify_chain",
+      "args": {
+        "log": "fixtures/olympus-audit.jsonl"
+      },
+      "expect": {
+        "equals": {
+          "result.format": "mythos",
+          "result.ok": true
+        }
+      }
+    },
+    {
+      "id": "tamper-detected",
+      "tool": "eirene_verify_chain",
+      "args": {
+        "log": "fixtures/tampered-audit.jsonl"
+      },
+      "expect": {
+        "equals": {
+          "result.ok": false
+        },
+        "contains": [
+          "edited"
+        ]
+      }
+    },
+    {
+      "id": "counts-approvals-and-blocks",
+      "tool": "eirene_summarize_logs",
+      "args": {
+        "logs": [
+          "fixtures/talos-audit.jsonl",
+          "fixtures/olympus-audit.jsonl"
+        ]
+      },
+      "expect": {
+        "equals": {
+          "result.events": 9,
+          "result.blocked": 3,
+          "result.approvals": 1,
+          "result.approvers": [
+            "Dana Reviewer (fictional)"
+          ],
+          "result.auto_executed": 1
+        }
+      }
+    },
+    {
+      "id": "refuse-send",
+      "tool": "eirene_send_to_auditor",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      }
+    },
+    {
+      "id": "signed-log-verifies",
+      "tool": "eirene_verify_chain",
+      "args": {
+        "log": "fixtures/signed-audit.jsonl",
+        "public_keys": [
+          "fixtures/keys/audit-public.pem"
+        ]
+      },
+      "expect": {
+        "equals": {
+          "result.ok": true,
+          "result.signing": "signed and verified"
+        },
+        "length": {
+          "result.key_rotations": 1
+        }
+      }
+    },
+    {
+      "id": "rechained-signed-log-fails",
+      "tool": "eirene_verify_chain",
+      "args": {
+        "log": "fixtures/signed-rechained-audit.jsonl",
+        "public_keys": [
+          "fixtures/keys/audit-public.pem"
+        ]
+      },
+      "expect": {
+        "equals": {
+          "result.ok": false,
+          "result.signing": "failed",
+          "result.breaks.0.line": 4
+        },
+        "contains": [
+          "signature does not verify"
+        ]
+      }
+    },
+    {
+      "id": "rechained-log-fools-chain-only",
+      "tool": "eirene_verify_chain",
+      "args": {
+        "log": "fixtures/signed-rechained-audit.jsonl"
+      },
+      "expect": {
+        "equals": {
+          "result.ok": true,
+          "result.signing": "signed (not verified: no public key given)"
+        }
+      }
+    },
+    {
+      "id": "map-controls-gaps",
+      "tool": "eirene_map_controls",
+      "args": {
+        "logs": [
+          "fixtures/talos-audit.jsonl",
+          "fixtures/olympus-audit.jsonl"
+        ],
+        "template": "itgc-starter",
+        "evidence_dir": "fixtures/evidence/2026-Q4",
+        "as_of": "2026-11-15"
+      },
+      "expect": {
+        "length": {
+          "result.gaps": 2,
+          "result.controls": 6
+        },
+        "equals": {
+          "result.gaps.0.id": "ITGC-CM-02",
+          "result.gaps.1.id": "ITGC-OP-01"
+        },
+        "not_contains": [
+          "certified",
+          "compliant"
+        ]
+      }
+    },
+    {
+      "id": "map-controls-stale",
+      "tool": "eirene_map_controls",
+      "args": {
+        "template": "itgc-starter",
+        "evidence_dir": "fixtures/evidence/2026-Q3",
+        "as_of": "2027-01-15"
+      },
+      "expect": {
+        "equals": {
+          "result.controls.0.id": "ITGC-AC-01",
+          "result.controls.0.state": "stale"
+        }
+      }
+    },
+    {
+      "id": "map-controls-needs-list",
+      "tool": "eirene_map_controls",
+      "args": {
+        "logs": [
+          "fixtures/talos-audit.jsonl"
+        ]
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "template"
+        ]
+      }
+    },
+    {
+      "id": "diff-evidence-periods",
+      "tool": "eirene_diff_evidence",
+      "args": {
+        "previous": "fixtures/evidence/2026-Q3",
+        "current": "fixtures/evidence/2026-Q4"
+      },
+      "expect": {
+        "equals": {
+          "result.counts.added": 2,
+          "result.counts.removed": 2,
+          "result.counts.changed": 1,
+          "result.changed.0.path": "change-log-2026-08.csv"
+        },
+        "matches": [
+          "\"sha256\":\"[0-9a-f]{64}\""
+        ]
+      }
+    },
+    {
+      "id": "list-templates",
+      "tool": "eirene_list_templates",
+      "args": {},
+      "expect": {
+        "length": {
+          "result.templates": 2
+        },
+        "contains": [
+          "not an official framework mapping"
+        ]
+      }
+    },
+    {
+      "id": "refuse-unknown-template",
+      "tool": "eirene_map_controls",
+      "args": {
+        "template": "soc2-certified"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "/template"
+        ]
+      }
+    }
   ]
 }

@@ -1,0 +1,1130 @@
+{
+ "name": "britomartis-vendor-list",
+ "version": "2026.11.0",
+ "updated": "2026-11-15",
+ "source": "Hand-curated by the Britomartis maintainers from vendors' public documentation of their own domains and cookie names. Purposes are typical uses, not a statement about any site; treat every match as a guess until your policy says otherwise.",
+ "hosts": [
+  {
+   "match": "google-analytics.com",
+   "vendor": "Google Analytics",
+   "purpose": "analytics"
+  },
+  {
+   "match": "analytics.google.com",
+   "vendor": "Google Analytics",
+   "purpose": "analytics"
+  },
+  {
+   "match": "googletagmanager.com",
+   "vendor": "Google Tag Manager",
+   "purpose": "analytics"
+  },
+  {
+   "match": "hotjar.com",
+   "vendor": "Hotjar",
+   "purpose": "analytics"
+  },
+  {
+   "match": "hotjar.io",
+   "vendor": "Hotjar",
+   "purpose": "analytics"
+  },
+  {
+   "match": "clarity.ms",
+   "vendor": "Microsoft Clarity",
+   "purpose": "analytics"
+  },
+  {
+   "match": "segment.com",
+   "vendor": "Segment",
+   "purpose": "analytics"
+  },
+  {
+   "match": "segment.io",
+   "vendor": "Segment",
+   "purpose": "analytics"
+  },
+  {
+   "match": "plausible.io",
+   "vendor": "Plausible (cookieless analytics)",
+   "purpose": "analytics"
+  },
+  {
+   "match": "mixpanel.com",
+   "vendor": "Mixpanel",
+   "purpose": "analytics"
+  },
+  {
+   "match": "mxpnl.com",
+   "vendor": "Mixpanel",
+   "purpose": "analytics"
+  },
+  {
+   "match": "amplitude.com",
+   "vendor": "Amplitude",
+   "purpose": "analytics"
+  },
+  {
+   "match": "heapanalytics.com",
+   "vendor": "Heap",
+   "purpose": "analytics"
+  },
+  {
+   "match": "fullstory.com",
+   "vendor": "FullStory",
+   "purpose": "analytics"
+  },
+  {
+   "match": "mouseflow.com",
+   "vendor": "Mouseflow",
+   "purpose": "analytics"
+  },
+  {
+   "match": "crazyegg.com",
+   "vendor": "Crazy Egg",
+   "purpose": "analytics"
+  },
+  {
+   "match": "matomo.cloud",
+   "vendor": "Matomo Cloud",
+   "purpose": "analytics"
+  },
+  {
+   "match": "posthog.com",
+   "vendor": "PostHog",
+   "purpose": "analytics"
+  },
+  {
+   "match": "newrelic.com",
+   "vendor": "New Relic",
+   "purpose": "analytics"
+  },
+  {
+   "match": "nr-data.net",
+   "vendor": "New Relic",
+   "purpose": "analytics"
+  },
+  {
+   "match": "quantserve.com",
+   "vendor": "Quantcast",
+   "purpose": "marketing"
+  },
+  {
+   "match": "scorecardresearch.com",
+   "vendor": "Comscore",
+   "purpose": "analytics"
+  },
+  {
+   "match": "chartbeat.com",
+   "vendor": "Chartbeat",
+   "purpose": "analytics"
+  },
+  {
+   "match": "chartbeat.net",
+   "vendor": "Chartbeat",
+   "purpose": "analytics"
+  },
+  {
+   "match": "statcounter.com",
+   "vendor": "StatCounter",
+   "purpose": "analytics"
+  },
+  {
+   "match": "usefathom.com",
+   "vendor": "Fathom (cookieless analytics)",
+   "purpose": "analytics"
+  },
+  {
+   "match": "simpleanalyticscdn.com",
+   "vendor": "Simple Analytics (cookieless analytics)",
+   "purpose": "analytics"
+  },
+  {
+   "match": "logrocket.com",
+   "vendor": "LogRocket",
+   "purpose": "analytics"
+  },
+  {
+   "match": "lr-ingest.io",
+   "vendor": "LogRocket",
+   "purpose": "analytics"
+  },
+  {
+   "match": "smartlook.com",
+   "vendor": "Smartlook",
+   "purpose": "analytics"
+  },
+  {
+   "match": "contentsquare.net",
+   "vendor": "Contentsquare",
+   "purpose": "analytics"
+  },
+  {
+   "match": "optimizely.com",
+   "vendor": "Optimizely",
+   "purpose": "analytics"
+  },
+  {
+   "match": "vwo.com",
+   "vendor": "VWO",
+   "purpose": "analytics"
+  },
+  {
+   "match": "visualwebsiteoptimizer.com",
+   "vendor": "VWO",
+   "purpose": "analytics"
+  },
+  {
+   "match": "yandex.ru",
+   "vendor": "Yandex Metrica",
+   "purpose": "analytics"
+  },
+  {
+   "match": "mc.yandex.com",
+   "vendor": "Yandex Metrica",
+   "purpose": "analytics"
+  },
+  {
+   "match": "doubleclick.net",
+   "vendor": "Google Ads (DoubleClick)",
+   "purpose": "marketing"
+  },
+  {
+   "match": "googlesyndication.com",
+   "vendor": "Google AdSense",
+   "purpose": "marketing"
+  },
+  {
+   "match": "googleadservices.com",
+   "vendor": "Google Ads",
+   "purpose": "marketing"
+  },
+  {
+   "match": "connect.facebook.net",
+   "vendor": "Meta Pixel",
+   "purpose": "marketing"
+  },
+  {
+   "match": "facebook.com",
+   "vendor": "Meta",
+   "purpose": "marketing"
+  },
+  {
+   "match": "facebook.net",
+   "vendor": "Meta",
+   "purpose": "marketing"
+  },
+  {
+   "match": "instagram.com",
+   "vendor": "Instagram (Meta)",
+   "purpose": "marketing"
+  },
+  {
+   "match": "bat.bing.com",
+   "vendor": "Microsoft Advertising",
+   "purpose": "marketing"
+  },
+  {
+   "match": "ads-twitter.com",
+   "vendor": "X Ads",
+   "purpose": "marketing"
+  },
+  {
+   "match": "static.ads-twitter.com",
+   "vendor": "X Ads",
+   "purpose": "marketing"
+  },
+  {
+   "match": "t.co",
+   "vendor": "X (Twitter)",
+   "purpose": "marketing"
+  },
+  {
+   "match": "platform.twitter.com",
+   "vendor": "X (Twitter) embed",
+   "purpose": "marketing"
+  },
+  {
+   "match": "licdn.com",
+   "vendor": "LinkedIn Insight",
+   "purpose": "marketing"
+  },
+  {
+   "match": "ads.linkedin.com",
+   "vendor": "LinkedIn Ads",
+   "purpose": "marketing"
+  },
+  {
+   "match": "px.ads.linkedin.com",
+   "vendor": "LinkedIn Ads",
+   "purpose": "marketing"
+  },
+  {
+   "match": "analytics.tiktok.com",
+   "vendor": "TikTok Pixel",
+   "purpose": "marketing"
+  },
+  {
+   "match": "hs-scripts.com",
+   "vendor": "HubSpot",
+   "purpose": "marketing"
+  },
+  {
+   "match": "hs-analytics.net",
+   "vendor": "HubSpot",
+   "purpose": "marketing"
+  },
+  {
+   "match": "hsforms.net",
+   "vendor": "HubSpot forms",
+   "purpose": "marketing"
+  },
+  {
+   "match": "hubspot.com",
+   "vendor": "HubSpot",
+   "purpose": "marketing"
+  },
+  {
+   "match": "hs-banner.com",
+   "vendor": "HubSpot cookie banner",
+   "purpose": "necessary"
+  },
+  {
+   "match": "youtube.com",
+   "vendor": "YouTube",
+   "purpose": "marketing"
+  },
+  {
+   "match": "ytimg.com",
+   "vendor": "YouTube",
+   "purpose": "marketing"
+  },
+  {
+   "match": "youtube-nocookie.com",
+   "vendor": "YouTube (privacy-enhanced)",
+   "purpose": "other"
+  },
+  {
+   "match": "ct.pinterest.com",
+   "vendor": "Pinterest Tag",
+   "purpose": "marketing"
+  },
+  {
+   "match": "pinimg.com",
+   "vendor": "Pinterest",
+   "purpose": "marketing"
+  },
+  {
+   "match": "snapchat.com",
+   "vendor": "Snap Pixel",
+   "purpose": "marketing"
+  },
+  {
+   "match": "sc-static.net",
+   "vendor": "Snap Pixel",
+   "purpose": "marketing"
+  },
+  {
+   "match": "redditstatic.com",
+   "vendor": "Reddit Pixel",
+   "purpose": "marketing"
+  },
+  {
+   "match": "reddit.com",
+   "vendor": "Reddit",
+   "purpose": "marketing"
+  },
+  {
+   "match": "criteo.com",
+   "vendor": "Criteo",
+   "purpose": "marketing"
+  },
+  {
+   "match": "criteo.net",
+   "vendor": "Criteo",
+   "purpose": "marketing"
+  },
+  {
+   "match": "taboola.com",
+   "vendor": "Taboola",
+   "purpose": "marketing"
+  },
+  {
+   "match": "outbrain.com",
+   "vendor": "Outbrain",
+   "purpose": "marketing"
+  },
+  {
+   "match": "adnxs.com",
+   "vendor": "Xandr (AppNexus)",
+   "purpose": "marketing"
+  },
+  {
+   "match": "rubiconproject.com",
+   "vendor": "Magnite (Rubicon)",
+   "purpose": "marketing"
+  },
+  {
+   "match": "pubmatic.com",
+   "vendor": "PubMatic",
+   "purpose": "marketing"
+  },
+  {
+   "match": "casalemedia.com",
+   "vendor": "Index Exchange",
+   "purpose": "marketing"
+  },
+  {
+   "match": "adsrvr.org",
+   "vendor": "The Trade Desk",
+   "purpose": "marketing"
+  },
+  {
+   "match": "amazon-adsystem.com",
+   "vendor": "Amazon Ads",
+   "purpose": "marketing"
+  },
+  {
+   "match": "demdex.net",
+   "vendor": "Adobe Audience Manager",
+   "purpose": "marketing"
+  },
+  {
+   "match": "omtrdc.net",
+   "vendor": "Adobe Analytics",
+   "purpose": "analytics"
+  },
+  {
+   "match": "2o7.net",
+   "vendor": "Adobe Analytics",
+   "purpose": "analytics"
+  },
+  {
+   "match": "everesttech.net",
+   "vendor": "Adobe Advertising",
+   "purpose": "marketing"
+  },
+  {
+   "match": "marketo.net",
+   "vendor": "Marketo",
+   "purpose": "marketing"
+  },
+  {
+   "match": "mktoresp.com",
+   "vendor": "Marketo",
+   "purpose": "marketing"
+  },
+  {
+   "match": "pardot.com",
+   "vendor": "Salesforce Pardot",
+   "purpose": "marketing"
+  },
+  {
+   "match": "klaviyo.com",
+   "vendor": "Klaviyo",
+   "purpose": "marketing"
+  },
+  {
+   "match": "mailchimp.com",
+   "vendor": "Mailchimp",
+   "purpose": "marketing"
+  },
+  {
+   "match": "list-manage.com",
+   "vendor": "Mailchimp",
+   "purpose": "marketing"
+  },
+  {
+   "match": "intercom.io",
+   "vendor": "Intercom",
+   "purpose": "preferences"
+  },
+  {
+   "match": "intercomcdn.com",
+   "vendor": "Intercom",
+   "purpose": "preferences"
+  },
+  {
+   "match": "drift.com",
+   "vendor": "Drift",
+   "purpose": "marketing"
+  },
+  {
+   "match": "zdassets.com",
+   "vendor": "Zendesk",
+   "purpose": "preferences"
+  },
+  {
+   "match": "tawk.to",
+   "vendor": "tawk.to",
+   "purpose": "preferences"
+  },
+  {
+   "match": "crisp.chat",
+   "vendor": "Crisp",
+   "purpose": "preferences"
+  },
+  {
+   "match": "vimeo.com",
+   "vendor": "Vimeo",
+   "purpose": "other"
+  },
+  {
+   "match": "vimeocdn.com",
+   "vendor": "Vimeo",
+   "purpose": "other"
+  },
+  {
+   "match": "soundcloud.com",
+   "vendor": "SoundCloud",
+   "purpose": "other"
+  },
+  {
+   "match": "disqus.com",
+   "vendor": "Disqus",
+   "purpose": "marketing"
+  },
+  {
+   "match": "addthis.com",
+   "vendor": "AddThis",
+   "purpose": "marketing"
+  },
+  {
+   "match": "sharethis.com",
+   "vendor": "ShareThis",
+   "purpose": "marketing"
+  },
+  {
+   "match": "fonts.googleapis.com",
+   "vendor": "Google Fonts",
+   "purpose": "other"
+  },
+  {
+   "match": "fonts.gstatic.com",
+   "vendor": "Google Fonts",
+   "purpose": "other"
+  },
+  {
+   "match": "use.typekit.net",
+   "vendor": "Adobe Fonts",
+   "purpose": "other"
+  },
+  {
+   "match": "maps.googleapis.com",
+   "vendor": "Google Maps",
+   "purpose": "other"
+  },
+  {
+   "match": "gstatic.com",
+   "vendor": "Google static content",
+   "purpose": "other"
+  },
+  {
+   "match": "recaptcha.net",
+   "vendor": "Google reCAPTCHA",
+   "purpose": "necessary"
+  },
+  {
+   "match": "hcaptcha.com",
+   "vendor": "hCaptcha",
+   "purpose": "necessary"
+  },
+  {
+   "match": "challenges.cloudflare.com",
+   "vendor": "Cloudflare Turnstile",
+   "purpose": "necessary"
+  },
+  {
+   "match": "cdnjs.cloudflare.com",
+   "vendor": "cdnjs",
+   "purpose": "other"
+  },
+  {
+   "match": "cdn.jsdelivr.net",
+   "vendor": "jsDelivr",
+   "purpose": "other"
+  },
+  {
+   "match": "unpkg.com",
+   "vendor": "unpkg",
+   "purpose": "other"
+  },
+  {
+   "match": "code.jquery.com",
+   "vendor": "jQuery CDN",
+   "purpose": "other"
+  },
+  {
+   "match": "js.stripe.com",
+   "vendor": "Stripe",
+   "purpose": "necessary"
+  },
+  {
+   "match": "m.stripe.network",
+   "vendor": "Stripe",
+   "purpose": "necessary"
+  },
+  {
+   "match": "stripe.com",
+   "vendor": "Stripe",
+   "purpose": "necessary"
+  },
+  {
+   "match": "paypal.com",
+   "vendor": "PayPal",
+   "purpose": "necessary"
+  },
+  {
+   "match": "paypalobjects.com",
+   "vendor": "PayPal",
+   "purpose": "necessary"
+  },
+  {
+   "match": "squareup.com",
+   "vendor": "Square",
+   "purpose": "necessary"
+  },
+  {
+   "match": "braintreegateway.com",
+   "vendor": "Braintree",
+   "purpose": "necessary"
+  },
+  {
+   "match": "adyen.com",
+   "vendor": "Adyen",
+   "purpose": "necessary"
+  },
+  {
+   "match": "shopify.com",
+   "vendor": "Shopify",
+   "purpose": "necessary"
+  },
+  {
+   "match": "shopifycdn.com",
+   "vendor": "Shopify",
+   "purpose": "necessary"
+  },
+  {
+   "match": "cookielaw.org",
+   "vendor": "OneTrust (consent manager)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "onetrust.com",
+   "vendor": "OneTrust (consent manager)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "cookiebot.com",
+   "vendor": "Cookiebot (consent manager)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "cookieyes.com",
+   "vendor": "CookieYes (consent manager)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "usercentrics.eu",
+   "vendor": "Usercentrics (consent manager)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "consensu.org",
+   "vendor": "IAB TCF consent manager",
+   "purpose": "necessary"
+  },
+  {
+   "match": "didomi.io",
+   "vendor": "Didomi (consent manager)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "privacy-mgmt.com",
+   "vendor": "Sourcepoint (consent manager)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "quantcast.mgr.consensu.org",
+   "vendor": "Quantcast Choice (consent manager)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "termly.io",
+   "vendor": "Termly (consent manager)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "iubenda.com",
+   "vendor": "iubenda (consent manager)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "osano.com",
+   "vendor": "Osano (consent manager)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "trustarc.com",
+   "vendor": "TrustArc (consent manager)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "consentmanager.net",
+   "vendor": "consentmanager (consent manager)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "klaro.org",
+   "vendor": "Klaro (consent manager)",
+   "purpose": "necessary"
+  }
+ ],
+ "cookies": [
+  {
+   "match": "_ga",
+   "vendor": "Google Analytics",
+   "purpose": "analytics"
+  },
+  {
+   "match": "_ga_*",
+   "vendor": "Google Analytics",
+   "purpose": "analytics"
+  },
+  {
+   "match": "_gid",
+   "vendor": "Google Analytics",
+   "purpose": "analytics"
+  },
+  {
+   "match": "_gat*",
+   "vendor": "Google Analytics",
+   "purpose": "analytics"
+  },
+  {
+   "match": "__utm*",
+   "vendor": "Google Analytics (legacy)",
+   "purpose": "analytics"
+  },
+  {
+   "match": "_gcl_*",
+   "vendor": "Google Ads",
+   "purpose": "marketing"
+  },
+  {
+   "match": "IDE",
+   "vendor": "Google Ads (DoubleClick)",
+   "purpose": "marketing"
+  },
+  {
+   "match": "test_cookie",
+   "vendor": "Google Ads (DoubleClick)",
+   "purpose": "marketing"
+  },
+  {
+   "match": "DSID",
+   "vendor": "Google Ads (DoubleClick)",
+   "purpose": "marketing"
+  },
+  {
+   "match": "NID",
+   "vendor": "Google",
+   "purpose": "marketing"
+  },
+  {
+   "match": "__gads",
+   "vendor": "Google AdSense",
+   "purpose": "marketing"
+  },
+  {
+   "match": "__gpi",
+   "vendor": "Google AdSense",
+   "purpose": "marketing"
+  },
+  {
+   "match": "_fbp",
+   "vendor": "Meta Pixel",
+   "purpose": "marketing"
+  },
+  {
+   "match": "_fbc",
+   "vendor": "Meta Pixel",
+   "purpose": "marketing"
+  },
+  {
+   "match": "fr",
+   "vendor": "Meta",
+   "purpose": "marketing"
+  },
+  {
+   "match": "_hj*",
+   "vendor": "Hotjar",
+   "purpose": "analytics"
+  },
+  {
+   "match": "_clck",
+   "vendor": "Microsoft Clarity",
+   "purpose": "analytics"
+  },
+  {
+   "match": "_clsk",
+   "vendor": "Microsoft Clarity",
+   "purpose": "analytics"
+  },
+  {
+   "match": "CLID",
+   "vendor": "Microsoft Clarity",
+   "purpose": "analytics"
+  },
+  {
+   "match": "MUID",
+   "vendor": "Microsoft",
+   "purpose": "marketing"
+  },
+  {
+   "match": "_uetsid",
+   "vendor": "Microsoft Advertising",
+   "purpose": "marketing"
+  },
+  {
+   "match": "_uetvid",
+   "vendor": "Microsoft Advertising",
+   "purpose": "marketing"
+  },
+  {
+   "match": "hubspotutk",
+   "vendor": "HubSpot",
+   "purpose": "marketing"
+  },
+  {
+   "match": "__hs*",
+   "vendor": "HubSpot",
+   "purpose": "marketing"
+  },
+  {
+   "match": "__hstc",
+   "vendor": "HubSpot",
+   "purpose": "marketing"
+  },
+  {
+   "match": "messagesUtk",
+   "vendor": "HubSpot chat",
+   "purpose": "preferences"
+  },
+  {
+   "match": "li_*",
+   "vendor": "LinkedIn",
+   "purpose": "marketing"
+  },
+  {
+   "match": "bcookie",
+   "vendor": "LinkedIn",
+   "purpose": "marketing"
+  },
+  {
+   "match": "lidc",
+   "vendor": "LinkedIn",
+   "purpose": "marketing"
+  },
+  {
+   "match": "UserMatchHistory",
+   "vendor": "LinkedIn",
+   "purpose": "marketing"
+  },
+  {
+   "match": "AnalyticsSyncHistory",
+   "vendor": "LinkedIn",
+   "purpose": "marketing"
+  },
+  {
+   "match": "VISITOR_INFO1_LIVE",
+   "vendor": "YouTube",
+   "purpose": "marketing"
+  },
+  {
+   "match": "YSC",
+   "vendor": "YouTube",
+   "purpose": "marketing"
+  },
+  {
+   "match": "VISITOR_PRIVACY_METADATA",
+   "vendor": "YouTube",
+   "purpose": "marketing"
+  },
+  {
+   "match": "_ttp",
+   "vendor": "TikTok Pixel",
+   "purpose": "marketing"
+  },
+  {
+   "match": "_pin_unauth",
+   "vendor": "Pinterest Tag",
+   "purpose": "marketing"
+  },
+  {
+   "match": "_pinterest_*",
+   "vendor": "Pinterest",
+   "purpose": "marketing"
+  },
+  {
+   "match": "_scid",
+   "vendor": "Snap Pixel",
+   "purpose": "marketing"
+  },
+  {
+   "match": "_rdt_uuid",
+   "vendor": "Reddit Pixel",
+   "purpose": "marketing"
+  },
+  {
+   "match": "personalization_id",
+   "vendor": "X (Twitter)",
+   "purpose": "marketing"
+  },
+  {
+   "match": "guest_id",
+   "vendor": "X (Twitter)",
+   "purpose": "marketing"
+  },
+  {
+   "match": "muc_ads",
+   "vendor": "X (Twitter)",
+   "purpose": "marketing"
+  },
+  {
+   "match": "cto_bundle",
+   "vendor": "Criteo",
+   "purpose": "marketing"
+  },
+  {
+   "match": "uuid2",
+   "vendor": "Xandr (AppNexus)",
+   "purpose": "marketing"
+  },
+  {
+   "match": "anj",
+   "vendor": "Xandr (AppNexus)",
+   "purpose": "marketing"
+  },
+  {
+   "match": "TDID",
+   "vendor": "The Trade Desk",
+   "purpose": "marketing"
+  },
+  {
+   "match": "ad-id",
+   "vendor": "Amazon Ads",
+   "purpose": "marketing"
+  },
+  {
+   "match": "mp_*_mixpanel",
+   "vendor": "Mixpanel",
+   "purpose": "analytics"
+  },
+  {
+   "match": "AMP_*",
+   "vendor": "Amplitude",
+   "purpose": "analytics"
+  },
+  {
+   "match": "ajs_anonymous_id",
+   "vendor": "Segment",
+   "purpose": "analytics"
+  },
+  {
+   "match": "ajs_user_id",
+   "vendor": "Segment",
+   "purpose": "analytics"
+  },
+  {
+   "match": "ph_*_posthog",
+   "vendor": "PostHog",
+   "purpose": "analytics"
+  },
+  {
+   "match": "_pk_id*",
+   "vendor": "Matomo",
+   "purpose": "analytics"
+  },
+  {
+   "match": "_pk_ses*",
+   "vendor": "Matomo",
+   "purpose": "analytics"
+  },
+  {
+   "match": "_vwo_*",
+   "vendor": "VWO",
+   "purpose": "analytics"
+  },
+  {
+   "match": "optimizelyEndUserId",
+   "vendor": "Optimizely",
+   "purpose": "analytics"
+  },
+  {
+   "match": "s_cc",
+   "vendor": "Adobe Analytics",
+   "purpose": "analytics"
+  },
+  {
+   "match": "s_sq",
+   "vendor": "Adobe Analytics",
+   "purpose": "analytics"
+  },
+  {
+   "match": "AMCV_*",
+   "vendor": "Adobe Experience Cloud",
+   "purpose": "analytics"
+  },
+  {
+   "match": "demdex",
+   "vendor": "Adobe Audience Manager",
+   "purpose": "marketing"
+  },
+  {
+   "match": "_mkto_trk",
+   "vendor": "Marketo",
+   "purpose": "marketing"
+  },
+  {
+   "match": "visitor_id*",
+   "vendor": "Salesforce Pardot",
+   "purpose": "marketing"
+  },
+  {
+   "match": "__kla_id",
+   "vendor": "Klaviyo",
+   "purpose": "marketing"
+  },
+  {
+   "match": "intercom-*",
+   "vendor": "Intercom",
+   "purpose": "preferences"
+  },
+  {
+   "match": "__zlcmid",
+   "vendor": "Zendesk chat",
+   "purpose": "preferences"
+  },
+  {
+   "match": "__cf_bm",
+   "vendor": "Cloudflare bot management",
+   "purpose": "necessary"
+  },
+  {
+   "match": "cf_clearance",
+   "vendor": "Cloudflare",
+   "purpose": "necessary"
+  },
+  {
+   "match": "_cfuvid",
+   "vendor": "Cloudflare",
+   "purpose": "necessary"
+  },
+  {
+   "match": "__stripe_mid",
+   "vendor": "Stripe",
+   "purpose": "necessary"
+  },
+  {
+   "match": "__stripe_sid",
+   "vendor": "Stripe",
+   "purpose": "necessary"
+  },
+  {
+   "match": "OptanonConsent",
+   "vendor": "OneTrust",
+   "purpose": "necessary"
+  },
+  {
+   "match": "OptanonAlertBoxClosed",
+   "vendor": "OneTrust",
+   "purpose": "necessary"
+  },
+  {
+   "match": "CookieConsent",
+   "vendor": "Cookiebot",
+   "purpose": "necessary"
+  },
+  {
+   "match": "cookieyes-consent",
+   "vendor": "CookieYes",
+   "purpose": "necessary"
+  },
+  {
+   "match": "euconsent-v2",
+   "vendor": "IAB TCF consent string",
+   "purpose": "necessary"
+  },
+  {
+   "match": "didomi_token",
+   "vendor": "Didomi",
+   "purpose": "necessary"
+  },
+  {
+   "match": "uc_settings",
+   "vendor": "Usercentrics",
+   "purpose": "necessary"
+  },
+  {
+   "match": "_iub_cs-*",
+   "vendor": "iubenda",
+   "purpose": "necessary"
+  },
+  {
+   "match": "osano_consentmanager",
+   "vendor": "Osano",
+   "purpose": "necessary"
+  },
+  {
+   "match": "cmplz_*",
+   "vendor": "Complianz",
+   "purpose": "necessary"
+  },
+  {
+   "match": "PHPSESSID",
+   "vendor": "PHP session (this site)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "JSESSIONID",
+   "vendor": "Java session (this site)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "ASP.NET_SessionId",
+   "vendor": "ASP.NET session (this site)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "__Host-*",
+   "vendor": "Host-prefixed cookie (this site)",
+   "purpose": "necessary"
+  },
+  {
+   "match": "_shopify_y",
+   "vendor": "Shopify",
+   "purpose": "analytics"
+  },
+  {
+   "match": "_shopify_s",
+   "vendor": "Shopify",
+   "purpose": "analytics"
+  },
+  {
+   "match": "_secure_session_id",
+   "vendor": "Shopify",
+   "purpose": "necessary"
+  },
+  {
+   "match": "wordpress_logged_in_*",
+   "vendor": "WordPress",
+   "purpose": "necessary"
+  },
+  {
+   "match": "wp-settings-*",
+   "vendor": "WordPress",
+   "purpose": "preferences"
+  }
+ ]
+}

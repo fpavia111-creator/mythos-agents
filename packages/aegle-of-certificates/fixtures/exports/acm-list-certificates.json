@@ -1,0 +1,55 @@
+{
+  "CertificateSummaryList": [
+    {
+      "CertificateArn": "arn:aws:acm:us-east-1:000000000000:certificate/11111111-aaaa-4bbb-8ccc-000000000001",
+      "DomainName": "shop.example.com",
+      "SubjectAlternativeNameSummaries": ["shop.example.com", "www.shop.example.com"],
+      "HasAdditionalSubjectAlternativeNames": false,
+      "Status": "ISSUED",
+      "Type": "AMAZON_ISSUED",
+      "KeyAlgorithm": "RSA-2048",
+      "KeyUsages": ["DIGITAL_SIGNATURE", "KEY_ENCIPHERMENT"],
+      "ExtendedKeyUsages": ["TLS_WEB_SERVER_AUTHENTICATION"],
+      "InUse": true,
+      "RenewalEligibility": "ELIGIBLE",
+      "NotBefore": "2025-10-21T00:00:00+00:00",
+      "NotAfter": "2026-11-20T23:59:59+00:00",
+      "CreatedAt": "2025-10-21T09:12:44.512000+00:00",
+      "IssuedAt": "2025-10-21T09:20:02.118000+00:00"
+    },
+    {
+      "CertificateArn": "arn:aws:acm:us-east-1:000000000000:certificate/11111111-aaaa-4bbb-8ccc-000000000002",
+      "DomainName": "api.example.com",
+      "SubjectAlternativeNameSummaries": ["api.example.com"],
+      "HasAdditionalSubjectAlternativeNames": false,
+      "Status": "ISSUED",
+      "Type": "IMPORTED",
+      "KeyAlgorithm": "RSA-1024",
+      "InUse": true,
+      "RenewalEligibility": "INELIGIBLE",
+      "NotBefore": "2025-11-10T00:00:00+00:00",
+      "NotAfter": "2026-11-18T23:59:59+00:00",
+      "ImportedAt": "2025-11-10T14:00:00+00:00"
+    },
+    {
+      "CertificateArn": "arn:aws:acm:us-east-1:000000000000:certificate/11111111-aaaa-4bbb-8ccc-000000000003",
+      "DomainName": "edge.example.com",
+      "Status": "ISSUED",
+      "Type": "AMAZON_ISSUED",
+      "KeyAlgorithm": "EC-prime256v1",
+      "InUse": false,
+      "RenewalEligibility": "INELIGIBLE",
+      "NotBefore": 1780272000.0,
+      "NotAfter": 1811807999.0
+    },
+    {
+      "CertificateArn": "arn:aws:acm:us-east-1:000000000000:certificate/11111111-aaaa-4bbb-8ccc-000000000004",
+      "DomainName": "new.example.com",
+      "Status": "PENDING_VALIDATION",
+      "Type": "AMAZON_ISSUED",
+      "KeyAlgorithm": "RSA-2048",
+      "InUse": false,
+      "RenewalEligibility": "INELIGIBLE"
+    }
+  ]
+}

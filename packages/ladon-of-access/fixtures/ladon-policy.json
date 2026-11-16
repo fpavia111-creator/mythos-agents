@@ -1,0 +1,11 @@
+{
+  "stale_days": 90,
+  "due_days": 14,
+  "rotation_max_days": 90,
+  "delegations": [
+    { "from": "Avery Stone (fictional)", "to": "Kim Ortiz (fictional)", "reason": "Avery is on leave during the review window" }
+  ],
+  "sod_rules": [
+    { "name": "payments-vs-payables", "roles_a": ["Payments Admin", "Treasury"], "roles_b": ["A/P Clerk", "Vendor Maintenance"] }
+  ]
+}

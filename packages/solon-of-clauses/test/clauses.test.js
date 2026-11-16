@@ -55,8 +55,9 @@ test('send is one-click, needs a named reviewer, hash-bound, marker-gated; send 
   assert.match((await rt.call('solon_request_send', stale)).reason, /does not match/);
   const req2 = { ...req, draft_sha256: createHash('sha256').update(reviewed).digest('hex') };
   const blank = { ...req2, reviewed_by: ' ' };
-  new ApprovalStore(join(root, '.mythos')).approve((await rt.call('solon_request_send', blank)).approval_id, 'Jo');
-  assert.match((await rt.call('solon_request_send', blank)).reason, /reviewed_by is required/);
+  // A blank reviewer is refused before anyone is asked to approve it.
+  const refused = await rt.call('solon_request_send', blank); assert.equal(refused.status, 'error'); assert.equal(refused.approval_id, undefined);
+  assert.match(refused.reason, /reviewed_by is required/);
   new ApprovalStore(join(root, '.mythos')).approve((await rt.call('solon_request_send', req2)).approval_id, 'Jo');
   const ok = await rt.call('solon_request_send', req2); assert.equal(ok.status, 'executed'); assert.equal(ok.approved_by, 'Jo');
   const row = parseCsv(readFileSync(join(root, 'mythos-out/solon/send-requests.csv'), 'utf8'))[0];

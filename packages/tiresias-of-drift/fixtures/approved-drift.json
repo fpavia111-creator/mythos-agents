@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "note": "Fictional approved-drift baseline for demos and tests. Values are stored as fingerprints only.",
+  "approvals": [
+    {
+      "key": "db.pool_max",
+      "after_fp": "5e81a69781e3a428",
+      "change": "changed",
+      "risk": "medium",
+      "reason": "Planned change CHG-1042 (fictional)",
+      "approved_at": "2026-11-02T10:00:00.000Z",
+      "from": "snapshots/2026-10-01.json",
+      "to": "snapshots/2026-11-01.json"
+    },
+    {
+      "key": "features.new_invoice_pdf",
+      "after_fp": "9931b877b3a67744",
+      "change": "changed",
+      "risk": "low",
+      "reason": "Planned change CHG-1042 (fictional)",
+      "approved_at": "2026-11-02T10:00:00.000Z",
+      "from": "snapshots/2026-10-01.json",
+      "to": "snapshots/2026-11-01.json"
+    }
+  ]
+}

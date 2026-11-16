@@ -1,15 +1,270 @@
 {
   "suite": "nemesis-of-servers",
   "root": "..",
-  "data_note": "Deliberately risky (.sample) and tidy fictional servers and an MCP config in ../fixtures. Deterministic checks; no model is called.",
+  "data_note": "Deliberately risky and vulnerable (.sample) and tidy fictional servers, MCP configs, saved tool definitions, pins, a reviewer policy and a fictional advisory list in ../fixtures. Deterministic checks; no model is called.",
   "cases": [
-    { "id": "risky-server-findings", "tool": "nemesis_scan_server", "args": { "dir": "fixtures/risky-server" },
-      "expect": { "contains": ["NEM-EXEC-SHELL", "NEM-EVAL", "NEM-ENV-DUMP", "NEM-CRED-PATH", "NEM-INJECTION-TEXT", "NEM-INSTALL-SCRIPT", "review_before_use"] } },
-    { "id": "secret-is-masked", "tool": "nemesis_scan_server", "args": { "dir": "fixtures/risky-server" }, "expect": { "contains": ["NEM-HARDCODED-SECRET"], "not_contains": ["AKIAIOSFODNN7EXAMPLE"] } },
-    { "id": "tidy-server-clean", "tool": "nemesis_scan_server", "args": { "dir": "fixtures/tidy-server" }, "expect": { "contains": ["no_pattern_findings"], "equals": { "result.findings": 0 } } },
-    { "id": "config-review", "tool": "nemesis_scan_config", "args": { "config": "fixtures/mcp.json" },
-      "expect": { "contains": ["without a pinned version", "into a shell", "plain http", "value not shown"], "not_contains": ["not-a-real-key-123456"] } },
-    { "id": "pinned-server-not-flagged", "tool": "nemesis_scan_config", "args": { "config": "fixtures/mcp.json" }, "expect": { "not_contains": ["\"server\":\"pinned\""] } },
-    { "id": "never-runs-server", "tool": "nemesis_run_server", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+    {
+      "id": "risky-server-findings",
+      "tool": "nemesis_scan_server",
+      "args": {
+        "dir": "fixtures/risky-server"
+      },
+      "expect": {
+        "contains": [
+          "NEM-EXEC-SHELL",
+          "NEM-EVAL",
+          "NEM-ENV-DUMP",
+          "NEM-CRED-PATH",
+          "NEM-INJECTION-TEXT",
+          "NEM-INSTALL-SCRIPT",
+          "review_before_use"
+        ]
+      }
+    },
+    {
+      "id": "secret-is-masked",
+      "tool": "nemesis_scan_server",
+      "args": {
+        "dir": "fixtures/risky-server"
+      },
+      "expect": {
+        "contains": [
+          "NEM-HARDCODED-SECRET"
+        ],
+        "not_contains": [
+          "AKIAIOSFODNN7EXAMPLE"
+        ]
+      }
+    },
+    {
+      "id": "tidy-server-clean",
+      "tool": "nemesis_scan_server",
+      "args": {
+        "dir": "fixtures/tidy-server"
+      },
+      "expect": {
+        "contains": [
+          "no_pattern_findings"
+        ],
+        "equals": {
+          "result.findings": 0
+        }
+      }
+    },
+    {
+      "id": "config-review",
+      "tool": "nemesis_scan_config",
+      "args": {
+        "config": "fixtures/mcp.json"
+      },
+      "expect": {
+        "contains": [
+          "without a pinned version",
+          "into a shell",
+          "plain http",
+          "value not shown"
+        ],
+        "not_contains": [
+          "not-a-real-key-123456"
+        ]
+      }
+    },
+    {
+      "id": "pinned-server-not-flagged",
+      "tool": "nemesis_scan_config",
+      "args": {
+        "config": "fixtures/mcp.json"
+      },
+      "expect": {
+        "not_contains": [
+          "\"server\":\"pinned\""
+        ]
+      }
+    },
+    {
+      "id": "never-runs-server",
+      "tool": "nemesis_run_server",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      }
+    },
+    {
+      "id": "flow-env-to-network",
+      "tool": "nemesis_scan_server",
+      "args": {
+        "dir": "fixtures/flow-server"
+      },
+      "expect": {
+        "contains": [
+          "NEM-FLOW-ENV-TO-NET",
+          "NEM-FLOW-INPUT-TO-EXEC",
+          "NEM-TOKEN-PASSTHROUGH",
+          "line 5 -> line 6 -> line 9"
+        ]
+      }
+    },
+    {
+      "id": "lockfile-and-advisories",
+      "tool": "nemesis_scan_server",
+      "args": {
+        "dir": "fixtures/flow-server",
+        "advisories": "fixtures/advisories.json"
+      },
+      "expect": {
+        "contains": [
+          "FICT-2026-0001",
+          "NEM-LOCK-NONREGISTRY",
+          "NEM-LOCK-NO-INTEGRITY",
+          "NEM-PY-UNPINNED"
+        ]
+      }
+    },
+    {
+      "id": "policy-suppresses-with-reason",
+      "tool": "nemesis_scan_server",
+      "args": {
+        "dir": "fixtures/flow-server",
+        "policy": "fixtures/nemesis-policy.json"
+      },
+      "expect": {
+        "contains": [
+          "fictional review note",
+          "egress_allowlist"
+        ],
+        "length": {
+          "result.suppressed": 2
+        }
+      }
+    },
+    {
+      "id": "bad-policy-fails-with-pointer",
+      "tool": "nemesis_scan_server",
+      "args": {
+        "dir": "fixtures/tidy-server",
+        "policy": "fixtures/advisories.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "/snapshot"
+        ]
+      }
+    },
+    {
+      "id": "config-auto-approve-and-bypass",
+      "tool": "nemesis_scan_config",
+      "args": {
+        "config": "fixtures/mcp-extra.json",
+        "advisories": "fixtures/advisories.json"
+      },
+      "expect": {
+        "contains": [
+          "NEM-CFG-AUTO-APPROVE",
+          "NEM-CFG-SKIP-PERMS",
+          "NEM-CFG-DUPLICATE",
+          "NEM-CFG-ADVISORY",
+          "delete_note"
+        ]
+      }
+    },
+    {
+      "id": "tool-poisoning",
+      "tool": "nemesis_scan_tools",
+      "args": {
+        "tools": "fixtures/tools/multi.json"
+      },
+      "expect": {
+        "contains": [
+          "NEM-TOOL-SHADOWING",
+          "NEM-TOOL-HIDDEN-UNICODE",
+          "NEM-TOOL-CONTEXT-EXFIL",
+          "NEM-TOOL-ANNOTATION-MISMATCH",
+          "NEM-TOOL-NAME-COLLISION"
+        ],
+        "equals": {
+          "result.verdict": "review_before_use"
+        }
+      }
+    },
+    {
+      "id": "clean-tools-no-findings",
+      "tool": "nemesis_scan_tools",
+      "args": {
+        "tools": "fixtures/tools/notes-v1.json"
+      },
+      "expect": {
+        "equals": {
+          "result.findings": 0
+        }
+      }
+    },
+    {
+      "id": "rug-pull-detected",
+      "tool": "nemesis_check_pins",
+      "args": {
+        "tools": "fixtures/tools/notes-v2.json",
+        "pins": "fixtures/tools/notes-pins.json"
+      },
+      "expect": {
+        "contains": [
+          "<IMPORTANT>",
+          "export_notes"
+        ],
+        "equals": {
+          "result.pin_verdict": "rug_pull_suspected"
+        }
+      }
+    },
+    {
+      "id": "pins-match",
+      "tool": "nemesis_check_pins",
+      "args": {
+        "tools": "fixtures/tools/notes-v1.json",
+        "pins": "fixtures/tools/notes-pins.json"
+      },
+      "expect": {
+        "equals": {
+          "result.pin_verdict": "matches_pin",
+          "result.findings": 0
+        }
+      }
+    },
+    {
+      "id": "pin-tools-written",
+      "tool": "nemesis_pin_tools",
+      "args": {
+        "tools": "fixtures/tools/notes-v1.json",
+        "server": "notes",
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "contains": [
+          "tool-pins.json"
+        ],
+        "matches": [
+          "\"output_sha256\":\"[0-9a-f]{64}\""
+        ]
+      }
+    },
+    {
+      "id": "report-sarif-gate",
+      "tool": "nemesis_write_report",
+      "args": {
+        "dir": "fixtures/flow-server",
+        "tools": "fixtures/tools/multi.json",
+        "fail_on": "high",
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "contains": [
+          "nemesis.sarif"
+        ],
+        "equals": {
+          "result.gate.result": "fail"
+        }
+      }
+    }
   ]
 }

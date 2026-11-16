@@ -1,0 +1,5 @@
+Harbour Taxi Co. (fictional)
+Trip on 3 November 2026
+Fare 18.00
+Tip 2.00
+Total paid: £20.00

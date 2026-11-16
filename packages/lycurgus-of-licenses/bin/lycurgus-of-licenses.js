@@ -4,12 +4,12 @@ import { main, runtimeFromFlags, parseFlags } from 'mythos-agent-core';
 import { manifest } from '../src/manifest.js';
 import { demo } from '../src/demo.js';
 
-// `lycurgus-of-licenses check --project . --policy license-policy.json` for CI:
+// `lycurgus-of-licenses check --project . --policy license-policy.json [--ecosystem pnpm] [--modules-dir node_modules] [--site-packages .venv/lib/python3.12/site-packages]` for CI:
 // prints the summary and exits 1 when the policy check fails. It changes no files.
 if (process.argv[2] === 'check') {
   const { flags } = parseFlags(process.argv.slice(3));
   const rt = runtimeFromFlags(manifest, { ...flags, root: flags.root || process.cwd() });
-  const r = await rt.call('lycurgus_check', { project: flags.project || '.', policy: flags.policy || 'license-policy.json', ...(flags['include-dev'] ? { include_dev: true } : {}) });
+  const r = await rt.call('lycurgus_check', { project: flags.project || '.', policy: flags.policy || 'license-policy.json', ...(flags['include-dev'] ? { include_dev: true } : {}), ...(flags.ecosystem ? { ecosystem: flags.ecosystem } : {}), ...(flags['modules-dir'] ? { modules_dir: flags['modules-dir'] } : {}), ...(flags['site-packages'] ? { site_packages: flags['site-packages'] } : {}) });
   if (r.status !== 'executed') { process.stderr.write(`${r.status}: ${r.reason}\n`); process.exit(2); }
   process.stdout.write(r.result.summary + '\n');
   for (const f of r.result.findings.filter((x) => x.severity !== 'advisory')) process.stdout.write(`  ${f.severity.padEnd(8)} ${f.check.padEnd(22)} ${f.package}${f.version ? '@' + f.version : ''}${f.policy_section ? '  ' + f.policy_section : ''}\n`);

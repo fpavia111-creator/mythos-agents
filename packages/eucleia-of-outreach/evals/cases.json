@@ -3,16 +3,251 @@
   "root": "..",
   "data_note": "Fictional drafts, sender and suppression list in ../fixtures. Deterministic tool-level checks; no model is called and nothing is sent.",
   "cases": [
-    { "id": "batch-holds-the-right-rows", "tool": "eucleia_check_batch", "args": { "drafts": "fixtures/drafts.csv", "suppression": "fixtures/suppression.csv", "config": "fixtures/eucleia.json" },
-      "expect": { "contains": ["must be under 30", "outside the send window", "on the suppression list", "duplicate"], "equals": { "result.ready": 2, "result.held": 4 } } },
-    { "id": "missing-footer-fields-hold", "tool": "eucleia_check_draft", "args": { "to": "a@b.example", "subject": "Hi", "body": "Short note.", "send_at": "2026-11-17T15:00:00Z" },
-      "expect": { "contains": ["postal", "unsubscribe"], "equals": { "result.ok": false } } },
-    { "id": "long-body-holds", "tool": "eucleia_check_draft", "args": { "config": "fixtures/eucleia.json", "to": "a@b.example", "subject": "Hi", "send_at": "2026-11-17T15:00:00Z", "body": "word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word" },
-      "expect": { "contains": ["must be under 100"], "equals": { "result.ok": false } } },
-    { "id": "good-draft-is-ready", "tool": "eucleia_check_draft", "args": { "config": "fixtures/eucleia.json", "to": "a@b.example", "subject": "Quick idea", "body": "Hi there.", "send_at": "2026-11-17T15:00:00Z" },
-      "expect": { "equals": { "result.ok": true } } },
-    { "id": "release-stays-one-click-in-auto", "tool": "eucleia_release_batch", "mode": "auto", "args": { "drafts": "fixtures/drafts.csv", "config": "fixtures/eucleia.json" }, "expect": { "status": "needs_approval", "decision": "ask" } },
-    { "id": "suppression-add-asks-in-assist", "tool": "eucleia_add_suppression", "args": { "suppression": "fixtures/suppression.csv", "email": "x@y.example" }, "expect": { "status": "needs_approval" } },
-    { "id": "never-sends", "tool": "eucleia_send_email", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+    {
+      "id": "batch-holds-the-right-rows",
+      "tool": "eucleia_check_batch",
+      "args": {
+        "drafts": "fixtures/drafts.csv",
+        "suppression": "fixtures/suppression.csv",
+        "config": "fixtures/eucleia.json"
+      },
+      "expect": {
+        "contains": [
+          "must be under 30",
+          "outside the send window",
+          "on the suppression list",
+          "duplicate"
+        ],
+        "equals": {
+          "result.ready": 2,
+          "result.held": 4
+        }
+      }
+    },
+    {
+      "id": "missing-footer-fields-hold",
+      "tool": "eucleia_check_draft",
+      "args": {
+        "to": "a@b.example",
+        "subject": "Hi",
+        "body": "Short note.",
+        "send_at": "2026-11-17T15:00:00Z"
+      },
+      "expect": {
+        "contains": [
+          "postal",
+          "unsubscribe"
+        ],
+        "equals": {
+          "result.ok": false
+        }
+      }
+    },
+    {
+      "id": "long-body-holds",
+      "tool": "eucleia_check_draft",
+      "args": {
+        "config": "fixtures/eucleia.json",
+        "to": "a@b.example",
+        "subject": "Hi",
+        "send_at": "2026-11-17T15:00:00Z",
+        "body": "word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word"
+      },
+      "expect": {
+        "contains": [
+          "must be under 100"
+        ],
+        "equals": {
+          "result.ok": false
+        }
+      }
+    },
+    {
+      "id": "good-draft-is-ready",
+      "tool": "eucleia_check_draft",
+      "args": {
+        "config": "fixtures/eucleia.json",
+        "to": "a@b.example",
+        "subject": "Quick idea",
+        "body": "Hi there.",
+        "send_at": "2026-11-17T15:00:00Z"
+      },
+      "expect": {
+        "equals": {
+          "result.ok": true
+        }
+      }
+    },
+    {
+      "id": "release-stays-one-click-in-auto",
+      "tool": "eucleia_release_batch",
+      "mode": "auto",
+      "args": {
+        "drafts": "fixtures/drafts.csv",
+        "config": "fixtures/eucleia.json"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      }
+    },
+    {
+      "id": "suppression-add-asks-in-assist",
+      "tool": "eucleia_add_suppression",
+      "args": {
+        "suppression": "fixtures/suppression.csv",
+        "email": "x@y.example"
+      },
+      "expect": {
+        "status": "needs_approval"
+      }
+    },
+    {
+      "id": "never-sends",
+      "tool": "eucleia_send_email",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      }
+    },
+    {
+      "id": "placeholders-links-and-zones-hold",
+      "tool": "eucleia_check_batch",
+      "args": {
+        "drafts": "fixtures/drafts-checks.csv",
+        "config": "fixtures/eucleia.json",
+        "suppression": "fixtures/suppression.csv"
+      },
+      "expect": {
+        "contains": [
+          "unfilled placeholder {{first_name}}",
+          "bit.ly is a URL shortener",
+          "not on the link allowlist",
+          "Asia/Tokyo"
+        ],
+        "equals": {
+          "result.ready": 3,
+          "result.held": 4
+        }
+      }
+    },
+    {
+      "id": "spam-words-cited",
+      "tool": "eucleia_check_draft",
+      "args": {
+        "config": "fixtures/eucleia.json",
+        "to": "a@b.example",
+        "subject": "Quick idea",
+        "body": "Guaranteed results, click here.",
+        "send_at": "2026-11-17T15:00:00Z"
+      },
+      "expect": {
+        "contains": [
+          "spam word: \\\"guaranteed\\\" in body at 0",
+          "click here"
+        ],
+        "equals": {
+          "result.ok": true
+        }
+      }
+    },
+    {
+      "id": "recipient-zone-next-window",
+      "tool": "eucleia_check_draft",
+      "args": {
+        "config": "fixtures/eucleia.json",
+        "to": "a@b.example",
+        "subject": "Quick idea",
+        "body": "Hi.",
+        "send_at": "2026-11-17T15:00:00Z",
+        "time_zone": "Asia/Tokyo"
+      },
+      "expect": {
+        "equals": {
+          "result.ok": false,
+          "result.next_window": "2026-11-17T23:00:00.000Z"
+        }
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "eucleia_check_batch",
+      "args": {
+        "drafts": "fixtures/drafts.csv",
+        "config": "fixtures/esp/resend-contacts.csv"
+      },
+      "expect": {
+        "status": "error"
+      }
+    },
+    {
+      "id": "import-needs-human",
+      "tool": "eucleia_import_suppression",
+      "args": {
+        "suppression": "fixtures/suppression.csv",
+        "export": "fixtures/esp/hubspot-contacts.csv"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      }
+    },
+    {
+      "id": "import-blocked-in-review",
+      "tool": "eucleia_import_suppression",
+      "mode": "review",
+      "args": {
+        "suppression": "fixtures/suppression.csv",
+        "export": "fixtures/esp/resend-contacts.csv"
+      },
+      "expect": {
+        "status": "blocked"
+      }
+    },
+    {
+      "id": "plan-schedule",
+      "tool": "eucleia_plan_schedule",
+      "args": {
+        "drafts": "fixtures/drafts-checks.csv",
+        "config": "fixtures/eucleia.json",
+        "suppression": "fixtures/suppression.csv",
+        "start_from": "2026-11-16T00:00:00Z",
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "contains": [
+          "schedule.ics",
+          "Nothing was sent"
+        ],
+        "equals": {
+          "result.scheduled": 4,
+          "result.slots.0.send_at": "2026-11-16T23:00:00.000Z"
+        },
+        "matches": [
+          "\"output_sha256\":\"[0-9a-f]{64}\""
+        ]
+      }
+    },
+    {
+      "id": "release-after-named-click",
+      "tool": "eucleia_release_batch",
+      "approve": "Kim (fictional)",
+      "args": {
+        "drafts": "fixtures/drafts-checks.csv",
+        "config": "fixtures/eucleia.json",
+        "suppression": "fixtures/suppression.csv",
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Eucleia sent nothing"
+        ],
+        "equals": {
+          "approved_by": "Kim (fictional)"
+        }
+      }
+    }
   ]
 }

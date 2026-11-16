@@ -1,0 +1,5 @@
+User id,User name,email,User status,Added to org,Org role,Last seen in Jira - example,Last seen in Confluence - example
+5b10a0000000000000000001,Avery Stone (fictional),avery.stone@example.com,Active,01 Feb 2024,Organization admin,10 Nov 2026,02 Nov 2026
+5b10a0000000000000000002,Riley Park (fictional),riley.park@example.com,Active,11 Mar 2024,User,29 Oct 2026,Never accessed
+5b10a0000000000000000003,Jordan Lee (fictional),jordan.lee@example.com,Active,20 Jun 2023,User,01 Jun 2026,15 May 2026
+5b10a0000000000000000004,Casey Moss (fictional),casey.moss@example.com,Suspended,05 Jan 2022,User,28 Jun 2026,Never accessed

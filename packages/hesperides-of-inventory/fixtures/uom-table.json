@@ -1,0 +1,8 @@
+{
+  "source": "Example item master export, 2026-11-01 (fictional)",
+  "conversions": [
+    { "sku": "GLUE-1", "from": "CS", "to": "EA", "factor": 12 },
+    { "sku": "CORD-3", "from": "CS", "to": "EA", "factor": 10 },
+    { "from": "PK", "to": "EA", "factor": 6 }
+  ]
+}

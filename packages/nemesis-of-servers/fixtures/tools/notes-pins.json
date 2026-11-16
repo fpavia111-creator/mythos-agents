@@ -1,0 +1,62 @@
+{
+  "format": "nemesis-tool-pins/1",
+  "note": "Pins the tool definitions a person reviewed. Compare later with nemesis_check_pins.",
+  "servers": {
+    "notes": {
+      "delete_note": {
+        "sha256": "f818cbfcec599e885025e3ee410aa56ad47152f6a774d912585ab35f3b1453ec",
+        "name": "delete_note",
+        "title": null,
+        "description": "Delete one note by title. Asks the user first.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "title"
+          ],
+          "properties": {
+            "title": {
+              "type": "string"
+            }
+          }
+        },
+        "annotations": {
+          "destructiveHint": true
+        }
+      },
+      "list_notes": {
+        "sha256": "f07a3a1518dd2d2d724e666826e0e49ebc562cc88457c80829718b2f2941e37a",
+        "name": "list_notes",
+        "title": null,
+        "description": "List note titles in the notes folder.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        },
+        "annotations": {
+          "readOnlyHint": true
+        }
+      },
+      "read_note": {
+        "sha256": "c5fe01ea3104332efeba42b2ec5835c0b601568390f8b609776593794f6c53f3",
+        "name": "read_note",
+        "title": null,
+        "description": "Read one note by title.",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "title"
+          ],
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Note title"
+            }
+          }
+        },
+        "annotations": {
+          "readOnlyHint": true
+        }
+      }
+    }
+  }
+}

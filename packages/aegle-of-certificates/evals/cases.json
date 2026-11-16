@@ -1,16 +1,274 @@
 {
-  "suite": "aegle-of-certificates",
-  "root": "..",
-  "data_note": "Fictional inventory, vendors and requirements in ../fixtures. Deterministic checks; no model is called.",
-  "cases": [
-    { "id": "scan-orders-and-flags", "tool": "aegle_scan", "args": { "certificates": "fixtures/certificates.csv", "as_of": "2026-11-14" },
-      "expect": { "contains": ["weak_key_RSA_1024", "weak_signature", "self_signed", "registrar_lock_off", "auto_renew_off", "no_owner"], "equals": { "result.items.0.id": "TLS-2", "result.counts.expired": 1, "result.counts.critical": 1, "result.counts.ok": 2 } } },
-    { "id": "coi-gaps-vs-requirements", "tool": "aegle_scan", "args": { "cois": "fixtures/cois.csv", "requirements": "fixtures/requirements.csv", "as_of": "2026-11-14" },
-      "expect": { "contains": ["limit_below_required", "additional_insured_missing", "missing_coverage", "expiring"], "equals": { "result.vendors_with_gaps": 2, "result.requirements_used": true } } },
-    { "id": "custom-thresholds", "tool": "aegle_scan", "args": { "certificates": "fixtures/certificates.csv", "as_of": "2026-11-14", "critical_days": 30 }, "expect": { "equals": { "result.counts.critical": 2, "result.counts.warning": 0 } } },
-    { "id": "chase-drafts-auto-when-opted-in", "tool": "aegle_draft_chase", "mode": "auto", "auto_actions": ["aegle_draft_chase"], "args": { "cois": "fixtures/cois.csv", "requirements": "fixtures/requirements.csv", "as_of": "2026-11-14", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "contains": ["2 chase draft(s) written. Nothing was sent."] } },
-    { "id": "renewal-stays-one-click-in-auto", "tool": "aegle_request_renewal", "mode": "auto", "args": { "id": "DOM-1", "cost": 24.99, "reason": "expiring" }, "expect": { "status": "needs_approval", "decision": "ask", "contains": ["move_money stays one-click"] } },
-    { "id": "production-change-stays-one-click", "tool": "aegle_request_production_change", "mode": "auto", "args": { "id": "TLS-2", "change": "install" }, "expect": { "status": "needs_approval", "contains": ["production_deploy stays one-click"] } },
-    { "id": "never-sends", "tool": "send_email", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
-  ]
+ "suite": "aegle-of-certificates",
+ "root": "..",
+ "data_note": "Fictional inventory, vendors and requirements in ../fixtures. Deterministic checks; no model is called.",
+ "cases": [
+  {
+   "id": "scan-orders-and-flags",
+   "tool": "aegle_scan",
+   "args": {
+    "certificates": "fixtures/certificates.csv",
+    "as_of": "2026-11-14"
+   },
+   "expect": {
+    "contains": [
+     "weak_key_RSA_1024",
+     "weak_signature",
+     "self_signed",
+     "registrar_lock_off",
+     "auto_renew_off",
+     "no_owner"
+    ],
+    "equals": {
+     "result.items.0.id": "TLS-2",
+     "result.counts.expired": 1,
+     "result.counts.critical": 1,
+     "result.counts.ok": 2
+    }
+   }
+  },
+  {
+   "id": "coi-gaps-vs-requirements",
+   "tool": "aegle_scan",
+   "args": {
+    "cois": "fixtures/cois.csv",
+    "requirements": "fixtures/requirements.csv",
+    "as_of": "2026-11-14"
+   },
+   "expect": {
+    "contains": [
+     "limit_below_required",
+     "additional_insured_missing",
+     "missing_coverage",
+     "expiring"
+    ],
+    "equals": {
+     "result.vendors_with_gaps": 2,
+     "result.requirements_used": true
+    }
+   }
+  },
+  {
+   "id": "custom-thresholds",
+   "tool": "aegle_scan",
+   "args": {
+    "certificates": "fixtures/certificates.csv",
+    "as_of": "2026-11-14",
+    "critical_days": 30
+   },
+   "expect": {
+    "equals": {
+     "result.counts.critical": 2,
+     "result.counts.warning": 0
+    }
+   }
+  },
+  {
+   "id": "chase-drafts-auto-when-opted-in",
+   "tool": "aegle_draft_chase",
+   "mode": "auto",
+   "auto_actions": [
+    "aegle_draft_chase"
+   ],
+   "args": {
+    "cois": "fixtures/cois.csv",
+    "requirements": "fixtures/requirements.csv",
+    "as_of": "2026-11-14",
+    "out_dir": "mythos-out/eval"
+   },
+   "expect": {
+    "status": "executed",
+    "contains": [
+     "2 chase draft(s) written. Nothing was sent."
+    ]
+   }
+  },
+  {
+   "id": "renewal-stays-one-click-in-auto",
+   "tool": "aegle_request_renewal",
+   "mode": "auto",
+   "args": {
+    "id": "DOM-1",
+    "cost": 24.99,
+    "reason": "expiring"
+   },
+   "expect": {
+    "status": "needs_approval",
+    "decision": "ask",
+    "contains": [
+     "move_money stays one-click"
+    ]
+   }
+  },
+  {
+   "id": "production-change-stays-one-click",
+   "tool": "aegle_request_production_change",
+   "mode": "auto",
+   "args": {
+    "id": "TLS-2",
+    "change": "install"
+   },
+   "expect": {
+    "status": "needs_approval",
+    "contains": [
+     "production_deploy stays one-click"
+    ]
+   }
+  },
+  {
+   "id": "never-sends",
+   "tool": "send_email",
+   "mode": "auto",
+   "args": {},
+   "expect": {
+    "status": "blocked"
+   }
+  },
+  {
+   "id": "requirement-profile-by-category",
+   "tool": "aegle_scan",
+   "args": {
+    "cois": "fixtures/cois.csv",
+    "requirements": "fixtures/requirements.json",
+    "as_of": "2026-11-14"
+   },
+   "expect": {
+    "contains": [
+     "\"requirement_set\":\"electrical\"",
+     "waiver_of_subrogation_missing"
+    ],
+    "equals": {
+     "result.vendors.0.vendor": "Bright Electric (fictional)",
+     "result.vendors_with_gaps": 2
+    },
+    "length": {
+     "result.vendors.0.gaps": 5
+    }
+   }
+  },
+  {
+   "id": "requirement-profile-typo-fails",
+   "tool": "aegle_scan",
+   "args": {
+    "cois": "fixtures/cois.csv",
+    "requirements": "evals/bad-requirements.json",
+    "as_of": "2026-11-14"
+   },
+   "expect": {
+    "status": "error",
+    "contains": [
+     "/default/0/min_limt is not an allowed property"
+    ]
+   }
+  },
+  {
+   "id": "inventory-diff",
+   "tool": "aegle_diff_inventory",
+   "args": {
+    "previous": "fixtures/certificates-previous.csv",
+    "certificates": "fixtures/certificates.csv",
+    "as_of": "2026-11-14"
+   },
+   "expect": {
+    "equals": {
+     "result.changes.0.change": "expiry_moved_earlier",
+     "result.counts.removed": 1,
+     "result.counts.renewed": 1,
+     "result.counts.auto_renew_turned_off": 1
+    }
+   }
+  },
+  {
+   "id": "coi-text-extract-marked-for-review",
+   "tool": "aegle_extract_coi",
+   "args": {
+    "files": [
+     "fixtures/coi-text/acme-plumbing-coi.txt"
+    ],
+    "out_dir": "mythos-out/eval"
+   },
+   "expect": {
+    "status": "executed",
+    "contains": [
+     "\"needs_review\":\"yes\"",
+     "GL-0001234"
+    ],
+    "equals": {
+     "result.documents.0.rows.0.limit": 1000000,
+     "result.documents.0.rows.0.expires": "2027-03-01"
+    },
+    "matches": [
+     "\"output_sha256\":\"[0-9a-f]{64}\""
+    ]
+   }
+  },
+  {
+   "id": "report-html-ics-hash",
+   "tool": "aegle_write_report",
+   "args": {
+    "certificates": "fixtures/certificates.csv",
+    "as_of": "2026-11-14",
+    "reminder_days": [
+     45,
+     7
+    ],
+    "out_dir": "mythos-out/eval"
+   },
+   "expect": {
+    "status": "executed",
+    "contains": [
+     "expiry-report.html",
+     "renewals.ics",
+     "reminders 45/7 days before"
+    ],
+    "length": {
+     "result.files": 4
+    }
+   }
+  },
+  {
+   "id": "live-tls-asks-in-assist",
+   "tool": "aegle_tls_live_check",
+   "args": {
+    "hosts": [
+     "shop.example.com"
+    ]
+   },
+   "expect": {
+    "status": "needs_approval",
+    "decision": "ask"
+   }
+  },
+  {
+   "id": "live-tls-off-in-review",
+   "tool": "aegle_tls_live_check",
+   "mode": "review",
+   "args": {
+    "hosts": [
+     "shop.example.com"
+    ]
+   },
+   "expect": {
+    "status": "blocked",
+    "contains": [
+     "Review mode is read-only"
+    ]
+   }
+  },
+  {
+   "id": "live-tls-bad-host-rejected",
+   "tool": "aegle_tls_live_check",
+   "args": {
+    "hosts": [
+     "https://example.com/path"
+    ]
+   },
+   "expect": {
+    "status": "error",
+    "contains": [
+     "invalid arguments: /hosts/0"
+    ]
+   }
+  }
+ ]
 }
