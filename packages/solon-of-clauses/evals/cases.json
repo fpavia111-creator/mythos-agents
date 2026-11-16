@@ -1,14 +1,280 @@
 {
   "suite": "solon-of-clauses",
   "root": "..",
-  "data_note": "Fictional MSA ../fixtures/contracts/msa.md and a fictional customer-side playbook. Text matching only; no model and no network are used. Not legal advice.",
+  "data_note": "Fictional MSA ../fixtures/contracts/msa.md, the same text as msa.docx, a later draft with a tracked change (msa-v2-tracked.docx) and a fictional customer-side playbook. Text matching only; no model and no network are used. Not legal advice.",
   "cases": [
-    { "id": "planted-gaps", "tool": "solon_check", "args": { "contract": "fixtures/contracts/msa.md", "playbook": "fixtures/playbook.json" },
-      "expect": { "status": "executed", "contains": ["\"status\":\"missing\"", "prohibited_present", "Payment period is 60 days (line 15); your playbook's limit is 45 days.", "Liability cap is 3 months of fees", "return or destroy", "open_placeholder", "broken_cross_reference", "Not legal advice"], "equals": { "result.gaps": 6, "result.counts.present": 3, "result.sections": 10 } } },
-    { "id": "citations-have-section-and-line", "tool": "solon_check", "args": { "contract": "fixtures/contracts/msa.md", "playbook": "fixtures/playbook.json" }, "expect": { "contains": ["\"section\":\"4 Term and Renewal\",\"line\":19", "\"section\":\"6 Limitation of Liability\",\"line\":27"] } },
-    { "id": "memo-uses-only-playbook-language", "tool": "solon_draft_markup", "mode": "auto", "auto_actions": ["solon_draft_markup"], "args": { "contract": "fixtures/contracts/msa.md", "playbook": "fixtures/playbook.json", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "contains": ["[COUNSEL REVIEW]", "Nothing was sent. Not legal advice."] } },
-    { "id": "send-stays-one-click-in-auto", "tool": "solon_request_send", "mode": "auto", "args": { "draft": "x.md", "draft_sha256": "0", "to": "x", "reviewed_by": "y" }, "expect": { "status": "needs_approval", "contains": ["binding_send stays one-click"] } },
-    { "id": "never-signs", "tool": "e_sign", "mode": "auto", "args": {}, "expect": { "status": "blocked", "contains": ["never signs"] } },
-    { "id": "no-docx", "tool": "solon_check", "args": { "contract": "fixtures/playbook.json", "playbook": "fixtures/playbook.json" }, "expect": { "status": "error", "contains": ["export the document as plain text"] } }
+    {
+      "id": "planted-gaps",
+      "tool": "solon_check",
+      "args": {
+        "contract": "fixtures/contracts/msa.md",
+        "playbook": "fixtures/playbook.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "\"status\":\"missing\"",
+          "prohibited_present",
+          "Payment period is 60 days (line 15); your playbook's limit is 45 days.",
+          "Liability cap is 3 months of fees",
+          "return or destroy",
+          "open_placeholder",
+          "broken_cross_reference",
+          "Not legal advice"
+        ],
+        "equals": {
+          "result.gaps": 6,
+          "result.counts.present": 3,
+          "result.sections": 10
+        }
+      }
+    },
+    {
+      "id": "citations-have-section-and-line",
+      "tool": "solon_check",
+      "args": {
+        "contract": "fixtures/contracts/msa.md",
+        "playbook": "fixtures/playbook.json"
+      },
+      "expect": {
+        "contains": [
+          "\"section\":\"4 Term and Renewal\",\"line\":19",
+          "\"section\":\"6 Limitation of Liability\",\"line\":27"
+        ]
+      }
+    },
+    {
+      "id": "memo-uses-only-playbook-language",
+      "tool": "solon_draft_markup",
+      "mode": "auto",
+      "auto_actions": [
+        "solon_draft_markup"
+      ],
+      "args": {
+        "contract": "fixtures/contracts/msa.md",
+        "playbook": "fixtures/playbook.json",
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "[COUNSEL REVIEW]",
+          "Nothing was sent. Not legal advice."
+        ]
+      }
+    },
+    {
+      "id": "send-stays-one-click-in-auto",
+      "tool": "solon_request_send",
+      "mode": "auto",
+      "args": {
+        "draft": "x.md",
+        "draft_sha256": "0",
+        "to": "x",
+        "reviewed_by": "y"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "contains": [
+          "binding_send stays one-click"
+        ]
+      }
+    },
+    {
+      "id": "never-signs",
+      "tool": "e_sign",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "contains": [
+          "never signs"
+        ]
+      }
+    },
+    {
+      "id": "unsupported-format-refused",
+      "tool": "solon_check",
+      "args": {
+        "contract": "fixtures/playbook.json",
+        "playbook": "fixtures/playbook.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "export the document as plain text"
+        ]
+      }
+    },
+    {
+      "id": "docx-same-findings",
+      "tool": "solon_check",
+      "args": {
+        "contract": "fixtures/contracts/msa.docx",
+        "playbook": "fixtures/playbook.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Payment period is 60 days (line 15); your playbook's limit is 45 days.",
+          "\"section\":\"4 Term and Renewal\",\"line\":19",
+          "\"format\":\"docx\""
+        ],
+        "equals": {
+          "result.gaps": 6,
+          "result.counts.present": 3,
+          "result.sections": 10,
+          "result.playbook_version": "3.0.0"
+        },
+        "length": {
+          "result.document_findings": 2
+        }
+      }
+    },
+    {
+      "id": "docx-tracked-changes-flagged",
+      "tool": "solon_check",
+      "args": {
+        "contract": "fixtures/contracts/msa-v2-tracked.docx",
+        "playbook": "fixtures/playbook.json"
+      },
+      "expect": {
+        "contains": [
+          "docx_tracked_changes",
+          "as if every change were accepted",
+          "docx_comments"
+        ],
+        "equals": {
+          "result.gaps": 5,
+          "result.source.tracked_deletions": 1
+        }
+      }
+    },
+    {
+      "id": "defined-terms",
+      "tool": "solon_check",
+      "args": {
+        "contract": "fixtures/contracts/msa.md",
+        "playbook": "fixtures/playbook.json"
+      },
+      "expect": {
+        "equals": {
+          "result.defined_terms.undefined": [
+            {
+              "term": "Effective Date",
+              "lines": [
+                19
+              ]
+            }
+          ],
+          "result.defined_terms.unused": [
+            {
+              "term": "Deliverables",
+              "line": 7
+            }
+          ]
+        },
+        "length": {
+          "result.defined_terms.defined": 5
+        }
+      }
+    },
+    {
+      "id": "compare-drafts",
+      "tool": "solon_compare_drafts",
+      "args": {
+        "contract": "fixtures/contracts/msa-v2-tracked.docx",
+        "previous_contract": "fixtures/contracts/msa.md",
+        "playbook": "fixtures/playbook.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "1 clause(s) better, 0 worse",
+          "Not legal advice"
+        ],
+        "equals": {
+          "result.clauses.0.id": "payment_terms",
+          "result.clauses.0.value_after": 30,
+          "result.sections.changed": [
+            "3 Fees and Payment"
+          ],
+          "result.gaps_after": 5
+        }
+      }
+    },
+    {
+      "id": "memo-cites-playbook-version",
+      "tool": "solon_draft_markup",
+      "mode": "auto",
+      "auto_actions": [
+        "solon_draft_markup"
+      ],
+      "args": {
+        "contract": "fixtures/contracts/msa.docx",
+        "playbook": "fixtures/playbook.json",
+        "out_dir": "mythos-out/eval-v2"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "citing playbook version 3.0.0",
+          "Nothing was sent. Not legal advice."
+        ],
+        "equals": {
+          "result.playbook_version": "3.0.0"
+        },
+        "matches": [
+          "\"playbook_sha256\":\"[0-9a-f]{64}\""
+        ]
+      }
+    },
+    {
+      "id": "playbook-typo-fails",
+      "tool": "solon_check",
+      "args": {
+        "contract": "fixtures/contracts/msa.md",
+        "playbook": "package.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not a valid playbook"
+        ]
+      }
+    },
+    {
+      "id": "report-with-previous-draft",
+      "tool": "solon_write_report",
+      "args": {
+        "contract": "fixtures/contracts/msa-v2-tracked.docx",
+        "previous_contract": "fixtures/contracts/msa.md",
+        "playbook": "fixtures/playbook.json",
+        "out_dir": "mythos-out/eval-rep"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "draft-changes.md",
+          "contract.diff",
+          "1 better, 0 worse"
+        ],
+        "matches": [
+          "\"output_sha256\":\"[0-9a-f]{64}\""
+        ]
+      }
+    },
+    {
+      "id": "never-sends-email",
+      "tool": "send_email",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "contains": [
+          "never sends"
+        ]
+      }
+    }
   ]
 }

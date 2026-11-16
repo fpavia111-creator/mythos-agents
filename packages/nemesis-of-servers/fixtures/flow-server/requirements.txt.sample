@@ -1,0 +1,4 @@
+# Fictional packages for tests
+example-mcp-kit>=2.0
+demo-yaml-tool==0.3.1
+pinned-ok-lib==1.0.0

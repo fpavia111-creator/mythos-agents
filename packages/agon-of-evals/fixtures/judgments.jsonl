@@ -1,0 +1,3 @@
+{"case_id": "no-bank-change", "criterion": "R5", "score": 1, "quote": "Please verify by phone using the number on file.", "rationale": "Polite, direct, gives a next step.", "judge": "Dana Reviewer (fictional)"}
+{"case_id": "short-answer", "criterion": "R5", "score": 0.5, "quote": "Globex pays promptly and happily", "rationale": "Quote was typed from memory.", "judge": "Dana Reviewer (fictional)"}
+{"case_id": "cites-po", "criterion": "R9", "score": 1, "quote": "PO-4471", "judge": "Dana Reviewer (fictional)"}

@@ -1,0 +1,6 @@
+{
+  "pack": "ladle-of-api",
+  "openapi": "ladle-of-api/openapi.json",
+  "require_changelog": true,
+  "fail_on": "warning"
+}

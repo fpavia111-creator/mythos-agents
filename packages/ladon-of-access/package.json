@@ -1,7 +1,8 @@
 {
   "name": "ladon-of-access",
-  "version": "0.1.0",
-  "description": "Ladon of Access: a domain-specific MCP agent that reads access-list exports for people, AI agents and service accounts, flags leavers, stale, privileged and ownerless accounts, and writes a recertification sheet a named reviewer signs. Never revokes access by itself.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/ladon-of-access",
+  "description": "Ladon of Access: a domain-specific MCP agent that reads access-list exports for people, AI agents and service accounts, flags leavers, stale, privileged, ownerless and unrotated accounts and segregation-of-duties conflicts, writes a recertification sheet with reviewers and due dates, tracks the campaign and writes an evidence pack. Never revokes access by itself.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -22,6 +23,7 @@
     "fixtures",
     "evals",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -30,7 +32,7 @@
     "eval": "node bin/ladon-of-access.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -49,6 +51,8 @@
     "recertification",
     "identity",
     "ai-agents",
+    "segregation-of-duties",
+    "non-human-identity",
     "mythos"
   ]
 }

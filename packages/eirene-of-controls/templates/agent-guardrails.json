@@ -1,0 +1,12 @@
+{
+  "name": "Agent guardrails starter (rename the ids to match your own control list)",
+  "description": "A starting point for mapping AI-agent audit logs to your own controls. Not an official framework mapping and not a certification checklist.",
+  "controls": [
+    { "id": "AGT-01", "title": "Destructive or out-of-scope agent actions are blocked", "match": { "status": "blocked" }, "frequency": "monthly" },
+    { "id": "AGT-02", "title": "Data changes made by agents are approved by a named person", "match_any": [ { "kind": "write", "status": "executed", "approved_by": "?*" }, { "decision": "ask", "status": "executed" } ], "frequency": "monthly" },
+    { "id": "AGT-03", "title": "Go-live is never approved by an agent", "match": { "category": "go_live", "decision": "block" } },
+    { "id": "AGT-04", "title": "Production deploys by agents are refused or approved by a person", "match": { "category": "production_deploy" } },
+    { "id": "AGT-05", "title": "Actions run on Auto are limited to opted-in tools and reviewed", "match": { "mode": "auto", "status": "executed" }, "frequency": "monthly" },
+    { "id": "AGT-06", "title": "Reports given to reviewers are hash-recorded", "match": { "tool": "*_report" } }
+  ]
+}

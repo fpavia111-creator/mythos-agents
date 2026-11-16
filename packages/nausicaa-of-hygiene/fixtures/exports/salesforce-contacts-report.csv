@@ -1,0 +1,5 @@
+First Name,Last Name,Title,Account Name,Email,Email Opt Out,Email Bounced Reason,Email Bounced Date,Last Activity,Contact Owner,Contact ID
+Ana,Lopez,Buyer,Northwind (fictional),ana.lopez@example.com,0,,,10/30/2026,Sam Owner,0035e00000AAA001
+Cy,Reyes,Director,Umbrella (fictional),cy.reyes@example.com,0,550 5.1.1 The email account that you tried to reach does not exist,1/20/2025,1/15/2025,Sam Owner,0035e00000AAA004
+Dee,Park,Manager,Hooli (fictional),dee.park@example.com,1,,,8/2/2026,Sam Owner,0035e00000AAA005
+Grand Totals (3 records),,,,,,,,,,

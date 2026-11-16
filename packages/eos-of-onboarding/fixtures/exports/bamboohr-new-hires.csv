@@ -1,0 +1,4 @@
+Employee #,First Name,Last Name,Hire Date,Termination Date,Status,Employment Status,Job Title,Department,Location,Supervisor,Work Email
+C1,Jordan,Lee,11/16/2026,02/28/2027,Active,Contractor,Front-end developer,Engineering,Remote,Sam Ortiz,jordan@example.com
+C2,Riley,Park,11/02/2026,,Active,Contractor,Copywriter,Marketing,Remote,Sam Ortiz,riley@example.com
+E7,Morgan,Diaz,11/23/2026,,Active,Full-Time,Support specialist,Support,Duluth,Kim Ortiz,morgan@example.com

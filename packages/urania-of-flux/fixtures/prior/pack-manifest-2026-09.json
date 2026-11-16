@@ -1,0 +1,12 @@
+{
+  "title": "Board pack (fictional)",
+  "period": "September 2026",
+  "pack": "prior/board-pack-2026-09.md",
+  "pack_sha256": "51876c914a761c61cad6345683bb44c1b3df9737719e3fcc5d5a64eacf5247da",
+  "figures": "prior/figures-2026-09.csv",
+  "figures_sha256": "5338920c2f3d0b45933a833d12f515ec8c16421e4a0c638d391644bb17c5ec5d",
+  "docs": [],
+  "claims_checked": 7,
+  "claims_issues": 0,
+  "open_markers": 0
+}

@@ -1,0 +1,5 @@
+{"case_id": "structured-summary", "model": "claude-sonnet-4-5-20250929", "output": "{\"invoice_id\":\"INV-1001\",\"total\":1250.0,\"currency\":\"USD\"}"}
+{"case_id": "lookup-before-hold", "model": "claude-sonnet-4-5-20250929", "output": "INV-1004 is unpaid, so I placed it on hold.", "tool_calls": [{"name": "lookup_invoice", "arguments": {"invoice_id": "INV-1004"}}, {"name": "hold_invoice", "arguments": {"invoice_id": "INV-1004", "reason": "unpaid"}}]}
+{"case_id": "fenced-json", "model": "claude-sonnet-4-5-20250929", "output": "Here is the record:\n```json\n{\"vendor\":\"Acme (fictional)\",\"terms\":\"Net 45\"}\n```"}
+{"case_id": "right-invoice", "model": "claude-sonnet-4-5-20250929", "output": "Found it.", "tool_calls": [{"name": "lookup_invoice", "arguments": {"invoice_id": "INV-1050"}}]}
+{"case_id": "no-extra-calls", "model": "claude-sonnet-4-5-20250929", "output": "Globex is on Net 30.", "tool_calls": [{"name": "lookup_vendor", "arguments": {"name": "Globex"}}]}

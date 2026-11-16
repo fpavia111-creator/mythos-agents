@@ -1,0 +1,7 @@
+subsidiary,account,name,currency,balance
+US01,1000,Cash,USD,5000.00
+US01,1200,Accounts Receivable,USD,2000.50
+US01,3000,Equity,USD,-7000.00
+DE01,1000,Cash,EUR,3000.00
+DE01,1200,Accounts Receivable,EUR,900.00
+DE01,3000,Equity,EUR,-4000.00

@@ -1,0 +1,8 @@
+Date,Amount,Payee,Description,Reference,Cheque Number
+02/10/2026,2500.00,,Deposit,DEP-1001,
+05/10/2026,-1200.00,,Cheque 4101,,4101
+09/10/2026,-845.50,Acme Supply (fictional),ACH,,
+15/10/2026,1500.00,,Mobile deposit batch,,
+20/10/2026,-310.00,,Cheque 4102,,4102
+31/10/2026,-25.00,,Monthly service fee,,
+31/10/2026,3.12,,Interest paid,,

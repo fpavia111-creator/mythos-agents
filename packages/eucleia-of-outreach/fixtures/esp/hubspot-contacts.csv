@@ -1,0 +1,6 @@
+Record ID,First Name,Last Name,Email,Unsubscribed from all email,Email hard bounce reason,Marketing contact status
+501,Dee,Sample,dee@juniper.example,true,,Marketing contact
+502,Lou,Sample,LOU@QUARTZLINE.EXAMPLE,false,Mailbox does not exist,Marketing contact
+503,Sam,Sample,sam@tallgrass.example,true,,Non-marketing contact
+504,Ana,Sample,ana@northwind.example,false,,Marketing contact
+505,Ben,Sample,ben@blueharbor.example,,,Marketing contact

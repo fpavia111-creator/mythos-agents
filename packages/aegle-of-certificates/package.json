@@ -1,7 +1,8 @@
 {
   "name": "aegle-of-certificates",
-  "version": "0.1.0",
-  "description": "Aegle of Certificates: an MCP agent that tracks expiry for TLS certificates, domains, licences and vendor certificates of insurance from CSV inventories, checks COIs against your written requirements and drafts chase emails. Paid renewals, production changes and sends are always one human click.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/aegle-of-certificates",
+  "description": "Aegle of Certificates: an MCP agent that tracks expiry for TLS certificates, domains, licences and vendor certificates of insurance from CSV inventories, checks COIs against your written requirements (per vendor category), extracts COI fields from certificate text for review, diffs inventory snapshots, writes reports and calendar files, and drafts chase emails. An opt-in live TLS check is the only network feature. Paid renewals, production changes and sends are always one human click.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -30,7 +31,7 @@
     "eval": "node bin/aegle-of-certificates.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -51,6 +52,7 @@
     "certificate-of-insurance",
     "coi",
     "expiry-tracking",
+    "icalendar",
     "ai-agents",
     "mythos"
   ]

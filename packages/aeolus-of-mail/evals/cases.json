@@ -1,15 +1,306 @@
 {
   "suite": "aeolus-of-mail",
   "root": "..",
-  "data_note": "Fictional DNS in ../fixtures/records.json for reserved example domains. Offline; no network and no model are used.",
+  "data_note": "Fictional DNS in ../fixtures/records.json, fictional DMARC reports in ../fixtures/dmarc*, fictional messages in ../fixtures/messages, all for reserved example domains. Offline; no network and no model are used.",
   "cases": [
-    { "id": "planted-issues", "tool": "aeolus_audit", "args": { "domain": "example.com", "records": "fixtures/records.json", "selectors": ["s1", "k1", "old", "mh"] },
-      "expect": { "status": "executed", "contains": ["spf_lookup_limit", "spf_include_missing", "spf_ptr", "mx_unresolved", "dmarc_monitor_only", "dmarc_external_rua_unauthorized", "dkim_1024_key", "dkim_revoked", "dkim_testing", "RFC 7208 §4.6.4"], "equals": { "result.spf_lookups": 12, "result.issues": 12, "result.by_severity.error": 3 } } },
-    { "id": "clean-domain", "tool": "aeolus_audit", "args": { "domain": "good.example.org", "records": "fixtures/records.json" }, "expect": { "equals": { "result.issues": 0 }, "contains": ["not a deliverability guarantee"] } },
-    { "id": "duplicate-spf-and-inherited-dmarc", "tool": "aeolus_audit", "args": { "domain": "shop.example.com", "records": "fixtures/records.json" }, "expect": { "contains": ["\"check\":\"spf_multiple\"", "dmarc_inherited", "null_mx", "dkim_not_found"], "not_contains": ["tlsrpt_missing"] } },
-    { "id": "drafts-auto-never-enforces-or-makes-keys", "tool": "aeolus_draft_records", "mode": "auto", "auto_actions": ["aeolus_draft_records"], "args": { "domain": "nomail.example.net", "records": "fixtures/records.json", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "contains": ["v=DMARC1; p=none; rua=[TO CONFIRM", "DNS was not changed", "never creates keys"], "not_contains": ["p=reject", "p=quarantine"] } },
-    { "id": "dns-change-stays-one-click-in-auto", "tool": "aeolus_request_dns_change", "mode": "auto", "args": { "change": "x.json", "change_sha256": "0" }, "expect": { "status": "needs_approval", "contains": ["production_deploy stays one-click"] } },
-    { "id": "never-edits-dns", "tool": "dns_update", "mode": "auto", "args": {}, "expect": { "status": "blocked", "contains": ["never edits DNS"] } },
-    { "id": "bad-domain-errors", "tool": "aeolus_audit", "args": { "domain": "not a domain", "records": "fixtures/records.json" }, "expect": { "status": "error", "contains": ["not a domain name"] } }
+    {
+      "id": "planted-issues",
+      "tool": "aeolus_audit",
+      "args": {
+        "domain": "example.com",
+        "records": "fixtures/records.json",
+        "selectors": [
+          "s1",
+          "k1",
+          "old",
+          "mh"
+        ]
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "spf_lookup_limit",
+          "spf_include_missing",
+          "spf_ptr",
+          "mx_unresolved",
+          "dmarc_monitor_only",
+          "dmarc_external_rua_unauthorized",
+          "dkim_1024_key",
+          "dkim_revoked",
+          "dkim_testing",
+          "RFC 7208 §4.6.4"
+        ],
+        "equals": {
+          "result.spf_lookups": 12,
+          "result.issues": 12,
+          "result.by_severity.error": 3
+        }
+      }
+    },
+    {
+      "id": "clean-domain",
+      "tool": "aeolus_audit",
+      "args": {
+        "domain": "good.example.org",
+        "records": "fixtures/records.json"
+      },
+      "expect": {
+        "equals": {
+          "result.issues": 0
+        },
+        "contains": [
+          "not a deliverability guarantee"
+        ]
+      }
+    },
+    {
+      "id": "duplicate-spf-and-inherited-dmarc",
+      "tool": "aeolus_audit",
+      "args": {
+        "domain": "shop.example.com",
+        "records": "fixtures/records.json"
+      },
+      "expect": {
+        "contains": [
+          "\"check\":\"spf_multiple\"",
+          "dmarc_inherited",
+          "null_mx",
+          "dkim_not_found"
+        ],
+        "not_contains": [
+          "tlsrpt_missing"
+        ]
+      }
+    },
+    {
+      "id": "drafts-auto-never-enforces-or-makes-keys",
+      "tool": "aeolus_draft_records",
+      "mode": "auto",
+      "auto_actions": [
+        "aeolus_draft_records"
+      ],
+      "args": {
+        "domain": "nomail.example.net",
+        "records": "fixtures/records.json",
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "v=DMARC1; p=none; rua=[TO CONFIRM",
+          "DNS was not changed",
+          "never creates keys"
+        ],
+        "not_contains": [
+          "p=reject",
+          "p=quarantine"
+        ]
+      }
+    },
+    {
+      "id": "dns-change-stays-one-click-in-auto",
+      "tool": "aeolus_request_dns_change",
+      "mode": "auto",
+      "args": {
+        "change": "x.json",
+        "change_sha256": "0"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "contains": [
+          "production_deploy stays one-click"
+        ]
+      }
+    },
+    {
+      "id": "never-edits-dns",
+      "tool": "dns_update",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "contains": [
+          "never edits DNS"
+        ]
+      }
+    },
+    {
+      "id": "bad-domain-errors",
+      "tool": "aeolus_audit",
+      "args": {
+        "domain": "not a domain",
+        "records": "fixtures/records.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not a domain name"
+        ]
+      }
+    },
+    {
+      "id": "bimi-checks",
+      "tool": "aeolus_audit",
+      "args": {
+        "domain": "brand.example.net",
+        "records": "fixtures/records.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "bimi_logo_url",
+          "bimi_no_vmc",
+          "bimi_dmarc_not_enforced"
+        ],
+        "equals": {
+          "result.bimi.logo": "http://brand.example.net/logo.png"
+        }
+      }
+    },
+    {
+      "id": "dmarc-reports-by-source",
+      "tool": "aeolus_dmarc_reports",
+      "args": {
+        "reports": [
+          "fixtures/dmarc"
+        ],
+        "domain": "example.com"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "custom Return-Path",
+          "may be spoofing",
+          "under the 98% threshold"
+        ],
+        "equals": {
+          "result.messages": 995,
+          "result.duplicate_reports_skipped": 1,
+          "result.sources.0.source_ip": "198.51.100.7",
+          "result.readiness.ready": false
+        }
+      }
+    },
+    {
+      "id": "headers-arc-broken",
+      "tool": "aeolus_check_headers",
+      "args": {
+        "message": "fixtures/messages/broken-arc.eml"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "arc_instance_gap",
+          "arc_chain_failed",
+          "hdr_dkim_sha1",
+          "Signatures are not verified"
+        ],
+        "equals": {
+          "result.receiver_results.dmarc": "fail"
+        }
+      }
+    },
+    {
+      "id": "headers-selector-discovery",
+      "tool": "aeolus_check_headers",
+      "args": {
+        "message": "fixtures/messages/forwarded.eml"
+      },
+      "expect": {
+        "equals": {
+          "result.selectors_in_use": [
+            "s1"
+          ],
+          "result.dkim_aligned": true,
+          "result.arc.sets": 2
+        }
+      }
+    },
+    {
+      "id": "rollout-never-skips-to-reject",
+      "tool": "aeolus_plan_dmarc_rollout",
+      "mode": "auto",
+      "auto_actions": [
+        "aeolus_plan_dmarc_rollout"
+      ],
+      "args": {
+        "domain": "nomail.example.net",
+        "records": "fixtures/records.json",
+        "start_date": "2026-11-16",
+        "rua": "dmarc@example.net",
+        "out_dir": "mythos-out/eval-rollout"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.plan.stages.0.policy": "none",
+          "result.plan.stages.1.policy": "quarantine",
+          "result.plan.stages.4.earliest_date": "2027-01-18"
+        },
+        "contains": [
+          "DNS was not changed"
+        ]
+      }
+    },
+    {
+      "id": "rollout-enforcement-waits-for-reports",
+      "tool": "aeolus_plan_dmarc_rollout",
+      "mode": "auto",
+      "auto_actions": [
+        "aeolus_plan_dmarc_rollout"
+      ],
+      "args": {
+        "domain": "brand.example.net",
+        "records": "fixtures/records.json",
+        "start_date": "2026-11-16",
+        "out_dir": "mythos-out/eval-rollout2"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "[TO CONFIRM DMARC reports show every real sender passes"
+        ]
+      }
+    },
+    {
+      "id": "rollout-config-typo-fails",
+      "tool": "aeolus_plan_dmarc_rollout",
+      "approve": "Eval Reviewer",
+      "args": {
+        "domain": "brand.example.net",
+        "records": "fixtures/records.json",
+        "start_date": "2026-11-16",
+        "config": "fixtures/records.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not a valid dmarc_rollout"
+        ]
+      }
+    },
+    {
+      "id": "report-html-and-hash",
+      "tool": "aeolus_write_report",
+      "args": {
+        "domain": "example.com",
+        "records": "fixtures/records.json",
+        "reports": [
+          "fixtures/dmarc"
+        ],
+        "out_dir": "mythos-out/eval-report"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "mail-dns-audit.html",
+          "dmarc-sources.csv",
+          "3 sending source(s)"
+        ],
+        "matches": [
+          "\"output_sha256\":\"[0-9a-f]{64}\""
+        ]
+      }
+    }
   ]
 }

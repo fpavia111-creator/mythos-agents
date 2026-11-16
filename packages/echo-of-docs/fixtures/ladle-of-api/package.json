@@ -1,0 +1,8 @@
+{
+  "name": "ladle-of-api",
+  "version": "1.4.0",
+  "description": "A fictional recipe API client whose docs drift from its OpenAPI spec and changelog on purpose.",
+  "license": "MIT",
+  "type": "module",
+  "engines": { "node": ">=20" }
+}

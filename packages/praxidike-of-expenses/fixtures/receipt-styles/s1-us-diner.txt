@@ -1,0 +1,8 @@
+Bluebird Diner (fictional)
+123 Example St, Springfield
+Nov 3, 2026  12:41 PM
+Subtotal 24.50
+Tax 2.02
+Tip 4.00
+TOTAL $30.52
+Visa ending 0000

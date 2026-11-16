@@ -3,13 +3,330 @@
   "root": "..",
   "data_note": "Fictional bank statement and GL in ../fixtures. Deterministic checks; no model is called.",
   "cases": [
-    { "id": "matches-and-ties", "tool": "penelope_reconcile", "args": { "bank": "fixtures/bank-statement.csv", "gl": "fixtures/gl-cash.csv", "bank_balance": 12422.88, "gl_balance": 12844.76 },
-      "expect": { "contains": ["\"type\":\"reference\"", "\"type\":\"group\"", "bank_fee", "interest", "deposit_in_transit", "outstanding_payment"], "equals": { "result.matched_groups": 5, "result.balance.ties": true, "result.balance.difference": 0 } } },
-    { "id": "does-not-tie-when-off", "tool": "penelope_reconcile", "args": { "bank": "fixtures/bank-statement.csv", "gl": "fixtures/gl-cash.csv", "bank_balance": 12422.88, "gl_balance": 12800 }, "expect": { "equals": { "result.balance.ties": false } } },
-    { "id": "tight-window-drops-date-match", "tool": "penelope_reconcile", "args": { "bank": "fixtures/bank-statement.csv", "gl": "fixtures/gl-cash.csv", "date_window": 0 }, "expect": { "equals": { "result.matched_groups": 3 } } },
-    { "id": "accept-auto-when-opted-in", "tool": "penelope_accept_match", "mode": "auto", "auto_actions": ["penelope_accept_match"], "args": { "bank_ids": "B2", "gl_ids": "G2", "out_dir": "mythos-out/eval" }, "expect": { "status": "executed" } },
-    { "id": "entry-stays-one-click-in-auto", "tool": "penelope_request_adjusting_entry", "mode": "auto", "args": { "date": "2026-10-31", "amount": -25, "account": "Bank fees", "memo": "fee" }, "expect": { "status": "needs_approval", "decision": "ask" } },
-    { "id": "review-mode-blocks-entry", "tool": "penelope_request_adjusting_entry", "mode": "review", "args": { "date": "2026-10-31", "amount": -25, "account": "Bank fees", "memo": "fee" }, "expect": { "status": "blocked" } },
-    { "id": "never-posts", "tool": "ledger_post_journal", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+    {
+      "id": "matches-and-ties",
+      "tool": "penelope_reconcile",
+      "args": {
+        "bank": "fixtures/bank-statement.csv",
+        "gl": "fixtures/gl-cash.csv",
+        "bank_balance": 12422.88,
+        "gl_balance": 12844.76
+      },
+      "expect": {
+        "contains": [
+          "\"type\":\"reference\"",
+          "\"type\":\"group\"",
+          "bank_fee",
+          "interest",
+          "deposit_in_transit",
+          "outstanding_payment"
+        ],
+        "equals": {
+          "result.matched_groups": 5,
+          "result.balance.ties": true,
+          "result.balance.difference": 0
+        }
+      }
+    },
+    {
+      "id": "does-not-tie-when-off",
+      "tool": "penelope_reconcile",
+      "args": {
+        "bank": "fixtures/bank-statement.csv",
+        "gl": "fixtures/gl-cash.csv",
+        "bank_balance": 12422.88,
+        "gl_balance": 12800
+      },
+      "expect": {
+        "equals": {
+          "result.balance.ties": false
+        }
+      }
+    },
+    {
+      "id": "tight-window-drops-date-match",
+      "tool": "penelope_reconcile",
+      "args": {
+        "bank": "fixtures/bank-statement.csv",
+        "gl": "fixtures/gl-cash.csv",
+        "date_window": 0
+      },
+      "expect": {
+        "equals": {
+          "result.matched_groups": 3
+        }
+      }
+    },
+    {
+      "id": "accept-auto-when-opted-in",
+      "tool": "penelope_accept_match",
+      "mode": "auto",
+      "auto_actions": [
+        "penelope_accept_match"
+      ],
+      "args": {
+        "bank_ids": "B2",
+        "gl_ids": "G2",
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "status": "executed"
+      }
+    },
+    {
+      "id": "entry-stays-one-click-in-auto",
+      "tool": "penelope_request_adjusting_entry",
+      "mode": "auto",
+      "args": {
+        "date": "2026-10-31",
+        "amount": -25,
+        "account": "Bank fees",
+        "memo": "fee"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      }
+    },
+    {
+      "id": "review-mode-blocks-entry",
+      "tool": "penelope_request_adjusting_entry",
+      "mode": "review",
+      "args": {
+        "date": "2026-10-31",
+        "amount": -25,
+        "account": "Bank fees",
+        "memo": "fee"
+      },
+      "expect": {
+        "status": "blocked"
+      }
+    },
+    {
+      "id": "never-posts",
+      "tool": "ledger_post_journal",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      }
+    },
+    {
+      "id": "camt053-same-as-csv",
+      "tool": "penelope_reconcile",
+      "args": {
+        "bank": "fixtures/bank-statement.camt053.xml",
+        "gl": "fixtures/gl-cash.csv",
+        "gl_balance": 12844.76
+      },
+      "expect": {
+        "contains": [
+          "\"bank_format\":\"camt053\"",
+          "camt053 closing balance"
+        ],
+        "equals": {
+          "result.matched_groups": 5,
+          "result.balance.ties": true
+        }
+      }
+    },
+    {
+      "id": "bai2-same-as-csv",
+      "tool": "penelope_reconcile",
+      "args": {
+        "bank": "fixtures/bank-statement.bai",
+        "gl": "fixtures/gl-cash.csv",
+        "gl_balance": 12844.76
+      },
+      "expect": {
+        "equals": {
+          "result.matched_groups": 5,
+          "result.balance.ties": true,
+          "result.bank_format": "bai2"
+        }
+      }
+    },
+    {
+      "id": "ofx-same-as-csv",
+      "tool": "penelope_reconcile",
+      "args": {
+        "bank": "fixtures/bank-statement.ofx",
+        "gl": "fixtures/gl-cash.csv",
+        "gl_balance": 12844.76
+      },
+      "expect": {
+        "equals": {
+          "result.matched_groups": 5,
+          "result.balance.ties": true,
+          "result.bank_format": "ofx"
+        }
+      }
+    },
+    {
+      "id": "read-statement-masks-account",
+      "tool": "penelope_read_statement",
+      "args": {
+        "bank": "fixtures/bank-statement.bai"
+      },
+      "expect": {
+        "contains": [
+          "••••6789"
+        ],
+        "not_contains": [
+          "000123456789"
+        ],
+        "equals": {
+          "result.balance_check.ties": true
+        },
+        "length": {
+          "result.lines": 7
+        }
+      }
+    },
+    {
+      "id": "suggest-rule-from-accepted",
+      "tool": "penelope_suggest_rules",
+      "args": {
+        "bank": "fixtures/bank-statement.csv",
+        "gl": "fixtures/gl-cash.csv",
+        "accepted": "fixtures/accepted-matches-sample.csv"
+      },
+      "expect": {
+        "contains": [
+          "ach acme supply fictional",
+          "same reference; no rule needed"
+        ],
+        "length": {
+          "result.suggestions": 1
+        }
+      }
+    },
+    {
+      "id": "rule-applies-only-when-passed",
+      "tool": "penelope_reconcile",
+      "args": {
+        "bank": "fixtures/bank-statement.csv",
+        "gl": "fixtures/gl-cash.csv",
+        "date_window": 0,
+        "rules": "fixtures/match-rules.json"
+      },
+      "expect": {
+        "contains": [
+          "\"type\":\"rule\""
+        ],
+        "equals": {
+          "result.matched_groups": 4,
+          "result.rules_applied": 1
+        }
+      }
+    },
+    {
+      "id": "accept-rule-needs-a-yes",
+      "tool": "penelope_accept_rule",
+      "args": {
+        "bank_pattern": "ach acme supply fictional",
+        "gl_pattern": "acme supply bill pay fictional",
+        "direction": "out",
+        "max_days": 1
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      }
+    },
+    {
+      "id": "accept-rule-after-approval",
+      "tool": "penelope_accept_rule",
+      "approve": "Robin Reviewer (fictional)",
+      "args": {
+        "bank_pattern": "mobile deposit batch",
+        "gl_pattern": "receipt",
+        "direction": "in",
+        "max_days": 1,
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "status": "executed",
+        "matches": [
+          "R-[0-9a-f]{8}"
+        ]
+      }
+    },
+    {
+      "id": "roll-forward-ties",
+      "tool": "penelope_roll_forward",
+      "args": {
+        "prior": "fixtures/reconciliation-2026-10.csv",
+        "bank": "fixtures/bank-2026-11.csv",
+        "gl": "fixtures/gl-cash-2026-11.csv",
+        "bank_balance": 16047.88,
+        "gl_balance": 15452.88,
+        "as_of": "2026-11-30"
+      },
+      "expect": {
+        "equals": {
+          "result.roll_forward.ties": true,
+          "result.balance.ties": true,
+          "result.roll_forward.closing_outstanding": -620,
+          "result.cleared.0.prior_item": "G9"
+        },
+        "length": {
+          "result.still_outstanding": 1
+        }
+      }
+    },
+    {
+      "id": "roll-forward-stale",
+      "tool": "penelope_roll_forward",
+      "args": {
+        "prior": "fixtures/reconciliation-2026-10.csv",
+        "bank": "fixtures/bank-2026-11.csv",
+        "gl": "fixtures/gl-cash-2026-11.csv",
+        "as_of": "2027-01-15"
+      },
+      "expect": {
+        "equals": {
+          "result.stale": 1
+        }
+      }
+    },
+    {
+      "id": "workpaper-html-hash",
+      "tool": "penelope_write_workpaper",
+      "args": {
+        "bank": "fixtures/bank-statement.csv",
+        "gl": "fixtures/gl-cash.csv",
+        "bank_balance": 12422.88,
+        "gl_balance": 12844.76,
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "reconciliation.html"
+        ],
+        "matches": [
+          "\"output_sha256\":\"[0-9a-f]{64}\""
+        ]
+      }
+    },
+    {
+      "id": "german-mt940-statement",
+      "tool": "penelope_read_statement",
+      "args": {
+        "bank": "fixtures/exports/statement-mt940.sta"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Bürobedarf Müller GmbH",
+          "INV-2026-118"
+        ],
+        "equals": {
+          "result.format": "mt940",
+          "result.balance_check.ties": true
+        }
+      }
+    }
   ]
 }

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.fpavia111-creator/aeolus-of-mail",
+  "title": "Aeolus of Mail",
+  "description": "An MCP agent that audits a sending domain's SPF, DKIM, DMARC, BIMI, MX, MTA-STS and TLS-RPT…",
+  "version": "0.2.0",
+  "repository": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents",
+    "source": "github",
+    "subfolder": "packages/aeolus-of-mail"
+  },
+  "websiteUrl": "https://mythosmachines.com/",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "aeolus-of-mail",
+      "version": "0.2.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        },
+        {
+          "type": "named",
+          "name": "--root",
+          "description": "Folder holding the exports this agent may read and write (it cannot reach outside it)",
+          "isRequired": true,
+          "format": "filepath",
+          "valueHint": "exports_folder"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      '@fict/logger':
+        specifier: ^1.0.0
+        version: 1.0.0
+      custom-fonts:
+        specifier: ^1.0.0
+        version: 1.0.0
+      dual-lib:
+        specifier: ^1.0.0
+        version: 1.0.0
+      expired-ex:
+        specifier: ^1.0.0
+        version: 1.0.0
+      express-lite:
+        specifier: ^4.0.0
+        version: 4.0.0
+      gpl-widget:
+        specifier: ^2.2.0
+        version: 2.2.0
+      hashy:
+        specifier: ^3.1.0
+        version: 3.1.0
+      icons-cc:
+        specifier: ^1.0.0
+        version: 1.0.0
+      internal-sdk:
+        specifier: ^5.0.0
+        version: 5.0.0
+      lgpl-codec:
+        specifier: ^0.9.0
+        version: 0.9.0
+      mpl-thing:
+        specifier: ^2.0.0
+        version: 2.0.0
+      nolicense-pkg:
+        specifier: ^0.1.0
+        version: 0.1.0
+      old-parse:
+        specifier: ^1.0.1
+        version: 1.0.1
+      req-cli:
+        specifier: ^2.0.0
+        version: 2.0.0
+      my-plugin:
+        specifier: link:packages/my-plugin
+        version: link:packages/my-plugin
+    devDependencies:
+      test-runner-gpl:
+        specifier: ^1.0.0
+        version: 1.0.0
+
+packages:
+
+  '@fict/logger@1.0.0':
+    resolution: {integrity: sha512-FICTIONAL}
+
+  custom-fonts@1.0.0:
+    resolution: {integrity: sha512-FICTIONAL}
+
+  dual-lib@1.0.0:
+    resolution: {integrity: sha512-FICTIONAL}
+
+  expired-ex@1.0.0:
+    resolution: {integrity: sha512-FICTIONAL}
+
+  express-lite@4.0.0:
+    resolution: {integrity: sha512-FICTIONAL}
+
+  gpl-widget@2.2.0:
+    resolution: {integrity: sha512-FICTIONAL}
+
+  hashy@3.1.0:
+    resolution: {integrity: sha512-FICTIONAL}
+
+  icons-cc@1.0.0:
+    resolution: {integrity: sha512-FICTIONAL}
+
+  internal-sdk@5.0.0:
+    resolution: {integrity: sha512-FICTIONAL}
+
+  lgpl-codec@0.9.0:
+    resolution: {integrity: sha512-FICTIONAL}
+
+  mpl-thing@2.0.0:
+    resolution: {integrity: sha512-FICTIONAL}
+
+  nolicense-pkg@0.1.0:
+    resolution: {integrity: sha512-FICTIONAL}
+
+  old-parse@1.0.1:
+    resolution: {integrity: sha512-FICTIONAL}
+
+  req-cli@2.0.0:
+    resolution: {integrity: sha512-FICTIONAL}
+
+  test-runner-gpl@1.0.0:
+    resolution: {integrity: sha512-FICTIONAL}
+
+  tiny-fmt@1.2.0:
+    resolution: {integrity: sha512-FICTIONAL}
+
+snapshots:
+
+  '@fict/logger@1.0.0': {}
+
+  custom-fonts@1.0.0: {}
+
+  dual-lib@1.0.0: {}
+
+  expired-ex@1.0.0: {}
+
+  express-lite@4.0.0:
+    dependencies:
+      tiny-fmt: 1.2.0
+
+  gpl-widget@2.2.0: {}
+
+  hashy@3.1.0: {}
+
+  icons-cc@1.0.0: {}
+
+  internal-sdk@5.0.0: {}
+
+  lgpl-codec@0.9.0: {}
+
+  mpl-thing@2.0.0: {}
+
+  nolicense-pkg@0.1.0: {}
+
+  old-parse@1.0.1: {}
+
+  req-cli@2.0.0: {}
+
+  test-runner-gpl@1.0.0: {}
+
+  tiny-fmt@1.2.0: {}

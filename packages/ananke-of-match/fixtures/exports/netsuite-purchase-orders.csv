@@ -1,0 +1,5 @@
+Date,Type,Document Number,Name,Item,Quantity,Item Rate,Amount,Status,Line ID
+10/28/2026,Purchase Order,PO-4471,Acme Supply (fictional),,,,"1,400.00",Pending Receipt,0
+10/28/2026,Purchase Order,PO-4471,Acme Supply (fictional),BOX-12,100,12.00,"1,200.00",Pending Receipt,1
+10/28/2026,Purchase Order,PO-4471,Acme Supply (fictional),TAPE-3,50,4.00,200.00,Pending Receipt,2
+10/30/2026,Purchase Order,PO-4472,Globex Furniture (fictional),CHAIR-A,10,180.00,"1,800.00",Pending Receipt,1

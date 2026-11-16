@@ -3,12 +3,19 @@
   "root": "..",
   "data_note": "Fictional orders, requests and policy in ../fixtures. Deterministic checks; no model is called.",
   "cases": [
-    { "id": "triage-per-policy", "tool": "soteria_triage", "args": { "requests": "fixtures/requests.csv", "orders": "fixtures/orders.csv", "policy": "fixtures/policy.json" },
-      "expect": { "contains": ["outside_window_72_days", "exceeds_refundable_50", "duplicate_of_R-1001", "order_not_found", "prepare_dispute_evidence"], "equals": { "result.eligible": 1, "result.duplicates": 1, "result.chargebacks": 1, "result.eligible_amount": 45 } } },
-    { "id": "default-policy-applies", "tool": "soteria_triage", "args": { "requests": "fixtures/requests.csv", "orders": "fixtures/orders.csv" }, "expect": { "equals": { "result.deny_per_policy": 1 } } },
-    { "id": "explain", "tool": "soteria_explain", "args": { "requests": "fixtures/requests.csv", "orders": "fixtures/orders.csv", "request_id": "R-1005" }, "expect": { "contains": ["minus earlier refunds"] } },
-    { "id": "refund-stays-one-click-in-auto", "tool": "soteria_request_refund", "mode": "auto", "args": { "request_id": "R-1001", "order_id": "O-501", "amount": 45, "reason": "ok" }, "expect": { "status": "needs_approval", "decision": "ask" } },
-    { "id": "never-issues-money", "tool": "payments_issue_refund", "mode": "auto", "args": {}, "expect": { "status": "blocked" } },
-    { "id": "never-submits-dispute", "tool": "payments_submit_dispute", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+    {"id": "triage-per-policy", "tool": "soteria_triage", "args": {"requests": "fixtures/requests.csv", "orders": "fixtures/orders.csv", "policy": "fixtures/policy.json"}, "expect": {"contains": ["outside_window_72_days", "exceeds_refundable_50", "duplicate_of_R-1001", "order_not_found", "prepare_dispute_evidence"], "equals": {"result.eligible": 1, "result.duplicates": 1, "result.chargebacks": 1, "result.eligible_amount": 45}}},
+    {"id": "default-policy-applies", "tool": "soteria_triage", "args": {"requests": "fixtures/requests.csv", "orders": "fixtures/orders.csv"}, "expect": {"equals": {"result.deny_per_policy": 1}}},
+    {"id": "explain", "tool": "soteria_explain", "args": {"requests": "fixtures/requests.csv", "orders": "fixtures/orders.csv", "request_id": "R-1005"}, "expect": {"contains": ["minus earlier refunds"]}},
+    {"id": "refund-stays-one-click-in-auto", "tool": "soteria_request_refund", "mode": "auto", "args": {"request_id": "R-1001", "order_id": "O-501", "amount": 45, "reason": "ok"}, "expect": {"status": "needs_approval", "decision": "ask"}},
+    {"id": "never-issues-money", "tool": "payments_issue_refund", "mode": "auto", "args": {}, "expect": {"status": "blocked"}},
+    {"id": "never-submits-dispute", "tool": "payments_submit_dispute", "mode": "auto", "args": {}, "expect": {"status": "blocked"}},
+    {"id": "reason-code-mastercard", "tool": "soteria_reason_code", "args": {"code": "4853"}, "expect": {"equals": {"result.category": "not_as_described", "result.network": "mastercard"}, "contains": ["return_status"]}},
+    {"id": "reason-code-text-fallback", "tool": "soteria_reason_code", "args": {"reason": "customer says they were charged twice"}, "expect": {"equals": {"result.category": "duplicate", "result.source": "reason_text"}}},
+    {"id": "evidence-packs-per-code", "tool": "soteria_evidence_pack", "args": {"requests": "fixtures/disputes.csv", "orders": "fixtures/orders.csv", "policy": "fixtures/policy.json", "out_dir": "mythos-out/eval"}, "expect": {"length": {"result.disputes": 6}, "contains": ["\"category\":\"fraud\"", "\"category\":\"not_received\"", "\"category\":\"duplicate\"", "dispute-deadlines.ics", "evidence-index.json"], "matches": ["\"output_sha256\":\"[0-9a-f]{64}\""]}},
+    {"id": "evidence-pack-missing-tracking", "tool": "soteria_evidence_pack", "args": {"requests": "fixtures/disputes.csv", "orders": "fixtures/orders.csv", "policy": "fixtures/policy.json", "request_id": "D-2006", "out_dir": "mythos-out/eval"}, "expect": {"equals": {"result.disputes.0.readiness.score": 0, "result.disputes.0.missing": ["tracking", "delivery_proof"]}}},
+    {"id": "policy-typo-rejected", "tool": "soteria_triage", "args": {"requests": "fixtures/requests.csv", "orders": "fixtures/orders.csv", "policy": "fixtures/policy-typo.json"}, "expect": {"status": "error", "contains": ["not a valid refund_policy", "reveiw_over"]}},
+    {"id": "triage-tags-dispute-category", "tool": "soteria_triage", "args": {"requests": "fixtures/disputes.csv", "orders": "fixtures/orders.csv", "policy": "fixtures/policy.json"}, "expect": {"equals": {"result.chargebacks": 6}, "contains": ["\"dispute_category\":\"cancelled_recurring\""]}},
+    {"id": "reason-text-japanese-jcb", "tool": "soteria_reason_code", "args": {"network": "jcb", "reason": "商品が届いていない"}, "expect": {"equals": {"result.category": "not_received", "result.source": "reason_text", "result.network": "jcb"}}},
+    {"id": "reason-text-german", "tool": "soteria_reason_code", "args": {"reason": "Kunde sagt, die Abbuchung erfolgte doppelt"}, "expect": {"equals": {"result.category": "duplicate", "result.source": "reason_text"}}}
   ]
 }

@@ -1,6 +1,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { toNumber, round2, toCsv } from 'mythos-agent-core';
+import { readReceipt } from './receipts.js';
 
 const DAY = 86400000;
 const norm = (k) => String(k).trim().toLowerCase().replace(/[\s-]+/g, '_');
@@ -15,14 +16,16 @@ const money = (n) => round2(Number(n) || 0);
 /** Mask anything that looks like a card or account number (12–19 digits) in free text. */
 export const maskNumbers = (s) => String(s || '').replace(/\b\d(?:[ -]?\d){11,18}\b/g, (m) => `•••• ${m.replace(/\D/g, '').slice(-4)}`);
 
-/** Read amounts and ISO or US dates from receipt text. The text itself is never returned. */
-export function readReceipt(text) {
-  const t = String(text);
-  const amounts = [...t.matchAll(/\b(?:total|amount|paid|balance)[^\d\n]{0,20}\$?\s*(\d{1,3}(?:,\d{3})*(?:\.\d{2})|\d+\.\d{2})/gi)].map((m) => toNumber(m[1]));
-  const dates = [...t.matchAll(/\b(\d{4}-\d{2}-\d{2})\b/g)].map((m) => parseDate(m[1]))
-    .concat([...t.matchAll(/\b(\d{1,2})\/(\d{1,2})\/(\d{4})\b/g)].map((m) => Date.UTC(+m[3], +m[1] - 1, +m[2])));
-  return { amounts: amounts.filter((n) => n !== null), dates };
+export { readReceipt } from './receipts.js';
+
+/** Find the rate row for a location and date: exact location first (case-insensitive), then "*". Dates are inclusive. */
+export function findRate(rows, location, dateMs) {
+  const inDate = (r) => dateMs === null || ((!r.from || parseDate(r.from) <= dateMs) && (!r.to || parseDate(r.to) >= dateMs));
+  const loc = String(location || '').trim().toLowerCase();
+  const list = (rows || []).filter(inDate);
+  return list.find((r) => r.location !== undefined && r.location !== '*' && String(r.location).trim().toLowerCase() === loc) || list.find((r) => r.location === undefined || r.location === '*') || null;
 }
+const span = (r) => (r.from || r.to ? `${r.from || '…'} to ${r.to || 'open'}` : '');
 
 export function validatePolicy(p) {
   if (!p || typeof p !== 'object') throw new Error('policy must be a JSON object');
@@ -38,13 +41,14 @@ const sec = (p, k) => (p.sections && p.sections[k]) || k;
 export function review(lines, policy, a = {}) {
   const p = validatePolicy(policy); const cur = (p.currency || 'USD').toUpperCase();
   const receiptsDir = a.receiptsDir; const seen = new Map(); const receiptUse = new Map();
+  const aliases = new Map(Object.entries(p.category_aliases || {}).map(([k, v]) => [k.trim().toLowerCase(), String(v).trim().toLowerCase()]));
   const items = lines.map((l, i) => {
     const line = {
       report_id: pick(l, 'report_id', 'report'), line_id: pick(l, 'line_id', 'line', 'id') || `L${i + 1}`, employee: pick(l, 'employee', 'employee_name', 'submitter'),
       date: pick(l, 'date', 'expense_date', 'spent_on'), submitted_on: pick(l, 'submitted_on', 'submitted', 'report_date'),
-      category: pick(l, 'category', 'type').toLowerCase(), merchant: pick(l, 'merchant', 'vendor'), amount: money(toNumber(pick(l, 'amount', 'total'))),
+      category: ((c) => aliases.get(c) || c)(pick(l, 'category', 'type').trim().toLowerCase()), merchant: pick(l, 'merchant', 'vendor'), amount: money(toNumber(pick(l, 'amount', 'total'))),
       currency: (pick(l, 'currency') || cur).toUpperCase(), receipt: pick(l, 'receipt', 'receipt_file'), purpose: maskNumbers(pick(l, 'purpose', 'business_purpose', 'description')),
-      attendees: Number(pick(l, 'attendees')) || 0, nights: Number(pick(l, 'nights')) || 0, miles: toNumber(pick(l, 'miles')) || 0, preapproved_by: pick(l, 'preapproved_by', 'pre_approval'),
+      attendees: Number(pick(l, 'attendees')) || 0, nights: Number(pick(l, 'nights')) || 0, miles: toNumber(pick(l, 'miles')) || 0, days: Number(pick(l, 'days')) || 0, location: pick(l, 'location', 'city', 'destination'), preapproved_by: pick(l, 'preapproved_by', 'pre_approval'),
     };
     const f = []; const add = (check, decision, section, detail) => f.push({ check, decision, policy_section: section, detail });
     const rule = (p.categories || {})[line.category];
@@ -55,17 +59,30 @@ export function review(lines, policy, a = {}) {
     if (!line.purpose) add('missing_purpose', 'needs_info', sec(p, 'purpose'), 'No business purpose given.');
     let allowed = line.amount;
     if (rule) {
-      const per = rule.per || 'item';
-      const units = per === 'person' ? (line.attendees || 1) : per === 'night' ? (line.nights || 1) : 1;
+      const per = rule.per || (rule.per_diem ? 'day' : 'item');
+      const units = per === 'person' ? (line.attendees || 1) : per === 'night' ? (line.nights || 1) : per === 'day' ? (line.days || 1) : 1;
       if (per === 'person' && rule.attendees_required && !line.attendees) add('attendees_missing', 'needs_info', rule.section, 'Meals need the number of attendees (and who they were).');
-      if (rule.limit !== undefined && line.amount > rule.limit * units + 0.005) {
-        allowed = money(rule.limit * units);
-        add('over_limit', 'approve_capped', rule.section, `${line.amount.toFixed(2)} is over the ${rule.limit.toFixed(2)} per ${per} limit${units > 1 ? ` × ${units}` : ''}; reimbursable up to ${allowed.toFixed(2)}.`);
+      let limit = rule.limit; let basis = '';
+      if (rule.per_diem) {
+        const pd = p.per_diem || {}; const section = rule.section || pd.section || sec(p, 'per_diem');
+        const r = findRate(pd.rates, line.location, parseDate(line.date));
+        if (!r || r[rule.per_diem] === undefined) { limit = undefined; add('per_diem_rate_missing', 'needs_info', section, `No ${rule.per_diem} per-diem rate for "${line.location || '(no location)'}" on ${line.date || '(no date)'}.`); }
+        else { limit = Number(r[rule.per_diem]); basis = ` (per diem for ${r.location && r.location !== '*' ? r.location : 'other locations'}${span(r) ? `, ${span(r)}` : ''})`; }
       }
-      if (rule.rate_per_mile !== undefined) {
-        const exp = money(line.miles * rule.rate_per_mile);
+      if (limit !== undefined && line.amount > limit * units + 0.005) {
+        allowed = money(limit * units);
+        add('over_limit', 'approve_capped', rule.section || (p.per_diem || {}).section, `${line.amount.toFixed(2)} is over the ${limit.toFixed(2)} per ${per} limit${basis}${units > 1 ? ` × ${units}` : ''}; reimbursable up to ${allowed.toFixed(2)}.`);
+      }
+      if (rule.rate_per_mile !== undefined || rule.mileage) {
+        let rate = rule.rate_per_mile; let rateNote = '';
+        if (Array.isArray(p.mileage_rates) && p.mileage_rates.length) {
+          const r = findRate(p.mileage_rates, line.location, parseDate(line.date));
+          if (r) { rate = Number(r.rate); rateNote = span(r) ? ` (rate for ${span(r)})` : ''; } else rate = undefined;
+        }
+        const exp = rate === undefined ? null : money(line.miles * rate);
         if (!line.miles) add('miles_missing', 'needs_info', rule.section, 'Mileage claimed with no miles.');
-        else if (Math.abs(exp - line.amount) > 0.01) { allowed = Math.min(allowed, exp); add('mileage_mismatch', line.amount > exp ? 'approve_capped' : 'needs_info', rule.section, `${line.miles} mi × ${rule.rate_per_mile} = ${exp.toFixed(2)}, claimed ${line.amount.toFixed(2)}.`); }
+        else if (exp === null) add('mileage_rate_missing', 'needs_info', rule.section, `No mileage rate covers ${line.date || '(no date)'}.`);
+        else if (Math.abs(exp - line.amount) > 0.01) { allowed = Math.min(allowed, exp); add('mileage_mismatch', line.amount > exp ? 'approve_capped' : 'needs_info', rule.section, `${line.miles} mi × ${rate}${rateNote} = ${exp.toFixed(2)}, claimed ${line.amount.toFixed(2)}.`); }
       }
     }
     if (p.preapproval_over !== undefined && line.amount > p.preapproval_over && !line.preapproved_by) add('preapproval_missing', 'needs_info', sec(p, 'preapproval'), `Over ${Number(p.preapproval_over).toFixed(2)} with no pre-approval recorded.`);

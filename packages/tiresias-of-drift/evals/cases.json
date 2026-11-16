@@ -1,14 +1,308 @@
 {
   "suite": "tiresias-of-drift",
   "root": "..",
-  "data_note": "Fictional config snapshots and schemas in ../fixtures; secret values are fake. Deterministic checks; no model is called.",
+  "data_note": "Fictional config snapshots, schemas, Terraform state and Kubernetes manifests in ../fixtures; secret values are fake. Deterministic checks; no model is called.",
   "cases": [
-    { "id": "config-drift-explained", "tool": "tiresias_diff", "args": { "before": "fixtures/snapshots/2026-10-01.json", "after": "fixtures/snapshots/2026-11-01.json", "ignore": ["meta.generated_at"] },
-      "expect": { "contains": ["switched off", "Opened to everyone", "Debug turned on"], "equals": { "result.changes": 7, "result.by_risk.high": 4 } } },
-    { "id": "secrets-never-shown", "tool": "tiresias_diff", "args": { "before": "fixtures/snapshots/2026-10-01.json", "after": "fixtures/snapshots/2026-11-01.json" }, "expect": { "contains": ["value not shown"], "not_contains": ["fake-key-aaaa1111", "fake-key-bbbb2222"] } },
-    { "id": "schema-drift", "tool": "tiresias_diff", "args": { "before": "fixtures/schema-2026-10-01.csv", "after": "fixtures/schema-2026-11-01.csv" }, "expect": { "contains": ["Column dropped", "Type changed", "Nullability changed"], "equals": { "result.by_risk.high": 3 } } },
-    { "id": "timeline-first-seen", "tool": "tiresias_timeline", "args": { "dir": "fixtures/snapshots", "ignore": ["meta.generated_at"] }, "expect": { "contains": ["\"key\":\"server.debug\",\"first_changed_in\":\"2026-10-15.json\"", "\"key\":\"security.tls.verify\",\"first_changed_in\":\"2026-11-01.json\""] } },
-    { "id": "apply-stays-one-click-in-auto", "tool": "tiresias_apply_fix", "mode": "auto", "args": { "environment": "production", "keys": ["server.debug"], "reason": "revert" }, "expect": { "status": "needs_approval", "decision": "ask" } },
-    { "id": "never-pushes-config", "tool": "production_push_config", "mode": "auto", "args": {}, "expect": { "status": "blocked" } }
+    {
+      "id": "config-drift-explained",
+      "tool": "tiresias_diff",
+      "args": {
+        "before": "fixtures/snapshots/2026-10-01.json",
+        "after": "fixtures/snapshots/2026-11-01.json",
+        "ignore": [
+          "meta.generated_at"
+        ]
+      },
+      "expect": {
+        "contains": [
+          "switched off",
+          "Opened to everyone",
+          "Debug turned on"
+        ],
+        "equals": {
+          "result.changes": 7,
+          "result.by_risk.high": 4
+        }
+      }
+    },
+    {
+      "id": "secrets-never-shown",
+      "tool": "tiresias_diff",
+      "args": {
+        "before": "fixtures/snapshots/2026-10-01.json",
+        "after": "fixtures/snapshots/2026-11-01.json"
+      },
+      "expect": {
+        "contains": [
+          "value not shown"
+        ],
+        "not_contains": [
+          "fake-key-aaaa1111",
+          "fake-key-bbbb2222"
+        ]
+      }
+    },
+    {
+      "id": "schema-drift",
+      "tool": "tiresias_diff",
+      "args": {
+        "before": "fixtures/schema-2026-10-01.csv",
+        "after": "fixtures/schema-2026-11-01.csv"
+      },
+      "expect": {
+        "contains": [
+          "Column dropped",
+          "Type changed",
+          "Nullability changed"
+        ],
+        "equals": {
+          "result.by_risk.high": 3
+        }
+      }
+    },
+    {
+      "id": "timeline-first-seen",
+      "tool": "tiresias_timeline",
+      "args": {
+        "dir": "fixtures/snapshots",
+        "ignore": [
+          "meta.generated_at"
+        ]
+      },
+      "expect": {
+        "contains": [
+          "\"key\":\"server.debug\",\"first_changed_in\":\"2026-10-15.json\"",
+          "\"key\":\"security.tls.verify\",\"first_changed_in\":\"2026-11-01.json\""
+        ]
+      }
+    },
+    {
+      "id": "apply-stays-one-click-in-auto",
+      "tool": "tiresias_apply_fix",
+      "mode": "auto",
+      "args": {
+        "environment": "production",
+        "keys": [
+          "server.debug"
+        ],
+        "reason": "revert"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      }
+    },
+    {
+      "id": "never-pushes-config",
+      "tool": "production_push_config",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked"
+      }
+    },
+    {
+      "id": "terraform-state-drift",
+      "tool": "tiresias_diff",
+      "args": {
+        "before": "fixtures/terraform/2026-10-01.tfstate",
+        "after": "fixtures/terraform/2026-11-01.tfstate"
+      },
+      "expect": {
+        "contains": [
+          "Opened to everyone",
+          "Resource made publicly accessible",
+          "Deletion protection turned off",
+          "Resource gone from state"
+        ],
+        "not_contains": [
+          "fake-db-pass-1111",
+          "fake-db-pass-2222"
+        ],
+        "equals": {
+          "result.kind": "terraform",
+          "result.by_risk.high": 6,
+          "result.resources.added": [
+            "aws_iam_user.ci"
+          ],
+          "result.resources.removed": [
+            "aws_s3_bucket.exports"
+          ]
+        }
+      }
+    },
+    {
+      "id": "kubernetes-manifest-drift",
+      "tool": "tiresias_diff",
+      "args": {
+        "before": "fixtures/k8s/2026-10-01.yaml",
+        "after": "fixtures/k8s/2026-11-01.yaml"
+      },
+      "expect": {
+        "contains": [
+          "Container now runs privileged",
+          "mutable tag",
+          "Service exposed outside the cluster",
+          "containers.api.env.DB_PASSWORD.value"
+        ],
+        "not_contains": [
+          "fake-k8s-pass-1111",
+          "fake-k8s-pass-2222",
+          "ZmFrZS1zaWduaW5nLWtleS0y",
+          "resourceVersion"
+        ],
+        "equals": {
+          "result.kind": "kubernetes",
+          "result.changes": 7,
+          "result.by_risk.high": 5
+        }
+      }
+    },
+    {
+      "id": "approved-drift-not-counted",
+      "tool": "tiresias_diff",
+      "args": {
+        "before": "fixtures/snapshots/2026-10-01.json",
+        "after": "fixtures/snapshots/2026-11-01.json",
+        "ignore": [
+          "meta.generated_at"
+        ],
+        "approved": "fixtures/approved-drift.json"
+      },
+      "expect": {
+        "contains": [
+          "Planned change CHG-1042 (fictional)"
+        ],
+        "equals": {
+          "result.changes": 5,
+          "result.approved": 2,
+          "result.by_risk.high": 4
+        }
+      }
+    },
+    {
+      "id": "approve-baseline-needs-a-yes",
+      "tool": "tiresias_approve_baseline",
+      "args": {
+        "before": "fixtures/snapshots/2026-10-01.json",
+        "after": "fixtures/snapshots/2026-11-01.json",
+        "ignore": [
+          "meta.generated_at"
+        ],
+        "keys": [
+          "db.pool_max"
+        ],
+        "reason": "planned"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      }
+    },
+    {
+      "id": "approve-baseline-after-approval",
+      "tool": "tiresias_approve_baseline",
+      "approve": "Robin Reviewer (fictional)",
+      "args": {
+        "before": "fixtures/snapshots/2026-10-01.json",
+        "after": "fixtures/snapshots/2026-11-01.json",
+        "ignore": [
+          "meta.generated_at"
+        ],
+        "keys": [
+          "server.log_level"
+        ],
+        "reason": "debugging window (fictional)",
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "approved-drift.json"
+        ],
+        "matches": [
+          "\"output_sha256\":\"[0-9a-f]{64}\""
+        ]
+      }
+    },
+    {
+      "id": "revert-patch-written",
+      "tool": "tiresias_write_revert_patch",
+      "args": {
+        "before": "fixtures/snapshots/2026-10-01.json",
+        "after": "fixtures/snapshots/2026-11-01.json",
+        "ignore": [
+          "meta.generated_at"
+        ],
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "revert.patch",
+          "secret store"
+        ],
+        "not_contains": [
+          "fake-key-aaaa1111",
+          "fake-key-bbbb2222"
+        ],
+        "length": {
+          "result.reverted": 6,
+          "result.manual_steps": 1
+        },
+        "equals": {
+          "result.form": "normalized"
+        }
+      }
+    },
+    {
+      "id": "revert-patch-refused-for-terraform",
+      "tool": "tiresias_write_revert_patch",
+      "args": {
+        "before": "fixtures/terraform/2026-10-01.tfstate",
+        "after": "fixtures/terraform/2026-11-01.tfstate"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "JSON config and .env"
+        ]
+      }
+    },
+    {
+      "id": "report-with-sarif",
+      "tool": "tiresias_write_report",
+      "args": {
+        "before": "fixtures/k8s/2026-10-01.yaml",
+        "after": "fixtures/k8s/2026-11-01.yaml",
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "drift.sarif"
+        ],
+        "matches": [
+          "\"output_sha256\":\"[0-9a-f]{64}\"",
+          "\"sarif_sha256\":\"[0-9a-f]{64}\""
+        ]
+      }
+    },
+    {
+      "id": "apply-bad-args-refused",
+      "tool": "tiresias_apply_fix",
+      "mode": "auto",
+      "args": {
+        "environment": "production",
+        "keys": "server.debug",
+        "reason": "revert"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "invalid arguments"
+        ]
+      }
+    }
   ]
 }

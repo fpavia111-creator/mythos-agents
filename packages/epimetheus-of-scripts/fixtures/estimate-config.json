@@ -1,0 +1,6 @@
+{
+  "name": "Sample team calibration (fictional)",
+  "base_hours": { "1.0": 4, "2.0": 1.5 },
+  "per_distinct_api": 0.75,
+  "redesign": 6
+}

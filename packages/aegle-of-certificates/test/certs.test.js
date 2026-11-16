@@ -1,8 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { cpSync, mkdtempSync, readFileSync, existsSync } from 'node:fs';
+import { cpSync, mkdtempSync, readFileSync, existsSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { AgentRuntime, ApprovalStore, parseCsv } from 'mythos-agent-core';
 import { manifest, scanInventory, checkCois, expiryStatus, calendarIcs, scan, DEFAULTS } from '../src/index.js';
@@ -74,4 +74,14 @@ test('report writes markdown, CSV with reviewer columns, and ics', async () => {
   assert.equal(r.status, 'executed'); for (const f of r.result.files) assert.ok(existsSync(f));
   const rows = parseCsv(readFileSync(r.result.files[1], 'utf8')); assert.equal(rows.length, 6); assert.equal(rows[0].reviewed_by, '');
   assert.match(readFileSync(r.result.files[0], 'utf8'), /Not insurance or legal advice/);
+});
+
+test('chase drafts for vendors named in Japanese and Korean get their own files (they all used to be vendor.md)', async () => {
+  const root = tmpRoot('aegle-intl-');
+  writeFileSync(join(root, 'cois-intl.csv'), 'vendor,coverage,limit,expires,additional_insured,certificate_id\n株式会社架空商事,general_liability,500000,2027-03-01,yes,COI-J\n(주)가상상사,general_liability,500000,2027-03-01,yes,COI-K\nA&B Repairs (fictional),general_liability,500000,2027-03-01,yes,COI-A\nA-B Repairs (fictional),general_liability,500000,2027-03-01,yes,COI-B\n');
+  const rt = new AgentRuntime(manifest, { root, mode: 'auto', autoActions: ['aegle_draft_chase'], audit: false });
+  const d = await rt.call('aegle_draft_chase', { cois: 'cois-intl.csv', requirements: 'requirements.csv', as_of });
+  assert.equal(d.status, 'executed', JSON.stringify(d));
+  const names = d.result.files.map((f) => basename(f)).sort();
+  assert.deepEqual(names, ['a-b-repairs-fictional-2.md', 'a-b-repairs-fictional.md', '株式会社架空商事.md', '주-가상상사.md'].sort());
 });

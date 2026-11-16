@@ -1,7 +1,8 @@
 {
   "name": "penelope-of-recon",
-  "version": "0.1.0",
-  "description": "Penelope of Recon: an MCP agent for bank-to-GL reconciliation from CSV/JSON exports. Proposes matches (reference, amount and date, batched deposits), ties adjusted balances and drafts adjusting entries. Posting is always one human click and only records a request.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/penelope-of-recon",
+  "description": "Penelope of Recon: an MCP agent for bank-to-GL reconciliation from CSV/JSON, CAMT.053, BAI2 or OFX exports. Proposes matches (including rules a person accepted), lists reconciling items, ties balances, rolls outstanding items forward month to month and drafts adjusting entries. Posting an entry is always one human click and only records a request.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -22,6 +23,7 @@
     "fixtures",
     "evals",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -30,7 +32,7 @@
     "eval": "node bin/penelope-of-recon.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -48,6 +50,9 @@
     "accounting",
     "general-ledger",
     "month-end-close",
+    "camt053",
+    "bai2",
+    "ofx",
     "ai-agents",
     "mythos"
   ]

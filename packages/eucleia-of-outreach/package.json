@@ -1,7 +1,8 @@
 {
   "name": "eucleia-of-outreach",
-  "version": "0.1.0",
-  "description": "Eucleia of Outreach: a draft-only MCP send gate for outreach email. Checks suppression lists, CAN-SPAM footer fields, a Tue/Wed America/Chicago send window, subject under 30 characters and body under 100 words. Never sends; release is always one human click.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/eucleia-of-outreach",
+  "description": "Eucleia of Outreach: a draft-only MCP send gate for outreach email. Checks suppression lists (with Mailchimp, HubSpot and Resend export import), CAN-SPAM footer fields, configurable send windows and time zones (default Tue/Wed America/Chicago), unfilled placeholders, spam phrases, links, subject under 30 characters and body under 100 words, and plans send slots. Never sends; release is always one human click.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -22,6 +23,7 @@
     "fixtures",
     "evals",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -30,7 +32,7 @@
     "eval": "node bin/eucleia-of-outreach.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -50,6 +52,7 @@
     "suppression-list",
     "human-in-the-loop",
     "ai-agents",
+    "send-window",
     "mythos"
   ]
 }

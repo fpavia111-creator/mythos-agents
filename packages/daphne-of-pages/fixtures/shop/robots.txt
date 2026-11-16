@@ -1,0 +1,5 @@
+# Fictional robots.txt
+User-agent: *
+Disallow: /cart
+Disallow: /private/
+Allow: /

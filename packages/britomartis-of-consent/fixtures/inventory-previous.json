@@ -1,0 +1,225 @@
+{
+  "format": "britomartis-inventory/1",
+  "tool": "britomartis-of-consent",
+  "tool_version": "0.2.0",
+  "site_host": "www.example.com",
+  "captures": [
+    "first_visit"
+  ],
+  "declared_source": "Fernhill Bakery cookie policy, updated 2026-09-01 (fictional)",
+  "vendor_lists": [
+    "britomartis-vendor-list v2026.11.0"
+  ],
+  "cookies": [
+    {
+      "name": "_ga",
+      "domain": "www.example.com",
+      "party": "first",
+      "purpose": "analytics",
+      "purpose_source": "declared",
+      "declared": true,
+      "seen_in": [
+        "first_visit"
+      ]
+    },
+    {
+      "name": "_gid",
+      "domain": "www.example.com",
+      "party": "first",
+      "purpose": "analytics",
+      "purpose_source": "declared",
+      "declared": true,
+      "seen_in": [
+        "first_visit"
+      ]
+    },
+    {
+      "name": "promo_seen",
+      "domain": "www.example.com",
+      "party": "first",
+      "purpose": null,
+      "purpose_source": "unknown",
+      "declared": false,
+      "seen_in": [
+        "first_visit"
+      ]
+    },
+    {
+      "name": "sid",
+      "domain": "www.example.com",
+      "party": "first",
+      "purpose": "necessary",
+      "purpose_source": "declared",
+      "declared": true,
+      "seen_in": [
+        "first_visit"
+      ]
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "domain": "youtube.com",
+      "party": "third",
+      "purpose": "marketing",
+      "purpose_source": "known_list (guess)",
+      "declared": false,
+      "seen_in": [
+        "first_visit"
+      ]
+    },
+    {
+      "name": "YSC",
+      "domain": "youtube.com",
+      "party": "third",
+      "purpose": "marketing",
+      "purpose_source": "known_list (guess)",
+      "declared": false,
+      "seen_in": [
+        "first_visit"
+      ]
+    }
+  ],
+  "third_parties": [
+    {
+      "host": "fonts.googleapis.com",
+      "vendor": "Google Fonts",
+      "purpose": "other",
+      "purpose_source": "known_list (guess)",
+      "declared": false,
+      "seen_in": [
+        "first_visit"
+      ]
+    },
+    {
+      "host": "www.google-analytics.com",
+      "vendor": "Google Analytics",
+      "purpose": "analytics",
+      "purpose_source": "declared",
+      "declared": true,
+      "seen_in": [
+        "first_visit"
+      ]
+    },
+    {
+      "host": "www.googletagmanager.com",
+      "vendor": "Google Tag Manager",
+      "purpose": "analytics",
+      "purpose_source": "declared",
+      "declared": true,
+      "seen_in": [
+        "first_visit"
+      ]
+    },
+    {
+      "host": "www.youtube.com",
+      "vendor": "YouTube",
+      "purpose": "marketing",
+      "purpose_source": "known_list (guess)",
+      "declared": false,
+      "seen_in": [
+        "first_visit"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "check": "nonessential_before_consent",
+      "severity": "error",
+      "subject": "cookie _ga (www.example.com)"
+    },
+    {
+      "check": "nonessential_before_consent",
+      "severity": "error",
+      "subject": "cookie _gid (www.example.com)"
+    },
+    {
+      "check": "nonessential_before_consent",
+      "severity": "error",
+      "subject": "cookie VISITOR_INFO1_LIVE (youtube.com)"
+    },
+    {
+      "check": "samesite_none_insecure",
+      "severity": "error",
+      "subject": "cookie VISITOR_INFO1_LIVE (youtube.com)"
+    },
+    {
+      "check": "nonessential_before_consent",
+      "severity": "error",
+      "subject": "cookie YSC (youtube.com)"
+    },
+    {
+      "check": "nonessential_before_consent",
+      "severity": "error",
+      "subject": "host www.google-analytics.com"
+    },
+    {
+      "check": "nonessential_before_consent",
+      "severity": "error",
+      "subject": "host www.googletagmanager.com"
+    },
+    {
+      "check": "nonessential_before_consent",
+      "severity": "error",
+      "subject": "host www.youtube.com"
+    },
+    {
+      "check": "undeclared_cookie",
+      "severity": "warning",
+      "subject": "cookie promo_seen (www.example.com)"
+    },
+    {
+      "check": "cookie_purpose_unknown",
+      "severity": "warning",
+      "subject": "cookie promo_seen (www.example.com)"
+    },
+    {
+      "check": "cookie_not_secure",
+      "severity": "warning",
+      "subject": "cookie promo_seen (www.example.com)"
+    },
+    {
+      "check": "undeclared_cookie",
+      "severity": "warning",
+      "subject": "cookie VISITOR_INFO1_LIVE (youtube.com)"
+    },
+    {
+      "check": "undeclared_cookie",
+      "severity": "warning",
+      "subject": "cookie YSC (youtube.com)"
+    },
+    {
+      "check": "undeclared_third_party",
+      "severity": "warning",
+      "subject": "host fonts.googleapis.com"
+    },
+    {
+      "check": "undeclared_third_party",
+      "severity": "warning",
+      "subject": "host www.youtube.com"
+    },
+    {
+      "check": "no_consent_mechanism",
+      "severity": "warning",
+      "subject": "site"
+    },
+    {
+      "check": "cookie_long_lifetime",
+      "severity": "advisory",
+      "subject": "cookie promo_seen (www.example.com)"
+    },
+    {
+      "check": "declared_not_seen",
+      "severity": "advisory",
+      "subject": "cookie csrftoken"
+    },
+    {
+      "check": "declared_not_seen",
+      "severity": "advisory",
+      "subject": "cookie __stripe_mid"
+    },
+    {
+      "check": "declared_not_seen",
+      "severity": "advisory",
+      "subject": "host stripe.com"
+    }
+  ]
+}

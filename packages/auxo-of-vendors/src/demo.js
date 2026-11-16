@@ -8,6 +8,15 @@ export async function demo(manifest) {
   const r = await rt.call('auxo_check', f);
   printStep('Check W-9 readiness for 2026 payments', r);
   for (const i of r.result.items) process.stdout.write(`    ${i.priority.padEnd(7)} ${i.vendor_id.padEnd(3)} ${i.name.padEnd(20)} ${i.status.padEnd(13)} TIN ${(i.tin_masked || '—').padEnd(15)} ${i.flags.join(', ') || '—'}\n`);
+  process.stdout.write('    (The sample TINs are invalid placeholders, so the pattern rules flag them: none is "ready".)\n');
+  const m = { vendors: 'vendors-merged.csv', payments: 'payments-merged.csv', year: 2026, as_of: '2026-11-14' };
+  const dup = await rt.call('auxo_find_duplicates', m);
+  printStep('Find duplicate vendor records (larger sample with duplicates and a second non-US vendor)', dup);
+  for (const p of dup.result.pairs) process.stdout.write(`    ${p.confidence.padEnd(6)} ${p.a}+${p.b}  ${p.reasons.join(', ')}  combined ${p.combined_reportable.toFixed(2)}${p.split_under_threshold ? '  ⚠ split under the threshold' : ''}\n`);
+  const rd = await rt.call('auxo_1099_readiness', m);
+  printStep('1099 readiness summary (not a filing)', rd);
+  for (const x of rd.result.rows) process.stdout.write(`    ${x.vendor_id.padEnd(4)} ${String(x.name).padEnd(22)} ${x.paid_reportable_methods.toFixed(2).padStart(9)}  missing: ${x.missing.join(', ') || 'nothing'}\n`);
+  for (const x of rd.result.foreign_over_threshold) process.stdout.write(`    ${x.vendor_id.padEnd(4)} ${String(x.name).padEnd(22)} ${x.paid_reportable_methods.toFixed(2).padStart(9)}  non-US: ${x.flags.join(', ') || 'W-8 on file'} (usually ${x.form_expected})\n`);
   printStep('Write the tracker (TINs masked)', await rt.call('auxo_write_tracker', f));
   const d = await rt.call('auxo_draft_requests', f);
   printStep('Auto: draft requests and reminders (opted in; nothing is sent)', d);

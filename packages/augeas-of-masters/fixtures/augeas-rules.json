@@ -1,0 +1,6 @@
+{
+  "default_rule": "survivor_fill_blank",
+  "fields": { "address": "longest", "phone": "most_common" },
+  "survivor": { "prefer_active": true, "order": "most_complete" },
+  "protected_fields": ["isinactive"]
+}

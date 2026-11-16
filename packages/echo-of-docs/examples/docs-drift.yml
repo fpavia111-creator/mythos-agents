@@ -1,0 +1,36 @@
+# Example workflow: copy to .github/workflows/docs-drift.yml in your repository.
+# Checks the docs on every push and pull request, uploads SARIF to code scanning,
+# and fails the job when docs drift (errors by default).
+name: Docs drift
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+  security-events: write   # only needed for the SARIF upload
+jobs:
+  echo-of-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # Optional, for an MCP server: save its tool list so tool names and labels are checked too.
+      # Replace "my-pack" with your server's command.
+      - name: Save the tool list
+        run: printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' | npx -y my-pack mcp --root . > tools.json
+      - name: Check docs drift
+        id: echo
+        uses: fpavia111-creator/mythos-agents/packages/echo-of-docs@main
+        with:
+          pack: .
+          tools: tools.json
+          # openapi: openapi.json
+          fail-on: error
+      - name: Upload SARIF to code scanning
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.echo.outputs.sarif }}
+          category: echo-of-docs

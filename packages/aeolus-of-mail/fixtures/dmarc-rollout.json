@@ -1,0 +1,11 @@
+{
+  "stages": [
+    { "policy": "none", "pct": 100, "min_days": 28, "note": "Four weeks of reports before any enforcement." },
+    { "policy": "quarantine", "pct": 10, "min_days": 14 },
+    { "policy": "quarantine", "pct": 100, "min_days": 21 },
+    { "policy": "reject", "pct": 100, "min_days": 0 }
+  ],
+  "pass_threshold": 99,
+  "reminder_days": [7, 1],
+  "owner": "Lee Mail Admin (fictional)"
+}

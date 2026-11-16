@@ -1,0 +1,4 @@
+Email Address,First Name,Last Name,MEMBER_RATING,OPTIN_TIME,UNSUB_TIME,UNSUB_CAMPAIGN_TITLE,UNSUB_REASON,LEID,EUID
+Dee@Juniper.example,Dee,Sample,2,2026-01-10 10:00:00,2026-10-02 14:11:00,October note,No longer interested,1001,a1b2c3
+lou@quartzline.example,Lou,Sample,1,2026-02-11 09:00:00,2026-10-05 08:00:00,October note,,1002,d4e5f6
+ sam@tallgrass.example ,Sam,Sample,3,2026-03-12 12:00:00,2026-10-09 16:30:00,October note,Too many emails,1003,g7h8i9

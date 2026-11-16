@@ -1,0 +1,4 @@
+Date,Type,Document Number,Name,Item,Quantity,Item Rate,Amount,Created From,Line ID
+11/4/2026,Bill,INV-2001,Acme Supply (fictional),BOX-12,100,12.00,"1,200.00",Purchase Order #PO-4471,1
+11/4/2026,Bill,INV-2002,Acme Supply (fictional),TAPE-3,50,4.00,200.00,Purchase Order #PO-4471,1
+11/6/2026,Bill,INV-2003,Globex Furniture (fictional),CHAIR-A,10,195.00,"1,950.00",Purchase Order #PO-4472,1

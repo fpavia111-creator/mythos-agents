@@ -1,0 +1,8 @@
+to,subject,body,send_at,time_zone
+mia@lakeshore.example,Quick idea,"Hi Mia, a short read-only check of your exports. Details: https://example.com/check",2026-11-17T15:00:00Z,
+noor@palisade.example,Hi {{first_name}},"Hi {{first_name}}, quick note about your cutover.",2026-11-17T15:00:00Z,
+raj@meadowbrook.example,Cutover plan,"Hi Raj, see https://bit.ly/3xYz for the plan.",2026-11-17T15:00:00Z,
+tess@orchard.example,Tie-out,"Hi Tess, sample report at https://reports.other-site.example/r/1",2026-11-17T15:00:00Z,
+yuki@sakura.example,Quick idea,"Hi Yuki, short note about your migration.",2026-11-17T15:00:00Z,Asia/Tokyo
+yuki2@sakura.example,Quick idea,"Hi Yuki, short note about your migration.",2026-11-17T23:30:00Z,Asia/Tokyo
+cole@ridge.example,Act now,"Hi Cole, guaranteed results, click here for a FREE audit. No obligation.",2026-11-18T16:00:00Z,

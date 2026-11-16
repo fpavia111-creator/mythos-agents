@@ -1,0 +1,9 @@
+/* Fictional shop stylesheet with planted contrast and focus issues. */
+body { color: #222222; background-color: #ffffff; font-size: 16px; }
+.muted { color: #999999; }
+.btn-primary { color: #ffffff; background-color: #7fb3ff; padding: 8px 12px; }
+.price { color: #1a1a1a; }
+.hero h1 { color: #767676; }
+.banner { background: url(banner.jpg) center; color: #ffffff; }
+a:focus { outline: none; }
+@media print { .muted { color: #000000; } }

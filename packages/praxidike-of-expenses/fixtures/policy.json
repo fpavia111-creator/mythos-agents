@@ -4,17 +4,92 @@
   "receipt_required_over": 25,
   "submit_within_days": 30,
   "preapproval_over": 500,
-  "sections": { "receipts": "§2.1 Receipts", "submission": "§2.3 Deadlines", "purpose": "§2.2 Business purpose", "preapproval": "§2.4 Pre-approval", "duplicates": "§2.5 One claim per expense", "currency": "§2.6 Currency", "categories": "§3 Categories", "disallowed": "§4 Not reimbursable" },
+  "sections": {
+    "receipts": "\u00a72.1 Receipts",
+    "submission": "\u00a72.3 Deadlines",
+    "purpose": "\u00a72.2 Business purpose",
+    "preapproval": "\u00a72.4 Pre-approval",
+    "duplicates": "\u00a72.5 One claim per expense",
+    "currency": "\u00a72.6 Currency",
+    "categories": "\u00a73 Categories",
+    "disallowed": "\u00a74 Not reimbursable",
+    "per_diem": "\u00a73.7 Per diem"
+  },
   "categories": {
-    "meals": { "limit": 75, "per": "person", "attendees_required": true, "section": "§3.1 Meals" },
-    "lodging": { "limit": 250, "per": "night", "section": "§3.2 Lodging" },
-    "airfare": { "section": "§3.3 Air travel" },
-    "ground": { "limit": 150, "per": "item", "section": "§3.4 Ground transport" },
-    "mileage": { "rate_per_mile": 0.70, "receipt_exempt": true, "section": "§3.5 Mileage (company rate)" },
-    "software": { "limit": 100, "per": "item", "section": "§3.6 Software" }
+    "meals": {
+      "limit": 75,
+      "per": "person",
+      "attendees_required": true,
+      "section": "\u00a73.1 Meals"
+    },
+    "lodging": {
+      "limit": 250,
+      "per": "night",
+      "section": "\u00a73.2 Lodging"
+    },
+    "airfare": {
+      "section": "\u00a73.3 Air travel"
+    },
+    "ground": {
+      "limit": 150,
+      "per": "item",
+      "section": "\u00a73.4 Ground transport"
+    },
+    "mileage": {
+      "rate_per_mile": 0.7,
+      "receipt_exempt": true,
+      "section": "\u00a73.5 Mileage (company rate)"
+    },
+    "software": {
+      "limit": 100,
+      "per": "item",
+      "section": "\u00a73.6 Software"
+    },
+    "per_diem_meals": {
+      "per_diem": "meals",
+      "per": "day",
+      "receipt_exempt": true,
+      "section": "\u00a73.7 Per diem (meals)"
+    }
   },
   "disallowed": [
-    { "category": "alcohol", "section": "§4.1", "note": "unless a client dinner is pre-approved" },
-    { "category": "personal", "section": "§4.2" }
+    {
+      "category": "alcohol",
+      "section": "\u00a74.1",
+      "note": "unless a client dinner is pre-approved"
+    },
+    {
+      "category": "personal",
+      "section": "\u00a74.2"
+    }
+  ],
+  "per_diem": {
+    "section": "\u00a73.7 Per diem",
+    "source": "Example Co. per-diem table 2026 (fictional rates)",
+    "rates": [
+      {
+        "location": "Duluth, MN",
+        "from": "2026-01-01",
+        "to": "2026-12-31",
+        "meals": 64,
+        "lodging": 140
+      },
+      {
+        "location": "*",
+        "meals": 59,
+        "lodging": 110
+      }
+    ]
+  },
+  "mileage_rates": [
+    {
+      "from": "2026-01-01",
+      "to": "2026-06-30",
+      "rate": 0.67
+    },
+    {
+      "from": "2026-07-01",
+      "rate": 0.7
+    }
   ]
 }

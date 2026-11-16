@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "note": "Fictional example rules for the demo.",
+  "stale_days": 365,
+  "reconsent_days": 730,
+  "extra_role_locals": ["events", "press"],
+  "extra_disposable_domains": ["throwaway.example"],
+  "typo_domains": { "exmaple.com": "example.com" },
+  "allowed_consent_sources": ["web form", "event"]
+}

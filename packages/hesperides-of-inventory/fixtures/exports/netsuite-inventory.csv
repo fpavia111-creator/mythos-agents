@@ -1,0 +1,4 @@
+Name,Display Name,Location,Location On Hand,Location Average Cost,Stock Unit,Type
+WID-100,Widget 100,A-01,120,$2.50,EA,Inventory Item
+WID-200,Widget 200,A-02,80,$4.00,EA,Inventory Item
+GAD-300,Gadget 300,B-01,"1,040",$11.25,EA,Inventory Item

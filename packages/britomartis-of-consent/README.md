@@ -11,7 +11,11 @@ Give Britomartis what the site really does: a folder of exported HTML pages and/
 - **third-party hosts**: scripts, frames, pixels, fonts and requests to other sites, and whether a script in the HTML is consent-gated (`type="text/plain"` with a `data-category`, or similar);
 - **gaps**: undeclared cookies and hosts; analytics or marketing cookies and requests **before consent** or **after a reject**; tracker scripts loaded with no gating; a page saying "no cookies", "no tracking cookies", "no trackers" or "no analytics" when the captures show otherwise; `SameSite=None` without `Secure`; cookies without `Secure` on https; lifetimes over about 13 months; durations that differ from the policy; declared items not seen; no consent banner or consent manager; no link to a cookie or privacy policy.
 
-Purposes come from your policy. For anything undeclared, Britomartis uses a small built-in list of well-known vendors and **labels it a guess**. With approval it drafts a cookie table for your policy page, with `[TO CONFIRM]` wherever a person has to decide. It does not edit scripts, the banner or the policy text.
+- **Global Privacy Control**: give a capture recorded with GPC turned on (`har_gpc`; any capture whose requests carry `Sec-GPC: 1` is checked) and it flags analytics or marketing cookies and requests that still appear (`gpc_signal_ignored`). If the site folder has `.well-known/gpc.json` saying `"gpc": true`, that becomes an error, and if no GPC capture was given it says the claim was not tested. Whether a site has to honour the signal depends on where it operates; Britomartis only reports what the capture shows.
+
+Purposes come from your policy. For anything undeclared, Britomartis uses a **versioned vendor list** (`src/vendors.json`, about 135 hosts and 90 cookie patterns, version shown on every match) and **labels it a guess**. You can add your own list (`vendors`, same format, matched first and cited by its own version).
+
+Run it again next month and give it the `inventory.json` from the last report (`britomartis_diff_inventory`): it lists new and gone cookies and hosts, purpose changes, new gaps and gaps no longer found. With approval it drafts a cookie table for your policy page, with `[TO CONFIRM]` wherever a person has to decide. It does not edit scripts, the banner or the policy text.
 
 ## Install
 
@@ -25,13 +29,13 @@ britomartis-of-consent demo        # runs on the bundled fictional sample data
 **Claude Code**
 
 ```bash
-claude mcp add britomartis-of-consent -- npx -y britomartis-of-consent@0.1.0 mcp --root /path/to/your/exports
+claude mcp add britomartis-of-consent -- npx -y britomartis-of-consent@0.2.0 mcp --root /path/to/your/exports
 ```
 
 **Cursor / Claude Desktop / VS Code / Windsurf**
 
 ```json
-{ "mcpServers": { "britomartis-of-consent": { "command": "npx", "args": ["-y", "britomartis-of-consent@0.1.0", "mcp", "--root", "/path/to/your/exports"] } } }
+{ "mcpServers": { "britomartis-of-consent": { "command": "npx", "args": ["-y", "britomartis-of-consent@0.2.0", "mcp", "--root", "/path/to/your/exports"] } } }
 ```
 
 `--root` is the only folder the tools can read or write. Paths outside it are refused.
@@ -41,7 +45,8 @@ claude mcp add britomartis-of-consent -- npx -y britomartis-of-consent@0.1.0 mcp
 | Tool | Policy | What it does |
 |---|---|---|
 | `britomartis_inventory` | **allow** | Cookie and third-party inventory with every gap against the declared policy |
-| `britomartis_write_report` | **allow** | Write `consent-audit.md`, `cookie-inventory.csv` and `third-parties.csv` to `mythos-out/britomartis` |
+| `britomartis_write_report` | **allow** | Write `consent-audit.md`, `consent-audit.html` (self-contained, no scripts), `cookie-inventory.csv`, `third-parties.csv` and `inventory.json` (no cookie values) to `mythos-out/britomartis`; the output hash goes into the audit line |
+| `britomartis_diff_inventory` | **allow** | Compare an earlier `inventory.json` with the current captures |
 | `britomartis_draft_policy_table` | **ask (Auto-eligible)** | Draft `cookie-table.md` and `declared.proposed.json` with `[TO CONFIRM]` markers, plus `proposal.json` with hashes |
 | `britomartis_request_publish` | **ask · one-click** | After a named human approves, record the reviewed table (bound to its hash; refused while markers remain) for whoever publishes |
 | `deploy_site` | **block** | Listed so agents see the refusal. Britomartis never changes the live site, banner or tag manager. |
@@ -49,13 +54,32 @@ claude mcp add britomartis-of-consent -- npx -y britomartis-of-consent@0.1.0 mcp
 
 Any other tool name is blocked. `mythos_info` shows the pinned model, mode, caps and every decision.
 
+### MCP prompt
+
+`britomartis_consent_audit` (arguments `base_url`, `har_first_visit`, optional `site`, `har_after_reject`, `har_gpc`, `declared`, `previous`) walks the host model through validating the policy file, the inventory, GPC, the comparison with the last scan, the report, an optional draft and the one-click publish.
+
+### Config files
+
+The declared policy (`declared_policy`) and an extra vendor list (`vendor_list`) are checked against JSON Schemas; typos and wrong types fail with a JSON pointer (`/cookies/2/purpose must be one of …`). Check a file on its own with `britomartis-of-consent validate-config declared_policy declared.json`.
+
+## Recording the captures (optional helper)
+
+You can record the HAR files from your browser's network panel. If you have [Playwright](https://playwright.dev) installed yourself, `britomartis-capture` does it headlessly:
+
+```bash
+britomartis-capture --url https://www.example.com/ --page /order.html \
+  --reject "#reject-all" --accept "#accept-all" --out captures
+```
+
+It writes `first-visit.har`, `after-reject.har` and `after-accept.har` (when you give the button selectors) and `gpc-visit.har` (sent with `Sec-GPC: 1`; `--no-gpc` to skip), with **cookie values redacted**. It opens your site in a real headless browser, so **it makes network requests** to your site and every third party it loads, unless you pass `--offline` (every request that is not mapped with `--map` or stubbed with `--stubs` gets an empty 204). Playwright is not a dependency of this package and is only imported when you run the helper; no MCP tool runs it.
+
 ## Modes
 
 - **Review** (`--mode review`): read and report only.
 - **Assist** (default): the policy above. `ask` returns an `approval_id`; a person approves once with `britomartis-of-consent approve <id> --as "Your Name"`.
 - **Auto** (`--mode auto --auto <tool,...>`): off by default, opt-in per action, with step/spend caps (`--max-steps`, `--max-spend`) and a kill switch (`britomartis-of-consent kill`).
 
-The inventory and report can run on a schedule over fresh captures, and `britomartis_draft_policy_table` can go on Auto. Publishing a policy, banner or site change is a `production_deploy`: it stays **one-click even in Auto**, and `--auto britomartis_request_publish` is refused. The approval is tied to the proposal's hash, every drafted file is re-hashed, and it is refused while any `[TO CONFIRM]` is left. To clear them, fill in `declared.proposed.json`, save it as your policy file and draft again. Deploying and fetching stay **blocked**.
+The inventory and report can run on a schedule over fresh captures, and `britomartis_draft_policy_table` can go on Auto. Publishing a policy, banner or site change is a `production_deploy`: it stays **one-click even in Auto**, and `--auto britomartis_request_publish` is refused. The approval is tied to the proposal's hash, every drafted file is re-hashed, and it is refused while any `[TO CONFIRM]` is left. To clear them, fill in `declared.proposed.json`, save it as your policy file and draft again. Deploying and fetching stay **blocked**; the capture helper is a separate command you run, never a tool.
 
 Go-live, revoking access, deleting personal data, moving money, legally binding sends and production deploys always need a person's click, in every Mythos pack.
 
@@ -74,12 +98,13 @@ Every call is written to `.mythos/audit.jsonl` (hash-chained JSONL; arguments st
 - Not legal advice, and it never says a site is GDPR, CCPA/CPRA or ePrivacy compliant. It is a technical inventory to check against what your policy and banner say.
 - Not a consent-management platform. It shows no banner and stores no consent.
 - It only sees what your files show. Cookies set on pages or flows you did not capture, or only for some visitors or regions, are missed. Vendor purposes for undeclared items are guesses.
-- It does not crawl or fetch your site; you export the pages and record the captures.
+- The MCP tools do not crawl or fetch your site; you export the pages and record the captures (by hand or with the optional `britomartis-capture` helper, which you run yourself).
+- A GPC finding says trackers were seen while the signal was sent. It does not say what the law requires of your site.
 - Not fully autonomous: anything risky waits for a named person.
 
 ## Data
 
-Everything runs locally on files you choose. No network calls, no telemetry. HAR files can contain cookie values and session tokens. Britomartis reports cookie names and attributes, never their values, but keep the captures private and delete them when you are done. The bundled fixtures are fictional.
+The MCP tools run locally on files you choose: no network calls, no telemetry. Only `britomartis-capture`, when you run it without `--offline`, visits your site. HAR files can contain cookie values and session tokens. Britomartis reports cookie names and attributes, never their values, but keep the captures private and delete them when you are done. `britomartis-capture` redacts cookie values unless you pass `--no-redact`. The bundled fixtures are fictional.
 
 ## License
 

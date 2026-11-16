@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "default": [
+    { "coverage": "general_liability", "min_limit": 1000000, "additional_insured": true },
+    { "coverage": "workers_comp", "min_limit": 500000 }
+  ],
+  "categories": {
+    "electrical": [
+      { "coverage": "general_liability", "min_limit": 2000000, "additional_insured": true, "waiver_of_subrogation": true },
+      { "coverage": "workers_comp", "min_limit": 500000, "waiver_of_subrogation": true },
+      { "coverage": "umbrella", "min_limit": 1000000, "note": "Higher-risk trade (fictional rule)" }
+    ]
+  },
+  "vendors": { "Bright Electric (fictional)": "electrical" }
+}

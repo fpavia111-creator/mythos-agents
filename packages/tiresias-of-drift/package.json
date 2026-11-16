@@ -1,7 +1,8 @@
 {
   "name": "tiresias-of-drift",
-  "version": "0.1.0",
-  "description": "Tiresias of Drift: an MCP agent that compares config and schema snapshots over time, explains each drift with a risk level and drafts a revert plan. Secret values are never shown. Applying a fix to production is always one human click and only records a request.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/tiresias-of-drift",
+  "description": "Tiresias of Drift: an MCP agent that compares snapshots over time (JSON/YAML config, .env, schema CSV, Terraform state, Kubernetes manifests), explains each drift with a risk level, remembers drift a person approved, and drafts a revert plan and patch. Secret values are never shown. Applying a fix to production is always one human click and only records a request.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -22,6 +23,7 @@
     "fixtures",
     "evals",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -30,7 +32,7 @@
     "eval": "node bin/tiresias-of-drift.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -48,6 +50,9 @@
     "schema-drift",
     "change-management",
     "devops",
+    "terraform",
+    "kubernetes",
+    "sarif",
     "ai-agents",
     "mythos"
   ]

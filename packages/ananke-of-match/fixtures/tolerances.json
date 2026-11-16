@@ -1,0 +1,8 @@
+{
+  "note": "Fictional tolerance profile for demos and tests.",
+  "default": { "price_pct": 2, "price_abs": 0, "qty": 0 },
+  "vendors": {
+    "Globex Furniture (fictional)": { "price_pct": 10, "note": "Fictional contract allows a freight surcharge up to 10%." },
+    "Initech Hardware (fictional)": { "price_pct": 0.5 }
+  }
+}

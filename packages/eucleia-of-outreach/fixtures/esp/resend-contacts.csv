@@ -1,0 +1,6 @@
+id,email,first_name,last_name,created_at,unsubscribed
+00000000-0000-4000-8000-000000000001,dee@juniper.example,Dee,Sample,2026-01-10T10:00:00Z,true
+00000000-0000-4000-8000-000000000002,lou@quartzline.example,Lou,Sample,2026-02-11T09:00:00Z,true
+00000000-0000-4000-8000-000000000003,Sam@Tallgrass.example,Sam,Sample,2026-03-12T12:00:00Z,true
+00000000-0000-4000-8000-000000000004,ana@northwind.example,Ana,Sample,2026-04-13T08:00:00Z,false
+00000000-0000-4000-8000-000000000005,ben@blueharbor.example,Ben,Sample,2026-05-14T08:00:00Z,false

@@ -12,6 +12,13 @@ export async function demo(manifest) {
   const v = await rt.call('urania_variance', f);
   printStep('Variances against budget and prior', v);
   for (const x of v.result.figures) process.stdout.write(`    ${x.id} ${x.metric.padEnd(14)} ${x.material ? 'MATERIAL' : '        '} vs ${x.basis}: ${x.basis === 'budget' ? x.var_budget : x.var_prior} (${x.basis === 'budget' ? x.var_budget_pct : x.var_prior_pct}%)\n`);
+  const cmp = await rt.call('urania_compare_prior', { ...f, prior_figures: 'prior/figures-2026-09.csv', prior_manifest: 'prior/pack-manifest-2026-09.json', docs });
+  printStep("Compare with last month's pack (restatements and the sentences they touch)", cmp);
+  for (const x of cmp.result.changes) process.stdout.write(`    ${x.type.padEnd(15)} ${x.id} ${x.metric}${x.delta !== undefined && x.delta !== null ? ` (${x.was} -> ${x.now})` : ''}\n`);
+  for (const x of cmp.result.impact) process.stdout.write(`    re-read ${x.doc}:${x.line} [${x.refs.join(', ')}] "${x.text}"\n`);
+  const pc = await rt.call('urania_check_claims', { ...f, docs: ['docs/cfo-notes.md'] });
+  printStep('Percentage checks: ratios, "roughly", and up/down wording', pc);
+  for (const x of pc.result.claims) process.stdout.write(`    ${x.status.padEnd(18)} "${x.text}"${x.matched.length ? `  -> ${x.matched.map((m) => m.matches.join('|')).join(', ')}` : ''}\n`);
   printStep('Auto: draft cited commentary (opted in; reasons left to owners)', await rt.call('urania_draft_commentary', f));
   const c = await rt.call('urania_check_claims', { ...f, docs, commentary: 'mythos-out/urania/commentary.md' });
   printStep('Claims check on the source docs and commentary', c);
@@ -31,7 +38,8 @@ export async function demo(manifest) {
   fix('docs/ops-update.md', 'Shipping costs were 41,000 [F9].', 'Shipping costs are inside cost of sales [F2].');
   process.stdout.write('    (demo: line owners write the four "Reason" lines in the commentary)\n');
   for (const r of ['Two large school-district orders landed early (fictional).', 'Revenue mix shifted to higher-margin licences (fictional).', 'Planned channel tests were brought forward (fictional).', 'Annual insurance and a hardware refresh were paid (fictional).']) fix('mythos-out/urania/commentary.md', '[TO WRITE — owner explains]', r);
-  printStep('Reassemble the pack', await rt.call('urania_assemble_pack', pack));
+  printStep('Charts from the locked figures (SVG, no scripts)', await rt.call('urania_charts', { figures: 'figures.csv', charts: ['variance', 'variance_pct', 'actual_vs_basis'] }));
+  printStep('Reassemble the pack (Markdown + self-contained HTML with charts)', await rt.call('urania_assemble_pack', { ...pack, html: true }));
   sign = { ...sign, pack_sha256: sha() };
   const s2 = await rt.call('urania_record_signoff', sign);
   printStep('Auto: controller sign-off — stays one-click', s2);

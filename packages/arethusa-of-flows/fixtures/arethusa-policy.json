@@ -1,0 +1,8 @@
+{
+  "$comment": "Fictional policy for the bundled fixtures.",
+  "allow_http_hosts": ["erp.example.internal"],
+  "fail_rate": 0.3,
+  "ignore": [
+    { "flow": "Leads to ERP", "code": "possible_secret", "step": "Forward to order sync", "reason": "X-Trace is a public request-correlation id, not a secret (fictional)", "until": "2027-03-31" }
+  ]
+}

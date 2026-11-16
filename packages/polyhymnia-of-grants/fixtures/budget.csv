@@ -1,10 +1,10 @@
-grant_id,line,budgeted,spent
-G1,Personnel,30000,26500
-G1,Books and materials,8000,9200
-G1,Transport,6000,1200
-G1,Indirect,6000,5200
-G2,Artist fees,12000,12000
-G2,Paint and supplies,5000,4700
-G2,Permits,2000,2000
-G3,Tutors,24000,9000
-G3,Venue,6000,2500
+grant_id,line,budgeted,spent,explanation
+G1,Personnel,30000,26500,
+G1,Books and materials,8000,9200,
+G1,Transport,6000,1200,Bus contract started in March (fictional)
+G1,Indirect,6000,5200,
+G2,Artist fees,12000,12000,
+G2,Paint and supplies,5000,4700,
+G2,Permits,2000,2000,
+G3,Tutors,24000,9000,
+G3,Venue,6000,2500,

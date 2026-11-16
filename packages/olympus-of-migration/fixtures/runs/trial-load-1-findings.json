@@ -1,0 +1,124 @@
+{
+  "generatedAt": "2026-10-01T09:00:00.000Z",
+  "rules": null,
+  "compare": {
+    "status": "blocking",
+    "go_live": "not_approved",
+    "go_live_note": "Go-live is a human decision. Olympus reports; it never approves go-live.",
+    "key": {
+      "source": "externalid",
+      "target": "externalid"
+    },
+    "tolerance": 0.005,
+    "counts": {
+      "source": 5,
+      "target": 4,
+      "matched": 3,
+      "missing_in_target": 2,
+      "extra_in_target": 0,
+      "field_mismatches": 0
+    },
+    "totals": {
+      "source": {
+        "column": "amount",
+        "total": 10000,
+        "unparseable": 0
+      },
+      "target": {
+        "column": "amount",
+        "total": 8850,
+        "unparseable": 0
+      },
+      "difference": 1150
+    },
+    "missing_in_target": [
+      "INV-1039",
+      "INV-1041"
+    ],
+    "extra_in_target": [],
+    "mismatches": [],
+    "findings": [
+      {
+        "severity": "blocking",
+        "code": "missing_in_target",
+        "message": "2 source record(s) are not in the target: INV-1039, INV-1041"
+      },
+      {
+        "severity": "blocking",
+        "code": "duplicate_keys_target",
+        "message": "1 duplicate key(s) in the target: INV-1038"
+      },
+      {
+        "severity": "blocking",
+        "code": "totals_do_not_tie",
+        "message": "amount totals differ by 1150 (source 10000, target 8850)"
+      }
+    ]
+  },
+  "trial_balance": {
+    "status": "blocking",
+    "go_live": "not_approved",
+    "tolerance": 0.005,
+    "accounts": 4,
+    "tied": 2,
+    "not_tied": [
+      {
+        "account": "1000",
+        "source": 25000,
+        "target": null,
+        "difference": null,
+        "state": "missing_or_unknown"
+      },
+      {
+        "account": "1200",
+        "source": 10000,
+        "target": 7000,
+        "difference": 3000,
+        "state": "differs"
+      }
+    ],
+    "unknown_balances": {
+      "source": [],
+      "target": [
+        "1000"
+      ]
+    },
+    "net": {
+      "source": 0,
+      "target": -28000,
+      "note": "A signed trial balance should net to 0. A non-zero net can also mean the export uses unsigned debit/credit columns."
+    },
+    "note": "Balances that are blank or not numbers are reported as unknown, never guessed."
+  },
+  "field_rules": null,
+  "actions": [
+    {
+      "n": 1,
+      "priority": 1,
+      "code": "duplicate_keys_target",
+      "why": "1 duplicate key(s) in the target: INV-1038",
+      "action": "Remove or merge duplicate target records before go-live; duplicates double-count balances."
+    },
+    {
+      "n": 2,
+      "priority": 1,
+      "code": "missing_in_target",
+      "why": "2 source record(s) are not in the target: INV-1039, INV-1041",
+      "action": "Load the missing records (or document why they are excluded) and rerun."
+    },
+    {
+      "n": 3,
+      "priority": 1,
+      "code": "tb_not_tied",
+      "why": "2 trial-balance line(s) do not tie",
+      "action": "Explain or fix every trial-balance account that does not tie; blank balances must be filled from the source, not guessed."
+    },
+    {
+      "n": 4,
+      "priority": 1,
+      "code": "totals_do_not_tie",
+      "why": "amount totals differ by 1150 (source 10000, target 8850)",
+      "action": "Find the records that make up the total difference (missing records and amount differences first)."
+    }
+  ]
+}

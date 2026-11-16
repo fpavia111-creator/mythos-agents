@@ -1,0 +1,4 @@
+{
+  "note": "Response headers the test's local static server adds per path (fictional values).",
+  "/": { "Set-Cookie": ["sid=s0000; Path=/; Secure; HttpOnly; SameSite=Lax", "promo_seen=1; Path=/; Max-Age=63072000"] }
+}

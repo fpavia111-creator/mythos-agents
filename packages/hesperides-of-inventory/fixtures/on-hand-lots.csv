@@ -1,0 +1,8 @@
+sku,location,lot,serial,description,system_qty,unit_cost,uom,expiry
+MILK-1,F-01,L2601,,Oat drink 1L,40,2.10,EA,2026-12-01
+MILK-1,F-01,L2602,,Oat drink 1L,60,2.10,EA,2027-01-15
+SEED-9,F-02,,S-1001,Seed drill,1,850.00,EA,
+SEED-9,F-02,,S-1002,Seed drill,1,850.00,EA,
+TORCH-2,G-02,,T-55,Work torch,1,35.00,EA,
+GLUE-1,B-02,,,Wood glue 1L,24,9.80,EA,
+CORD-3,G-01,,,Cord reel 10m,50,4.00,EA,

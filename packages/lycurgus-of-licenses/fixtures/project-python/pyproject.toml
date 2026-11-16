@@ -1,0 +1,6 @@
+[project]
+name = "kettle-app"
+version = "1.4.0"
+description = "Fictional project for the Lycurgus fixtures"
+license = "MIT"
+requires-python = ">=3.9"

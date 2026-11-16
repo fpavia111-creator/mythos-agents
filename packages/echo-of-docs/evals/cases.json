@@ -1,15 +1,264 @@
 {
   "suite": "echo-of-docs",
   "root": "..",
-  "data_note": "Fictional pack ../fixtures/kettle-of-notes whose docs drift from its tools.json and package.json on purpose. Deterministic; no model and no network are used.",
+  "data_note": "Fictional packs ../fixtures/kettle-of-notes and ../fixtures/ladle-of-api whose docs drift from their tools.json, OpenAPI spec, CHANGELOG and package.json on purpose. Deterministic; no model and no network are used.",
   "cases": [
-    { "id": "planted-drift", "tool": "echo_check", "args": { "pack": "fixtures/kettle-of-notes", "tools": "fixtures/kettle-of-notes/tools.json" },
-      "expect": { "status": "executed", "contains": ["tool_not_in_code", "policy_mismatch", "param_not_in_schema", "tool_undocumented", "version_mismatch", "engines_mismatch", "script_missing", "broken_link", "broken_anchor", "skill_frontmatter", "license_mismatch", "count_mismatch", "Did you mean `kettle_summarize`?"], "equals": { "result.issues": 19, "result.by_severity.error": 9, "result.tools": 5 } } },
-    { "id": "one-click-undocumented", "tool": "echo_check", "args": { "pack": "fixtures/kettle-of-notes", "tools": "fixtures/kettle-of-notes/tools.json" }, "expect": { "contains": ["`kettle_request_publish` (ask, production_deploy) is in the tool list but not in any doc"] } },
-    { "id": "without-tools-only-package-checks", "tool": "echo_check", "args": { "pack": "fixtures/kettle-of-notes" }, "expect": { "not_contains": ["tool_not_in_code", "policy_mismatch"], "contains": ["version_mismatch", "broken_link"] } },
-    { "id": "drafts-auto-within-caps", "tool": "echo_draft_fixes", "mode": "auto", "auto_actions": ["echo_draft_fixes"], "args": { "pack": "fixtures/kettle-of-notes", "tools": "fixtures/kettle-of-notes/tools.json", "max_fixes": 2, "out_dir": "mythos-out/eval" }, "expect": { "status": "executed", "contains": ["2 mechanical fix(es)", "1 skipped by the caps", "Your docs were not changed."] } },
-    { "id": "publish-stays-one-click-in-auto", "tool": "echo_request_publish", "mode": "auto", "args": { "proposal": "x.json", "proposal_sha256": "0" }, "expect": { "status": "needs_approval", "contains": ["production_deploy stays one-click"] } },
-    { "id": "never-overwrites", "tool": "write_docs", "mode": "auto", "args": {}, "expect": { "status": "blocked", "contains": ["never overwrites docs"] } },
-    { "id": "missing-pack-errors", "tool": "echo_check", "args": { "pack": "fixtures/nope" }, "expect": { "status": "error", "contains": ["pack folder not found"] } }
+    {
+      "id": "planted-drift",
+      "tool": "echo_check",
+      "args": {
+        "pack": "fixtures/kettle-of-notes",
+        "tools": "fixtures/kettle-of-notes/tools.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "tool_not_in_code",
+          "policy_mismatch",
+          "param_not_in_schema",
+          "tool_undocumented",
+          "version_mismatch",
+          "engines_mismatch",
+          "script_missing",
+          "broken_link",
+          "broken_anchor",
+          "skill_frontmatter",
+          "license_mismatch",
+          "count_mismatch",
+          "Did you mean `kettle_summarize`?"
+        ],
+        "equals": {
+          "result.issues": 19,
+          "result.by_severity.error": 9,
+          "result.tools": 5
+        }
+      }
+    },
+    {
+      "id": "one-click-undocumented",
+      "tool": "echo_check",
+      "args": {
+        "pack": "fixtures/kettle-of-notes",
+        "tools": "fixtures/kettle-of-notes/tools.json"
+      },
+      "expect": {
+        "contains": [
+          "`kettle_request_publish` (ask, production_deploy) is in the tool list but not in any doc"
+        ]
+      }
+    },
+    {
+      "id": "without-tools-only-package-checks",
+      "tool": "echo_check",
+      "args": {
+        "pack": "fixtures/kettle-of-notes"
+      },
+      "expect": {
+        "not_contains": [
+          "tool_not_in_code",
+          "policy_mismatch"
+        ],
+        "contains": [
+          "version_mismatch",
+          "broken_link"
+        ]
+      }
+    },
+    {
+      "id": "drafts-auto-within-caps",
+      "tool": "echo_draft_fixes",
+      "mode": "auto",
+      "auto_actions": [
+        "echo_draft_fixes"
+      ],
+      "args": {
+        "pack": "fixtures/kettle-of-notes",
+        "tools": "fixtures/kettle-of-notes/tools.json",
+        "max_fixes": 2,
+        "out_dir": "mythos-out/eval"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "2 mechanical fix(es)",
+          "1 skipped by the caps",
+          "Your docs were not changed."
+        ]
+      }
+    },
+    {
+      "id": "publish-stays-one-click-in-auto",
+      "tool": "echo_request_publish",
+      "mode": "auto",
+      "args": {
+        "proposal": "x.json",
+        "proposal_sha256": "0"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "contains": [
+          "production_deploy stays one-click"
+        ]
+      }
+    },
+    {
+      "id": "never-overwrites",
+      "tool": "write_docs",
+      "mode": "auto",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "contains": [
+          "never overwrites docs"
+        ]
+      }
+    },
+    {
+      "id": "missing-pack-errors",
+      "tool": "echo_check",
+      "args": {
+        "pack": "fixtures/nope"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "pack folder not found"
+        ]
+      }
+    },
+    {
+      "id": "openapi-drift",
+      "tool": "echo_check",
+      "args": {
+        "pack": "fixtures/ladle-of-api",
+        "openapi": "fixtures/ladle-of-api/openapi.json"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "endpoint_method_mismatch",
+          "`DELETE /recipes/{id}/tags` is not in openapi.json",
+          "createRecipe",
+          "endpoint_deprecated"
+        ],
+        "equals": {
+          "result.openapi.operations": 5,
+          "result.openapi.documented": 4
+        }
+      }
+    },
+    {
+      "id": "changelog-missing-entry",
+      "tool": "echo_check",
+      "args": {
+        "pack": "fixtures/ladle-of-api"
+      },
+      "expect": {
+        "contains": [
+          "package.json is 1.4.0, but CHANGELOG.md has no entry for it (latest entry: 1.3.0)"
+        ],
+        "not_contains": [
+          "endpoint_"
+        ]
+      }
+    },
+    {
+      "id": "changelog-required",
+      "tool": "echo_check",
+      "args": {
+        "pack": "fixtures/kettle-of-notes",
+        "require_changelog": true
+      },
+      "expect": {
+        "contains": [
+          "changelog_missing"
+        ]
+      }
+    },
+    {
+      "id": "ci-gate-fails-with-sarif",
+      "tool": "echo_ci",
+      "args": {
+        "pack": "fixtures/kettle-of-notes",
+        "tools": "fixtures/kettle-of-notes/tools.json",
+        "out_dir": "mythos-out/eval-ci"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "FAIL:",
+          "echo-of-docs.sarif"
+        ],
+        "equals": {
+          "result.pass": false,
+          "result.issues": 19
+        },
+        "length": {
+          "result.failing": 9
+        },
+        "matches": [
+          "\"output_sha256\":\"[0-9a-f]{64}\""
+        ]
+      }
+    },
+    {
+      "id": "ci-gate-fail-on-none",
+      "tool": "echo_ci",
+      "args": {
+        "pack": "fixtures/kettle-of-notes",
+        "fail_on": "none",
+        "out_dir": "mythos-out/eval-ci2"
+      },
+      "expect": {
+        "equals": {
+          "result.pass": true
+        }
+      }
+    },
+    {
+      "id": "config-drives-the-check",
+      "tool": "echo_ci",
+      "args": {
+        "config": "fixtures/ladle-of-api/echo.config.json",
+        "pack": "fixtures/ladle-of-api",
+        "openapi": "fixtures/ladle-of-api/openapi.json",
+        "out_dir": "mythos-out/eval-ci3"
+      },
+      "expect": {
+        "contains": [
+          "fail_on=warning"
+        ],
+        "equals": {
+          "result.pass": false
+        }
+      }
+    },
+    {
+      "id": "config-typo-fails",
+      "tool": "echo_check",
+      "args": {
+        "config": "fixtures/kettle-of-notes/package.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not a valid docs_config"
+        ]
+      }
+    },
+    {
+      "id": "yaml-openapi-refused",
+      "tool": "echo_check",
+      "args": {
+        "pack": "fixtures/ladle-of-api",
+        "openapi": "fixtures/ladle-of-api/openapi.yaml"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "convert a YAML spec to JSON"
+        ]
+      }
+    }
   ]
 }

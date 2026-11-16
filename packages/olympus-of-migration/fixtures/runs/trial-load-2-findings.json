@@ -1,0 +1,130 @@
+{
+  "generatedAt": "2026-10-15T09:00:00.000Z",
+  "rules": null,
+  "compare": {
+    "status": "blocking",
+    "go_live": "not_approved",
+    "go_live_note": "Go-live is a human decision. Olympus reports; it never approves go-live.",
+    "key": {
+      "source": "externalid",
+      "target": "externalid"
+    },
+    "tolerance": 0.005,
+    "counts": {
+      "source": 5,
+      "target": 4,
+      "matched": 4,
+      "missing_in_target": 1,
+      "extra_in_target": 0,
+      "field_mismatches": 1
+    },
+    "totals": {
+      "source": {
+        "column": "amount",
+        "total": 10000,
+        "unparseable": 0
+      },
+      "target": {
+        "column": "amount",
+        "total": 8455,
+        "unparseable": 0
+      },
+      "difference": 1545
+    },
+    "missing_in_target": [
+      "INV-1041"
+    ],
+    "extra_in_target": [],
+    "mismatches": [
+      {
+        "key": "INV-1040",
+        "column": "amount",
+        "source": "2450.00",
+        "target": "2405.00"
+      }
+    ],
+    "findings": [
+      {
+        "severity": "blocking",
+        "code": "missing_in_target",
+        "message": "1 source record(s) are not in the target: INV-1041"
+      },
+      {
+        "severity": "warning",
+        "code": "field_mismatch",
+        "message": "1 field value(s) differ between source and target"
+      },
+      {
+        "severity": "blocking",
+        "code": "totals_do_not_tie",
+        "message": "amount totals differ by 1545 (source 10000, target 8455)"
+      }
+    ]
+  },
+  "trial_balance": {
+    "status": "blocking",
+    "go_live": "not_approved",
+    "tolerance": 0.005,
+    "accounts": 4,
+    "tied": 2,
+    "not_tied": [
+      {
+        "account": "1000",
+        "source": 25000,
+        "target": null,
+        "difference": null,
+        "state": "missing_or_unknown"
+      },
+      {
+        "account": "1200",
+        "source": 10000,
+        "target": 8455,
+        "difference": 1545,
+        "state": "differs"
+      }
+    ],
+    "unknown_balances": {
+      "source": [],
+      "target": [
+        "1000"
+      ]
+    },
+    "net": {
+      "source": 0,
+      "target": -26545,
+      "note": "A signed trial balance should net to 0. A non-zero net can also mean the export uses unsigned debit/credit columns."
+    },
+    "note": "Balances that are blank or not numbers are reported as unknown, never guessed."
+  },
+  "field_rules": null,
+  "actions": [
+    {
+      "n": 1,
+      "priority": 1,
+      "code": "missing_in_target",
+      "why": "1 source record(s) are not in the target: INV-1041",
+      "action": "Load the missing records (or document why they are excluded) and rerun."
+    },
+    {
+      "n": 2,
+      "priority": 1,
+      "code": "tb_not_tied",
+      "why": "2 trial-balance line(s) do not tie",
+      "action": "Explain or fix every trial-balance account that does not tie; blank balances must be filled from the source, not guessed."
+    },
+    {
+      "n": 3,
+      "priority": 1,
+      "code": "totals_do_not_tie",
+      "why": "amount totals differ by 1545 (source 10000, target 8455)",
+      "action": "Find the records that make up the total difference (missing records and amount differences first)."
+    },
+    {
+      "n": 4,
+      "priority": 2,
+      "code": "field_mismatch",
+      "why": "1 field value(s) differ between source and target",
+      "action": "Review field differences; decide per column whether the target or the source is right."
+    }
+  ]
+}

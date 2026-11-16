@@ -8,7 +8,17 @@ export async function demo(manifest) {
   const r = await rt.call('hesperides_compare', f);
   printStep('Compare cycle counts with the on-hand snapshot', r);
   for (const i of r.result.items) process.stdout.write(`    ${String(i.rank).padStart(2)} ${i.sku.padEnd(8)} ${i.location.padEnd(5)} sys ${String(i.system_qty ?? '—').padStart(4)} count ${String(i.recount_qty ?? i.counted_qty ?? '—').padStart(4)} var ${String(i.variance_value ?? '—').padStart(7)}  ${i.status}${i.flags.length ? ` (${i.flags.join(', ')})` : ''}\n`);
-  printStep('Write the variance review', await rt.call('hesperides_write_report', f));
+  printStep('Write the variance review and a blind recount sheet', await rt.call('hesperides_write_report', f));
+  const l = await rt.call('hesperides_compare', { counts: 'counts-lots.csv', on_hand: 'on-hand-lots.csv', uom_table: 'uom-table.json' });
+  printStep('Lots, serials and the unit-of-measure table', l);
+  for (const i of l.result.items) process.stdout.write(`    ${i.sku.padEnd(8)} ${(i.lot || '').padEnd(7)} ${i.status.padEnd(12)} ${i.notes[0] || ''}\n`);
+  const acc = await rt.call('hesperides_accuracy', { ...f, count_policy: 'count-policy.json', previous_counts: 'counts-prev.csv', previous_on_hand: 'on-hand.csv' });
+  printStep('Record accuracy by class and counter, against last month', acc);
+  for (const g of [...acc.result.by_class, ...acc.result.by_counter]) process.stdout.write(`    ${g.key.padEnd(4)} ${String(g.ira_pct).padStart(5)}%  ${g.hits}/${g.lines}  misses: ${g.misses.join(', ') || '—'}\n`);
+  const plan = await rt.call('hesperides_count_plan', { on_hand: 'on-hand.csv', count_policy: 'count-policy.json' });
+  printStep('ABC count plan for the next 26 weeks (blind sheets + calendar)', plan);
+  for (const x of plan.result.lines.slice(0, 5)) process.stdout.write(`    ${x.date} ${x.class} ${x.sku.padEnd(8)} ${x.location} ${x.occurrence}\n`);
+  process.stdout.write(`    … ${plan.result.count_lines - 5} more line(s)\n`);
   const reasons = { 'SAW-7@C-01': 'DAMAGED', 'WID-200@A-02': 'COUNT-CORR' };
   const d = await rt.call('hesperides_draft_adjustments', { ...f, reasons });
   printStep('Auto: draft adjustments with the reviewer\'s reason codes (opted in; nothing posted)', d);

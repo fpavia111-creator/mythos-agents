@@ -6,7 +6,7 @@ import { createPublicKey } from 'node:crypto';
 export const RESOLVERS = Object.freeze({ cloudflare: 'https://cloudflare-dns.com/dns-query', google: 'https://dns.google/resolve' });
 const TYPE_NUM = { A: 1, CNAME: 5, MX: 15, TXT: 16, AAAA: 28 };
 export const DEFAULT_SELECTORS = Object.freeze(['default', 'google', 'selector1', 'selector2', 'k1', 'k2', 's1', 's2', 'dkim', 'mail', 'resend', 'mandrill', 'smtp']);
-export const LIMITS = 'Aeolus reads public DNS only. It cannot see how a message was actually signed or which servers really send for you, so SPF and DKIM alignment, and whether DMARC passes, need a real message header or DMARC reports. DKIM selectors cannot be listed from DNS; only the selectors checked are reported. A DNS check, not a deliverability guarantee.';
+export const LIMITS = 'Aeolus reads public DNS, and saved DMARC aggregate reports and message headers when you give them. From DNS alone it cannot see how a message was actually signed or which servers really send for you; the report and header tools show what receivers reported, and Aeolus does not verify DKIM or ARC signatures itself. DKIM selectors cannot be listed from DNS; only the selectors checked are reported. BIMI logo and certificate files are not fetched or validated. A DNS check, not a deliverability guarantee.';
 const SEV_RANK = { error: 0, warning: 1, advisory: 2 };
 const norm = (n) => String(n || '').trim().toLowerCase().replace(/\.$/, '');
 
@@ -139,7 +139,7 @@ export function parseTags(txt) {
   for (const part of String(txt).split(';')) { const i = part.indexOf('='); if (i < 0) { if (part.trim()) order.push(part.trim()); continue; } const k = part.slice(0, i).trim().toLowerCase(); tags[k] = part.slice(i + 1).trim(); order.push(k); }
   return { tags, order };
 }
-const orgDomain = (d) => d.split('.').slice(-2).join('.');
+export const orgDomain = (d) => d.split('.').slice(-2).join('.');
 
 async function checkDmarc(q, domain, out) {
   const name = `_dmarc.${domain}`; const rec = `${name} TXT`;
@@ -202,6 +202,27 @@ async function checkDkim(q, domain, selectors, out) {
   if (!out.dkim.some((d) => !d.revoked)) out.findings.push(finding('dkim_not_found', 'warning', `*._domainkey.${domain} TXT`, `No active DKIM key under the ${selectors.length} selector(s) checked (${selectors.join(', ')}). DKIM selectors cannot be listed from DNS: pass the selector your mail provider gave you (it is the s= tag in a sent message's DKIM-Signature header).`));
 }
 
+const httpsUrl = (u) => /^https:\/\/[a-z0-9.-]+(?::\d+)?\/\S*$/i.test(u);
+async function checkBimi(q, domain, selector, out) {
+  const name = `${selector}._bimi.${domain}`; const rec = `${name} TXT`;
+  const r = await q(name, 'TXT');
+  const recs = r.answers.filter((t) => /^\s*v\s*=\s*BIMI1/i.test(t));
+  if (!recs.length) { out.bimi = null; return; }
+  const { tags, order } = parseTags(recs[0]);
+  const l = tags.l ?? ''; const a = tags.a ?? '';
+  const b = { selector, record: recs[0], logo: l || null, authority: a || null, declined: !l && !a };
+  out.bimi = b;
+  if (recs.length > 1) out.findings.push(finding('bimi_syntax', 'error', rec, `${recs.length} BIMI records at one selector; mailbox providers ignore BIMI when there is more than one.`));
+  if (order[0] !== 'v') out.findings.push(finding('bimi_syntax', 'error', rec, 'v=BIMI1 must be the first tag.'));
+  if (b.declined) return;
+  if (!l) out.findings.push(finding('bimi_no_logo', 'error', rec, 'No l= logo URL, so there is no logo to show.'));
+  else if (!httpsUrl(l) || !/\.svg(\?.*)?$/i.test(l)) out.findings.push(finding('bimi_logo_url', 'error', rec, `l=${l} must be an https:// URL to an SVG file (the SVG Tiny Portable/Secure profile). Aeolus checks the URL only; it does not fetch the file.`));
+  if (!a) out.findings.push(finding('bimi_no_vmc', 'advisory', rec, 'No a= certificate URL. Several large mailbox providers show a BIMI logo only with a Verified Mark Certificate (VMC) or Common Mark Certificate (CMC).'));
+  else if (!httpsUrl(a) || !/\.pem(\?.*)?$/i.test(a)) out.findings.push(finding('bimi_vmc_url', 'warning', rec, `a=${a} should be an https:// URL to a .pem certificate file.`));
+  const pol = String(out.dmarc?.policy || '').toLowerCase();
+  if (!['quarantine', 'reject'].includes(pol) || (out.dmarc?.pct ?? 100) < 100) out.findings.push(finding('bimi_dmarc_not_enforced', 'warning', rec, `BIMI logos are only shown when DMARC is enforced (p=quarantine or p=reject at pct=100); DMARC here is ${pol ? `p=${pol}` : 'missing'}${out.dmarc && out.dmarc.pct < 100 ? `, pct=${out.dmarc.pct}` : ''}. See aeolus_plan_dmarc_rollout.`));
+}
+
 async function checkMx(q, domain, out) {
   const r = await q(domain, 'MX'); const rec = `${domain} MX`;
   if (r.status === 'SERVFAIL') { out.findings.push(finding('lookup_failed', 'warning', rec, 'MX lookup failed.')); return; }
@@ -223,7 +244,7 @@ async function checkTransport(q, domain, out) {
   if (!rpt.answers.some((t) => /^v=TLSRPTv1/i.test(t))) out.findings.push(finding('tlsrpt_missing', 'advisory', `_smtp._tls.${domain} TXT`, 'No TLS-RPT record. Optional: it asks receivers to report TLS delivery problems to you.', { ref: 'RFC 8460' }));
 }
 
-export const CHECKS = ['spf_missing', 'spf_multiple', 'spf_syntax', 'spf_no_all', 'spf_pass_all', 'spf_neutral_all', 'spf_softfail_all', 'spf_ptr', 'spf_lookup_limit', 'spf_include_missing', 'spf_include_syntax', 'spf_void_lookups', 'spf_loop', 'dmarc_missing', 'dmarc_multiple', 'dmarc_syntax', 'dmarc_inherited', 'dmarc_monitor_only', 'dmarc_partial_pct', 'dmarc_sp_none', 'dmarc_no_rua', 'dmarc_external_rua_unauthorized', 'dkim_not_found', 'dkim_revoked', 'dkim_bad_key', 'dkim_weak_key', 'dkim_1024_key', 'dkim_testing', 'mx_missing', 'null_mx', 'mx_is_ip', 'mx_unresolved', 'mta_sts_missing', 'tlsrpt_missing', 'lookup_failed'];
+export const CHECKS = ['spf_missing', 'spf_multiple', 'spf_syntax', 'spf_no_all', 'spf_pass_all', 'spf_neutral_all', 'spf_softfail_all', 'spf_ptr', 'spf_lookup_limit', 'spf_include_missing', 'spf_include_syntax', 'spf_void_lookups', 'spf_loop', 'dmarc_missing', 'dmarc_multiple', 'dmarc_syntax', 'dmarc_inherited', 'dmarc_monitor_only', 'dmarc_partial_pct', 'dmarc_sp_none', 'dmarc_no_rua', 'dmarc_external_rua_unauthorized', 'dkim_not_found', 'dkim_revoked', 'dkim_bad_key', 'dkim_weak_key', 'dkim_1024_key', 'dkim_testing', 'bimi_syntax', 'bimi_no_logo', 'bimi_logo_url', 'bimi_no_vmc', 'bimi_vmc_url', 'bimi_dmarc_not_enforced', 'mx_missing', 'null_mx', 'mx_is_ip', 'mx_unresolved', 'mta_sts_missing', 'tlsrpt_missing', 'lookup_failed'];
 
 export function validDomain(d) {
   const n = norm(d);
@@ -231,7 +252,7 @@ export function validDomain(d) {
   return n;
 }
 
-export async function audit(domainIn, resolver, { selectors, ignore = [], maxQueries = 80, return_path: rp } = {}) {
+export async function audit(domainIn, resolver, { selectors, ignore = [], maxQueries = 80, return_path: rp, bimi_selector: bimiSel = 'default' } = {}) {
   const domain = validDomain(domainIn);
   const spfDomain = rp ? validDomain(rp) : domain;
   const sels = (selectors && selectors.length ? selectors : DEFAULT_SELECTORS).map((s) => String(s).trim().toLowerCase()).filter((s) => /^[a-z0-9._-]+$/.test(s));
@@ -240,13 +261,15 @@ export async function audit(domainIn, resolver, { selectors, ignore = [], maxQue
   await checkSpf(q, spfDomain, out);
   await checkDmarc(q, domain, out);
   await checkDkim(q, domain, sels, out);
+  if (!/^[a-z0-9_-]{1,63}$/i.test(bimiSel)) throw new Error(`not a BIMI selector: "${bimiSel}"`);
+  await checkBimi(q, domain, bimiSel.toLowerCase(), out);
   await checkMx(q, domain, out);
   const mx = out.records.mx || [];
   if (mx.length && !(mx.length === 1 && mx[0] === '0 .')) await checkTransport(q, domain, out);
   const skip = new Set(ignore);
   const findings = out.findings.filter((f) => !skip.has(f.check)).sort((a, b) => SEV_RANK[a.severity] - SEV_RANK[b.severity]);
   const by_severity = {}; for (const f of findings) by_severity[f.severity] = (by_severity[f.severity] || 0) + 1;
-  return { domain, spf_domain: spfDomain, selectors_checked: sels, queries: q.count(), spf_lookups: out.spf_lookups ?? null, records: out.records, dmarc: out.dmarc || null, dkim: out.dkim, issues: findings.length, by_severity, findings, limits: LIMITS };
+  return { domain, spf_domain: spfDomain, selectors_checked: sels, queries: q.count(), spf_lookups: out.spf_lookups ?? null, records: out.records, dmarc: out.dmarc || null, dkim: out.dkim, bimi: out.bimi ?? null, issues: findings.length, by_severity, findings, limits: LIMITS };
 }
 
 const MARK = /\[(TO CONFIRM|CHECK MERGE)[^\]]*\]/;
@@ -272,7 +295,7 @@ export function draftChanges(r, { senders = [], rua = '' } = {}) {
   else if (has('dmarc_no_rua') && !r.dmarc?.inherited_from) {
     const cur = r.records.dmarc[0]; changes.push({ name: `_dmarc.${r.domain}`, type: 'TXT', action: 'replace', current: [cur], proposed: `${cur.replace(/;\s*$/, '')}; rua=${mailbox}`, why: 'dmarc_no_rua' });
   }
-  if (has('dmarc_monitor_only')) person.push('DMARC is p=none. Read a few weeks of aggregate reports, fix any real sender that fails, then move to p=quarantine. Aeolus never proposes enforcement on its own.');
+  if (has('dmarc_monitor_only')) person.push('DMARC is p=none. Read a few weeks of aggregate reports (aeolus_dmarc_reports), fix any real sender that fails, then move to p=quarantine one stage at a time (aeolus_plan_dmarc_rollout). This draft never proposes enforcement.');
   if (has('dmarc_external_rua_unauthorized')) person.push('Ask the report receiver to publish the _report._dmarc authorisation record (it goes in their DNS, not yours), or send reports to a mailbox on your own domain.');
   if (has('dkim_not_found') || has('dkim_weak_key') || has('dkim_bad_key')) person.push('DKIM keys come from your mail provider. Generate or rotate the key in the provider console and publish the record it gives you; Aeolus never creates keys.');
   if (has('mx_unresolved') || has('mx_is_ip')) person.push('Fix or remove the MX host that does not resolve (check with whoever runs your inbound mail).');
@@ -288,6 +311,7 @@ export function reportMarkdown(r) {
   L.push(`- SPF: ${(r.records.spf || []).map((s) => '`' + s + '`').join(' · ') || 'none'}`);
   L.push(`- DMARC: ${(r.records.dmarc || []).map((s) => '`' + s + '`').join(' · ') || 'none'}${r.dmarc?.inherited_from ? ` (inherited from ${r.dmarc.inherited_from})` : ''}`);
   L.push(`- DKIM selectors with keys: ${r.dkim.map((d) => `${d.selector}${d.revoked ? ' (revoked)' : d.bits ? ` (${d.bits}-bit)` : ` (${d.key_type})`}`).join(', ') || 'none'} (checked: ${r.selectors_checked.join(', ')})`);
+  L.push(`- BIMI: ${r.bimi ? (r.bimi.declined ? 'declined (empty l= and a=)' : `logo ${r.bimi.logo || 'none'}, certificate ${r.bimi.authority || 'none'}`) : 'none'}`);
   L.push(`- MX: ${(r.records.mx || []).join(', ') || 'none'}`, '', '## Findings', '', '| Severity | Check | Record | What it means |', '|---|---|---|---|');
   for (const f of r.findings) L.push(`| ${f.severity} | ${f.check} | \`${f.record}\` | ${f.detail.replace(/\|/g, '\\|')}${f.ref ? ` (${f.ref})` : ''} |`);
   if (!r.findings.length) L.push('| | none | | |');

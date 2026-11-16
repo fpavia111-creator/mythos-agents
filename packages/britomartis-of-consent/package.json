@@ -1,7 +1,8 @@
 {
   "name": "britomartis-of-consent",
-  "version": "0.1.0",
-  "description": "Britomartis of Consent: an MCP agent that inventories the cookies and third-party scripts a site actually sets and loads (from exported HTML and browser HAR captures), compares them with your stated cookie policy and banner, and reports the gaps: undeclared cookies, trackers before consent or after a reject, contradicted 'no cookies' claims. Publishing a policy or banner change is a production deploy: always one human click. Not a consent-management platform and never claims GDPR, CCPA or ePrivacy compliance.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/britomartis-of-consent",
+  "description": "Britomartis of Consent: an MCP agent that inventories the cookies and third-party scripts a site actually sets and loads (from exported HTML and browser HAR captures), compares them with your stated cookie policy and banner, and reports the gaps: undeclared cookies, trackers before consent, after a reject or despite a Global Privacy Control signal, contradicted 'no cookies' claims. Purpose guesses cite a versioned vendor list; scans can be compared over time. Publishing a policy or banner change is a production deploy: always one human click. Not a consent-management platform and never claims GDPR, CCPA or ePrivacy compliance.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -14,7 +15,8 @@
     "./package.json": "./package.json"
   },
   "bin": {
-    "britomartis-of-consent": "bin/britomartis-of-consent.js"
+    "britomartis-of-consent": "bin/britomartis-of-consent.js",
+    "britomartis-capture": "bin/britomartis-capture.js"
   },
   "files": [
     "src",
@@ -22,6 +24,7 @@
     "fixtures",
     "evals",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -30,7 +33,7 @@
     "eval": "node bin/britomartis-of-consent.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -51,6 +54,8 @@
     "privacy",
     "har",
     "trackers",
+    "global-privacy-control",
+    "gpc",
     "third-party-scripts",
     "ai-agents",
     "mythos"

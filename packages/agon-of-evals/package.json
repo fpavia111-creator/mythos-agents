@@ -1,7 +1,8 @@
 {
   "name": "agon-of-evals",
-  "version": "0.1.0",
-  "description": "Agon of Evals: an MCP agent for private, fixture-based evals of one business process on one pinned model. Grades recorded responses, finds regressions between runs, and writes Markdown, JSON and JUnit. Calls no model and publishes nothing.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/agon-of-evals",
+  "description": "Agon of Evals: an MCP agent for private, fixture-based evals of one business process on one pinned model. Grades recorded responses (including repeated trials), tells regressions from noise with seeded bootstrap confidence intervals, grades rubrics with cited criteria, and writes Markdown, JSON, JUnit and an offline HTML dashboard. Calls no model and publishes nothing.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -22,6 +23,7 @@
     "fixtures",
     "evals",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -30,7 +32,7 @@
     "eval": "node bin/agon-of-evals.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -48,6 +50,8 @@
     "evaluation",
     "regression-testing",
     "junit",
+    "bootstrap",
+    "rubric",
     "ai-agents",
     "mythos"
   ]

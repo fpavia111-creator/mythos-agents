@@ -1,0 +1,4 @@
+Employee #,First Name,Last Name,Hire Date,Termination Date,Status,Employment Status,Job Title,Department,Location,Supervisor,Work Email
+1,Avery,Stone (fictional),02/01/2024,,Active,Full-Time,IT Manager,IT,Duluth,Kim Ortiz (fictional),avery.stone@example.com
+2,Riley,Park (fictional),03/11/2024,10/31/2026,Inactive,Terminated,A/P Clerk,Finance,Duluth,Avery Stone (fictional),riley.park@example.com
+3,Jordan,Lee (fictional),06/20/2023,,Active,Full-Time,Controller,Finance,Duluth,Avery Stone (fictional),jordan.lee@example.com

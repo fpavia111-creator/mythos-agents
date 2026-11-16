@@ -1,0 +1,37 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.fpavia111-creator/ladon-of-access",
+  "title": "Ladon of Access",
+  "description": "A domain-specific MCP agent that reads access-list exports for people, AI agents and service…",
+  "version": "0.2.0",
+  "repository": {
+    "url": "https://github.com/fpavia111-creator/mythos-agents",
+    "source": "github",
+    "subfolder": "packages/ladon-of-access"
+  },
+  "websiteUrl": "https://mythosmachines.com/",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "ladon-of-access",
+      "version": "0.2.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        },
+        {
+          "type": "named",
+          "name": "--root",
+          "description": "Folder holding the exports this agent may read and write (it cannot reach outside it)",
+          "isRequired": true,
+          "format": "filepath",
+          "valueHint": "exports_folder"
+        }
+      ]
+    }
+  ]
+}

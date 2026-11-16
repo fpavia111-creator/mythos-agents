@@ -68,9 +68,12 @@ export function outcomeReview(rows, exists) {
 
 export function review({ grants, budget = [], outcomes = [], exists = () => false, ...a }) {
   const dl = deadlines(grants, a);
+  // Rows grouped by grant once (file order kept), instead of filtering both files per grant.
+  const byGrant = (rows) => { const m = new Map(); for (const r of rows) { const k = pick(r, 'grant_id', 'grant'); if (!m.has(k)) m.set(k, []); m.get(k).push(r); } return (id) => m.get(id) || []; };
+  const budgetOf = byGrant(budget), outcomesOf = byGrant(outcomes);
   const items = dl.map((g) => {
-    const b = budgetReview(g, budget.filter((l) => pick(l, 'grant_id', 'grant') === g.grant_id), a);
-    const o = outcomeReview(outcomes.filter((r) => pick(r, 'grant_id', 'grant') === g.grant_id), exists).map((x) => ({ ...x, ref: `${g.grant_id}-${x.ref}` }));
+    const b = budgetReview(g, budgetOf(g.grant_id), a);
+    const o = outcomeReview(outcomesOf(g.grant_id), exists).map((x) => ({ ...x, ref: `${g.grant_id}-${x.ref}` }));
     const gaps = [];
     if (g.status === 'overdue') gaps.push(`Report was due ${g.report_due} (${-g.days_to_due} days ago).`);
     for (const f of b.flags) gaps.push(f === 'no_budget_lines' ? 'No budget lines found.' : `Budget lines total ${money(b.total_budgeted)}, award is ${money(g.award_amount)}.`);
@@ -84,16 +87,23 @@ export function review({ grants, budget = [], outcomes = [], exists = () => fals
   return { as_of: iso(asOfMs(a.as_of)), grants: items.length, overdue: items.filter((g) => g.status === 'overdue').length, due_soon: items.filter((g) => g.status === 'due_soon').length, open_items: items.reduce((t, g) => t + g.open_items, 0), items };
 }
 
-export function packetFiles(g, readEvidence) {
+export function packetFiles(g, readEvidence, opts = {}) {
   const draft = [`# ${g.report_type[0].toUpperCase() + g.report_type.slice(1)} report — ${g.program}`, '', `> **DRAFT packet — not submitted.** A person completes, checks and submits this in ${g.funder}'s own process.`, '',
     `- Funder: ${g.funder}`, `- Grant: ${g.grant_id} · award ${money(g.award_amount)}`, `- Period: ${g.period_start} to ${g.period_end}`, `- Report due: ${g.report_due || '—'}`, '',
     '## Narrative', '', '[TO WRITE — a person writes this. Polyhymnia does not write claims about your program.]', '',
     '## Budget', '', `Period elapsed: ${pct(g.budget.elapsed_pct)}.`, '', '| Line | Budgeted | Spent | Remaining | % spent | Note |', '|---|---:|---:|---:|---:|---|'];
   for (const l of g.budget.lines) draft.push(`| ${l.line} | ${money(l.budgeted)} | ${money(l.spent)} | ${money(l.remaining)} | ${pct(l.pct_spent)} | ${l.needs_explanation ? `[EXPLAIN — ${l.flags.join(', ').replace(/_/g, ' ')}]` : ''} |`);
-  draft.push(`| **Total** | **${money(g.budget.total_budgeted)}** | **${money(g.budget.total_spent)}** | **${money(g.budget.total_budgeted - g.budget.total_spent)}** | | |`, '', '## Outcomes', '', '| Ref | Measure | Target | Actual | % of target | Evidence |', '|---|---|---:|---:|---:|---|');
-  for (const o of g.outcomes) draft.push(`| ${o.ref} | ${o.metric} | ${o.target ?? '—'} | ${o.actual ?? '[MISSING]'} | ${pct(o.pct_of_target)} | ${o.evidence && !o.flags.includes('evidence_not_found') ? o.evidence : '[MISSING EVIDENCE]'} |`);
+  draft.push(`| **Total** | **${money(g.budget.total_budgeted)}** | **${money(g.budget.total_spent)}** | **${money(g.budget.total_budgeted - g.budget.total_spent)}** | | |`);
+  const budgetStart = draft.indexOf('## Budget') + 2;
+  const budgetTable = draft.slice(budgetStart).join('\n');
+  if (opts.varianceMd) draft.push('', '## Budget vs actual variance', '', opts.varianceMd);
+  const outcomeLines = ['| Ref | Measure | Target | Actual | % of target | Evidence |', '|---|---|---:|---:|---:|---|'];
+  for (const o of g.outcomes) outcomeLines.push(`| ${o.ref} | ${o.metric} | ${o.target ?? '—'} | ${o.actual ?? '[MISSING]'} | ${pct(o.pct_of_target)} | ${o.evidence && !o.flags.includes('evidence_not_found') ? o.evidence : '[MISSING EVIDENCE]'} |`);
+  draft.push('', '## Outcomes', '', ...outcomeLines);
   draft.push('', '## Open items before submission', '', ...(g.gaps.length ? g.gaps.map((x) => `- ${x}`) : ['- None found by the checks. A person still reviews everything.']), '');
-  const checklist = [`# Checklist — ${g.grant_id} (${g.funder})`, '', '- [ ] Narrative written by a person', '- [ ] Every [EXPLAIN] and [MISSING] marker resolved', ...g.gaps.map((x) => `- [ ] ${x}`), "- [ ] Figures checked against the accounting system", "- [ ] Funder's own template and rules checked", '- [ ] Approved for submission by a named person', '', 'Reviewer: ____________  Date: ________', ''];
+  const extra = opts.extraGaps || [];
+  const checklist = [`# Checklist — ${g.grant_id} (${g.funder})`, '', '- [ ] Narrative written by a person', '- [ ] Every [EXPLAIN] and [MISSING] marker resolved', ...g.gaps.map((x) => `- [ ] ${x}`), ...extra.map((x) => `- [ ] ${x}`), "- [ ] Figures checked against the accounting system", "- [ ] Funder's own template and rules checked", '- [ ] Approved for submission by a named person', '', 'Reviewer: ____________  Date: ________', ''];
   const index = toCsv(g.outcomes.map((o) => { const t = o.evidence && !o.flags.includes('evidence_not_found') ? readEvidence(o.evidence) : null; return { ref: o.ref, metric: o.metric, evidence: o.evidence, found: t === null ? 'no' : 'yes', sha256: t === null ? '' : sha256(t).slice(0, 16) }; }), ['ref', 'metric', 'evidence', 'found', 'sha256']);
-  return { 'report-draft.md': draft.join('\n'), 'checklist.md': checklist.join('\n'), 'evidence-index.csv': index };
+  const report = opts.render ? opts.render(budgetTable, outcomeLines.join('\n')) : draft.join('\n');
+  return { 'report-draft.md': report, 'checklist.md': checklist.join('\n'), 'evidence-index.csv': index };
 }

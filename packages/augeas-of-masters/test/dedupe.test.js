@@ -49,3 +49,11 @@ test('auto merges chain into one copy; input untouched; caps stop runaway merges
   const third = await rt.call('augeas_apply_merge', { path: 'vendors.csv', survivor: 'V104', merge: ['V105'] });
   assert.equal(third.status, 'blocked'); assert.match(third.reason, /step cap/);
 });
+
+test('a phone shared by thousands of rows is reported, not paired, and does not exhaust memory', () => {
+  const rows = [];
+  for (let i = 0; i < 2000; i++) rows.push({ internalid: `V${i}`, companyname: `Vendor ${i} ${'abcdefghij'[i % 10]}${'klmnopqrst'[Math.floor(i / 10) % 10]}${'uvwxyzabcd'[Math.floor(i / 100) % 10]} (fictional)`, taxid: '', email: `ap@v${i}.example`, phone: '000-000-0000', address: `${i} Example Way` });
+  const r = findDuplicates(rows, { kind: 'vendor' });
+  assert.ok(r.compared_pairs < 1000000);
+  assert.ok(Array.isArray(r.not_compared) && /2000 records share one phone/.test(r.not_compared[0]));
+});

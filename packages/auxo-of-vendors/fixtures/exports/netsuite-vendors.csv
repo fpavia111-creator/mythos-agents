@@ -1,0 +1,5 @@
+Internal ID,Name,Company Name,Legal Name,Is Individual,Email,Phone,Tax ID,1099 Eligible,Billing Address,Country,Inactive,Date Created,Balance
+101,V1 Northwind Design,Northwind Design,Northwind Design LLC,No,ap@northwind.example,555-0101,00-0000101,Yes,1 Example Way,US,No,2/10/2025,0.00
+102,V2 Pat Rivera,Pat Rivera,Pat Rivera,Yes,pat@rivera.example,555-0102,,Yes,22 Sample St,US,No,3/02/2025,"1,300.00"
+103,V3 Harbor Freight Lines,Harbor Freight Lines,Harbor Freight Lines Inc,No,billing@harbor.example,555-0103,00-0000103,No,9 Dock Rd,US,No,6/18/2024,0.00
+104,V4 Old Supplier,Old Supplier,Old Supplier Co,No,,555-0104,,No,4 Past Ln,US,Yes,1/05/2022,0.00

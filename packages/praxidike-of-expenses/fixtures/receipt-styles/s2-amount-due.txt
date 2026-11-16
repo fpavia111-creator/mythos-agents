@@ -1,0 +1,7 @@
+INVOICE
+Northwind Supplies (fictional)
+Invoice date: 10/28/2026
+Items ........ 1,180.00
+Shipping ...... 54.50
+AMOUNT DUE ..... USD 1,234.50
+Amount paid 0.00

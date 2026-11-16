@@ -1,0 +1,10 @@
+{
+  "min_score": 80,
+  "fail_on": "significant_regression",
+  "min_delta": 2,
+  "confidence": 0.95,
+  "resamples": 2000,
+  "seed": 7,
+  "max_flaky": 2,
+  "require_comparable": true
+}

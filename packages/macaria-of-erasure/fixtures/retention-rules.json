@@ -1,0 +1,13 @@
+{
+  "note": "Fictional example rules for the demo. Write your own; Macaria applies them and cites the id. Not legal advice.",
+  "response_periods": { "gdpr": 30, "uk_gdpr": 30, "ccpa": 45, "cpra": 45, "other": 30 },
+  "due_soon_days": 7,
+  "retention_rules": [
+    { "id": "RET-INV-7Y", "record_type": "invoices", "file_pattern": "invoice", "date_column": "date", "keep_days": 2555, "action_after": "delete", "basis": "Example: finance keeps invoices seven years" },
+    { "id": "RET-NEWS-0", "record_type": "newsletter subscribers", "file_pattern": "newsletter", "keep_days": 0, "action_after": "delete" }
+  ],
+  "legal_holds": [
+    { "id": "HOLD-2026-07", "file_pattern": "support-tickets", "until": "2027-06-30", "note": "Fictional open dispute" },
+    { "id": "HOLD-2025-01", "file_pattern": "crm-contacts", "until": "2025-12-31", "note": "Expired example hold" }
+  ]
+}

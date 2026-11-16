@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Fictional DMARC aggregate report for the Aeolus fixtures. Reserved example domains and documentation IP ranges only. -->
+<feedback>
+  <report_metadata>
+    <org_name>mail.example.net</org_name>
+    <email>noreply-dmarc@mail.example.net</email>
+    <report_id>brand-2026-10-w1</report_id>
+    <date_range><begin>1790812800</begin><end>1792022400</end></date_range>
+  </report_metadata>
+  <policy_published><domain>brand.example.net</domain><adkim>r</adkim><aspf>r</aspf><p>quarantine</p><sp>quarantine</sp><pct>50</pct></policy_published>
+  <record>
+    <row>
+      <source_ip>198.51.100.25</source_ip>
+      <count>1000</count>
+      <policy_evaluated><disposition>none</disposition><dkim>pass</dkim><spf>pass</spf></policy_evaluated>
+    </row>
+    <identifiers><header_from>brand.example.net</header_from><envelope_from>brand.example.net</envelope_from></identifiers>
+    <auth_results>
+      <dkim><domain>brand.example.net</domain><selector>s1</selector><result>pass</result></dkim>
+      <spf><domain>brand.example.net</domain><scope>mfrom</scope><result>pass</result></spf>
+    </auth_results>
+  </record>
+  <record>
+    <row>
+      <source_ip>203.0.113.200</source_ip>
+      <count>5</count>
+      <policy_evaluated><disposition>quarantine</disposition><dkim>fail</dkim><spf>fail</spf></policy_evaluated>
+    </row>
+    <identifiers><header_from>brand.example.net</header_from><envelope_from>brand.example.net</envelope_from></identifiers>
+    <auth_results>
+
+      <spf><domain>brand.example.net</domain><scope>mfrom</scope><result>fail</result></spf>
+    </auth_results>
+  </record>
+</feedback>

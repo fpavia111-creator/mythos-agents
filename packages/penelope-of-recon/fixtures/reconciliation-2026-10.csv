@@ -1,0 +1,10 @@
+item,type,confidence,bank_ids,gl_ids,date,description,reference,amount,suggestion,reviewer_decision,reviewer_name,review_date
+M1,match:reference,high,B2,G2,2026-10-02,Deposit,DEP-1001,2500,reference DEP-1001,,,
+M2,match:reference,high,B3,G3,2026-10-05,Check 4101,4101,-1200,reference 4101,,,
+M3,match:reference,high,B6,G7,2026-10-20,Check 4102,4102,-310,reference 4102,,,
+M4,match:amount_date,medium,B4,G4,2026-10-09,ACH Acme Supply (fictional),,-845.5,"same amount, 1 day(s) apart",,,
+M5,match:group,medium,B5,G5 G6,2026-10-15,Mobile deposit batch,,1500,bank line equals 2 GL lines,,,
+B7,bank_fee,,B7,,2026-10-31,Monthly service fee,,-25,Bank fee not in the GL: propose an adjusting entry to bank fees expense.,,,
+B8,interest,,B8,,2026-10-31,Interest paid,,3.12,Interest not in the GL: propose an adjusting entry to interest income.,,,
+G8,outstanding_payment,,,G8,2026-10-29,Check 4103 Umbrella Services (fictional),4103,-400,Outstanding check or payment: has not cleared the bank yet.,,,
+G9,deposit_in_transit,,,G9,2026-10-31,Receipt Stark (fictional),R-503,800,Deposit in transit: should clear the bank soon.,,,

@@ -1,0 +1,4 @@
+Timestamp,Merchant,Amount,MCC,Category,Tag,Comment,Reimbursable,Original Currency,Original Amount,Receipt
+2026-10-12 09:15:00,Diagram Tool,49.00,5734,Software,Team,Team diagram licence,yes,USD,49.00,https://receipts.example.test/e/2001
+2026-10-14 19:40:00,Lakeside Grill,95.50,5812,Meals & Entertainment,Client,Client dinner,yes,USD,95.50,https://receipts.example.test/e/2002
+2026-10-15 08:05:00,City Parking,18.00,7523,Parking,Client,Parking at client site,no,USD,18.00,

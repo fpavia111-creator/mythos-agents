@@ -1,0 +1,12 @@
+vendor_id,name,legal_name,entity_type,country,tin,w9_received,w9_signed,address,email,requested_date,w8_received,w8_type,w8_signed
+V1,Northwind Design,Northwind Design LLC,llc-s,US,00-0000101,2025-02-10,yes,1 Example Way,ap@northwind.example,,,,
+V2,Pat Rivera,Pat Rivera,individual,US,,,,22 Sample St,pat@rivera.example,,,,
+V3,Blue Fern Cleaning,Blue Fern Cleaning,partnership,US,12345,2026-03-01,no,9 Fern Rd,billing@bluefern.example,,,,
+V4,Oak & Iron,Oak & Iron Inc,corporation,US,000-00-0104,2024-05-01,yes,4 Forge Ave,ar@oakiron.example,,,,
+V5,Maple Studio,Maple Studio GmbH,company,DE,,,,Beispielstrasse 5,office@maple.example,,,,
+V6,Quick Courier,Quick Courier LLC,llc,US,00-0000106,2020-01-15,yes,6 Route Ln,ops@quickcourier.example,,,,
+V7,Sunny Catering,Sunny Catering,sole_proprietor,US,,,,7 Sun Ct,hello@sunny.example,2026-11-01,,,
+V8,Lena Park,Lena Park,individual,US,,,,,,2026-11-12,,,
+V10,Northwind Design,Northwind Design L.L.C.,llc-s,US,00-0000101,2026-01-05,yes,1 Example Way,ap@northwind.example,,,,
+V11,Blue Fern Cleaning Services,Blue Fern Cleaning Services,partnership,US,,,,9 Fern Road,office@bluefern.example,,,,
+V12,Fjord Consulting,Fjord Consulting AS,company,NO,,,,Eksempelgata 12 Oslo,post@fjord.example,,2022-03-01,W-8BEN-E,yes

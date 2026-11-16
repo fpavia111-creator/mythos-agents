@@ -1,0 +1,6 @@
+{
+  "name": "internal-sdk",
+  "version": "5.0.0",
+  "license": "UNLICENSED",
+  "description": "Fictional package for the Lycurgus fixtures"
+}

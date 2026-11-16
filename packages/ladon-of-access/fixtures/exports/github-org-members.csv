@@ -1,0 +1,4 @@
+login,name,tfa_enabled,is_public,role,last_active,saml_name_id
+averystone-example,Avery Stone (fictional),true,false,owner,2026-11-10T08:12:44Z,avery.stone@example.com
+rileypark-example,Riley Park (fictional),true,false,member,2026-10-29T16:40:02Z,riley.park@example.com
+jordanlee-example,Jordan Lee (fictional),false,true,owner,2026-06-01T11:00:00Z,jordan.lee@example.com

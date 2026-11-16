@@ -1,0 +1,4 @@
+Handle,Title,Option1 Name,Option1 Value,Option2 Name,Option2 Value,Option3 Name,Option3 Value,SKU,HS Code,COO,Location,Incoming,Unavailable,Committed,Available,On hand
+widget-100,Widget 100,Title,Default Title,,,,,WID-100,,,A-01,0,0,5,115,120
+widget-200,Widget 200,Title,Default Title,,,,,WID-200,,,A-02,0,0,0,80,80
+gift-card,Gift card,Title,Default Title,,,,,,,,A-01,0,0,0,0,0

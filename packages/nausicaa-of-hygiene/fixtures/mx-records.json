@@ -1,0 +1,7 @@
+{
+  "_comment": "Fictional saved DNS answers for the offline MX check. Domains not listed count as not found.",
+  "example.com": { "MX": ["10 mx1.example.com.", "20 mx2.example.com."] },
+  "example.org": { "MX": ["10 mail.example.org."] },
+  "nomail.example": { "MX": ["0 ."] },
+  "web-only.example": { "A": ["192.0.2.10"] }
+}

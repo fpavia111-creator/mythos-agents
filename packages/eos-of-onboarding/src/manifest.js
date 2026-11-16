@@ -1,7 +1,11 @@
-import { defineManifest, toCsv } from 'mythos-agent-core';
+import { defineManifest, toCsv, sha256, safeFileName } from 'mythos-agent-core';
 import { readFileSync, existsSync, appendFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { status, trackerCsv, summaryMarkdown, accessDraft } from './onboarding.js';
+import { status, trackerCsv, summaryMarkdown, accessDraft, parseDate } from './onboarding.js';
+import { offboarding, offboardingMarkdown, ownerActions, actionsCsv, trackerIcs, readiness, readinessHtml } from './offboarding.js';
+import { TEMPLATE_SCHEMA } from './schema.js';
+import { PROMPT } from './prompt.js';
+import { SOURCES } from './sources.js';
 
 const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 const str = { type: 'string' }; const num = { type: 'number' };
@@ -9,14 +13,17 @@ const props = {
   people: { ...str, description: 'People CSV/JSON: person_id, name, type (employee, contractor, customer…), role, manager, start_date, end_date' },
   template: { ...str, description: 'Checklist template JSON: { "types": { "<type>": [ { id, title, kind (document|equipment|access|training|meeting|task), owner, system, access_level, requires: [task ids], due_offset_days } ] } }' },
   status: { ...str, description: 'Optional task status CSV/JSON: person_id, task_id, status (done, in_progress, blocked, not_started, n/a), done_on, note' },
-  as_of: str, due_soon_days: num,
+  as_of: { ...str, description: 'Date to check as of (YYYY-MM-DD, default today)' }, due_soon_days: num,
 };
-function run(a, ctx) {
+const windowProp = { type: 'integer', minimum: 0, maximum: 365, description: 'Include people whose end date is within this many days (default 14); past end dates stay in while anything is open' };
+function load(a, ctx) {
   for (const k of ['people', 'template']) if (!String(a[k] ?? '').trim()) throw new Error(`${k} is required`);
   const tf = ctx.path(a.template); if (!existsSync(tf)) throw new Error(`template not found: ${a.template}`);
-  let t; try { t = JSON.parse(readFileSync(tf, 'utf8')); } catch (e) { throw new Error(`template is not valid JSON: ${e.message}`); }
-  return status(ctx.records(a.people), t, a.status ? ctx.records(a.status) : [], a);
+  let t; try { t = ctx.readJson(a.template, 'template'); } catch (e) { if (e instanceof SyntaxError) throw new Error(`template is not valid JSON: ${e.message}`); throw e; }
+  return { t, people: ctx.records(a.people), rows: a.status ? ctx.records(a.status) : [] };
 }
+function run(a, ctx) { const { t, people, rows } = load(a, ctx); return status(people, t, rows, a); }
+function runOff(a, ctx) { const { t, people, rows } = load(a, ctx); return offboarding(people, t, rows, a); }
 function find(r, a) {
   const p = r.items.find((x) => x.person_id === a.person_id); if (!p) throw new Error(`person not found: ${a.person_id}`);
   const t = p.tasks.find((x) => x.task_id === a.task_id); if (!t) throw new Error(`task ${a.task_id} is not on ${a.person_id}'s checklist`);
@@ -30,11 +37,14 @@ function appendRow(dir, file, row, cols) {
 const COLS = ['requested_at', 'action', 'person_id', 'name', 'task_id', 'system', 'access_level', 'end_date', 'reason', 'status'];
 
 export const manifest = defineManifest({
+  sources: SOURCES,
   name: 'eos-of-onboarding',
   version: pkg.version,
-  description: 'Tracks onboarding checklists for new employees, contractors or customers from a people CSV, a JSON template and a status CSV: due dates from the start date, overdue and waiting tasks, readiness for day one, access granted before its prerequisites, contractor access with no end date, and access still marked granted after an engagement ended. Drafts access requests once prerequisites are done. Granting and removing access are each one human click; Eos never touches an identity system.',
+  description: 'Tracks onboarding checklists for new employees, contractors or customers from a people CSV, a JSON template and a status CSV: due dates from the start date, overdue and waiting tasks, readiness for day one, access granted before its prerequisites, contractor access with no end date, and access still marked granted after an engagement ended. Per-role templates (role tasks added or removed, unknown roles flagged). An offboarding mirror checklist from the end date, a prioritised action list per owner, a day-one readiness report with its hash in the audit log, and a calendar file. Drafts access requests once prerequisites are done, and removal drafts for offboarding. Granting and removing access are each one human click; Eos never touches an identity system.',
   model: { provider: 'anthropic', id: 'claude-sonnet-4-5-20250929', note: 'Declared host-model pin. The tools are deterministic and call no model.' },
   caps: { maxSteps: 60, maxSpendUsd: 0 },
+  configSchemas: { template: TEMPLATE_SCHEMA },
+  prompts: [PROMPT],
   tools: [
     {
       name: 'eos_status', kind: 'read',
@@ -44,9 +54,39 @@ export const manifest = defineManifest({
     },
     {
       name: 'eos_write_tracker', kind: 'report',
-      description: 'Write onboarding-tracker.csv (blank checked_by column) and onboarding.md into out_dir (default mythos-out/eos).',
-      inputSchema: { type: 'object', required: ['people', 'template'], properties: { ...props, out_dir: str } },
-      handler: async (a, ctx) => { const r = run(a, ctx); const out = ctx.outDir(a.out_dir || 'mythos-out/eos'); return { summary: `Tracker written for ${r.people} people.`, files: [ctx.writeFile(out, 'onboarding-tracker.csv', trackerCsv(r)), ctx.writeFile(out, 'onboarding.md', summaryMarkdown(r))] }; },
+      description: 'Write onboarding-tracker.csv (blank checked_by column), onboarding.md, owner-actions.csv (prioritised per owner, blank done_by column) and onboarding-calendar.ics (open tasks by due date, onboarding and offboarding) into out_dir (default mythos-out/eos).',
+      inputSchema: { type: 'object', required: ['people', 'template'], properties: { ...props, window_days: windowProp, out_dir: str } },
+      handler: async (a, ctx) => {
+        const r = run(a, ctx); const off = runOff(a, ctx); const acts = ownerActions(r, off); const out = ctx.outDir(a.out_dir || 'mythos-out/eos');
+        return { summary: `Tracker written for ${r.people} people; ${acts.actions} open action(s) across ${acts.owners.length} owner(s).`, files: [ctx.writeFile(out, 'onboarding-tracker.csv', trackerCsv(r)), ctx.writeFile(out, 'onboarding.md', summaryMarkdown(r)), ctx.writeFile(out, 'owner-actions.csv', actionsCsv(acts)), ctx.writeFile(out, 'onboarding-calendar.ics', trackerIcs(r, off))] };
+      },
+    },
+    {
+      name: 'eos_offboarding', kind: 'read', title: 'Offboarding mirror checklist',
+      description: 'For people whose end date is within window_days (or past, while anything is open): a mirror of what was granted. Each access task marked granted becomes remove-<task>, each equipment task marked done becomes return-<task>, plus the template\'s offboarding tasks for the type, all due from the end date, with states and flags (access_removal_overdue, equipment_not_returned).',
+      inputSchema: { type: 'object', required: ['people', 'template'], properties: { ...props, window_days: windowProp } },
+      handler: async (a, ctx) => { const r = runOff(a, ctx); return { summary: `${r.people} people offboarding: ${r.removals_open} access removal(s) open (${r.removals_overdue} overdue), ${r.returns_open} equipment return(s) open. Flags: ${r.flagged.join('; ') || 'none'}.`, ...r }; },
+    },
+    {
+      name: 'eos_owner_actions', kind: 'read', title: 'Prioritised actions per owner',
+      description: 'One prioritised list per owner (IT, Ops, Finance, Manager…) across onboarding and offboarding: overdue access removals, overdue tasks, blocked tasks, day-one blockers, tasks due soon, access requests ready, open and waiting tasks. Every item states its reason.',
+      inputSchema: { type: 'object', required: ['people', 'template'], properties: { ...props, window_days: windowProp, owner: { ...str, description: 'Only this owner' } } },
+      handler: async (a, ctx) => {
+        const r = ownerActions(run(a, ctx), runOff(a, ctx));
+        if (a.owner) { r.items = r.items.filter((x) => x.owner.toLowerCase() === a.owner.toLowerCase()); r.owners = r.owners.filter((x) => x.owner.toLowerCase() === a.owner.toLowerCase()); r.actions = r.items.length; }
+        return { summary: `${r.actions} open action(s): ${r.owners.map((o) => `${o.owner} ${o.open}${o.overdue ? ` (${o.overdue} overdue)` : ''}`).join(', ') || 'none'}.`, ...r };
+      },
+    },
+    {
+      name: 'eos_readiness_report', kind: 'report', title: 'Day-one readiness report',
+      description: 'Check people starting within within_days (default 7) of as_of, or the listed person_ids: every task due on or before the start date done, no access granted before its prerequisites, contractors with an end date, a known role. Writes readiness.html (self-contained) and readiness.json; the JSON hash is recorded in the audit log as output_sha256.',
+      inputSchema: { type: 'object', required: ['people', 'template'], properties: { ...props, within_days: { type: 'integer', minimum: 0, maximum: 90 }, person_ids: { type: 'array', items: str }, out_dir: str } },
+      handler: async (a, ctx) => {
+        const r = readiness(run(a, ctx), a); const out = ctx.outDir(a.out_dir || 'mythos-out/eos/readiness');
+        const json = JSON.stringify(r, null, 2) + '\n';
+        const files = [ctx.writeFile(out, 'readiness.html', readinessHtml(r)), ctx.writeFile(out, 'readiness.json', json)];
+        return { summary: `${r.ready} of ${r.people} ready for day one.${r.items.filter((p) => !p.ready).map((p) => ` ${p.person_id} blocked by: ${p.blocking.join('; ')}.`).join('')}`, ...r, output_sha256: sha256(json), files };
+      },
     },
     {
       name: 'eos_draft_access_requests', kind: 'write',
@@ -55,10 +95,26 @@ export const manifest = defineManifest({
       handler: async (a, ctx) => {
         const r = run(a, ctx); const dir = join(ctx.outDir(a.out_dir || 'mythos-out/eos'), 'access-requests'); mkdirSync(dir, { recursive: true }); const files = [];
         for (const p of r.items) for (const t of p.tasks) {
-          if (t.ready_to_request) files.push(ctx.writeFile(dir, `${p.person_id}-${t.task_id}-grant.md`, accessDraft(p, t, 'grant')));
-          if (t.revoke_due) files.push(ctx.writeFile(dir, `${p.person_id}-${t.task_id}-remove.md`, accessDraft(p, t, 'remove')));
+          if (t.ready_to_request) files.push(ctx.writeFile(dir, `${safeFileName(p.person_id)}-${safeFileName(t.task_id)}-grant.md`, accessDraft(p, t, 'grant')));
+          if (t.revoke_due) files.push(ctx.writeFile(dir, `${safeFileName(p.person_id)}-${safeFileName(t.task_id)}-remove.md`, accessDraft(p, t, 'remove')));
         }
         return { summary: `${files.length} access draft(s) written (${r.access_ready} grant, ${r.revoke_due} removal). Nothing was submitted or changed.`, files };
+      },
+    },
+    {
+      name: 'eos_draft_offboarding', kind: 'write', title: 'Draft offboarding removals',
+      description: 'For people in the offboarding window, write offboarding/<person>-offboarding.md (the mirror checklist) and a removal draft (marked DRAFT, not submitted) for every access still marked granted, dated for the end date. Recording a removal is a separate one-click step (eos_request_access_removal). Needs a human yes unless opted in to Auto.',
+      inputSchema: { type: 'object', required: ['people', 'template'], properties: { ...props, window_days: windowProp, out_dir: str } },
+      handler: async (a, ctx) => {
+        const r = runOff(a, ctx); const st = run(a, ctx); const dir = join(ctx.outDir(a.out_dir || 'mythos-out/eos'), 'offboarding'); mkdirSync(dir, { recursive: true }); const files = []; let drafts = 0;
+        const asOf = parseDate(r.as_of);
+        const byPerson = new Map(); for (const x of st.items) if (!byPerson.has(x.person_id)) byPerson.set(x.person_id, x);
+        for (const p of r.items) {
+          files.push(ctx.writeFile(dir, `${safeFileName(p.person_id)}-offboarding.md`, offboardingMarkdown(p)));
+          const person = byPerson.get(p.person_id);
+          for (const t of p.tasks) if (t.kind === 'access_removal' && t.state !== 'done') { const orig = person.tasks.find((x) => x.task_id === t.mirrors); files.push(ctx.writeFile(dir, `${safeFileName(p.person_id)}-${safeFileName(t.mirrors)}-remove.md`, accessDraft(person, orig, 'remove', asOf))); drafts++; }
+        }
+        return { summary: `${r.people} offboarding checklist(s) and ${drafts} removal draft(s) written. Nothing was submitted or changed.`, files };
       },
     },
     {
@@ -92,6 +148,10 @@ export const manifest = defineManifest({
   policy: { rules: [
     { tool: 'eos_status', decision: 'allow' },
     { tool: 'eos_write_tracker', decision: 'allow' },
+    { tool: 'eos_offboarding', decision: 'allow' },
+    { tool: 'eos_owner_actions', decision: 'allow' },
+    { tool: 'eos_readiness_report', decision: 'allow' },
+    { tool: 'eos_draft_offboarding', decision: 'ask', reason: 'Writing offboarding drafts needs a human yes (or an Auto opt-in).' },
     { tool: 'eos_draft_access_requests', decision: 'ask', reason: 'Writing access request drafts needs a human yes (or an Auto opt-in).' },
     { tool: 'idp_grant_access', decision: 'block', reason: 'Eos never grants access. A person does it in your identity system.' },
     { tool: 'idp_remove_access', decision: 'block', reason: 'Eos never removes access. A person does it in your identity system.' },

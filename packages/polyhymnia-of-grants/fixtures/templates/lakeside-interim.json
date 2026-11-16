@@ -1,0 +1,19 @@
+{
+  "name": "lakeside-interim",
+  "title": "Interim report",
+  "applies_to_funders": ["Lakeside Community Foundation (fictional)"],
+  "sections": [
+    { "id": "summary", "title": "Grant summary", "source": "summary" },
+    { "id": "progress", "title": "Progress toward goals", "source": "narrative", "max_words": 500, "guidance": "Describe progress in plain language (fictional funder guidance)." },
+    { "id": "outcomes", "title": "Outcome measures", "source": "outcomes" },
+    { "id": "budget", "title": "Budget to date", "source": "budget" },
+    { "id": "variance", "title": "Budget variance explanations", "source": "variance" },
+    { "id": "evidence", "title": "Supporting evidence", "source": "evidence" },
+    { "id": "lessons", "title": "Lessons learned", "source": "custom", "required": false, "max_words": 250 }
+  ],
+  "required_attachments": [
+    { "id": "roster", "title": "Enrollment roster", "file": "evidence/g1-enrollment.csv" },
+    { "id": "board-budget", "title": "Board-approved budget", "file": "evidence/g1-board-budget.pdf" }
+  ],
+  "variance_threshold_pct": 0.15
+}

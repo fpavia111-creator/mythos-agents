@@ -1,7 +1,8 @@
 {
   "name": "epeius-of-rfis",
-  "version": "0.1.0",
-  "description": "Epeius of RFIs: an MCP agent that reviews a construction RFI and submittal log against your drawing and spec index (overdue items, missing, unknown or superseded references) and drafts RFIs that cite only the documents you provide. Sending to the architect or GC is a binding send: always one human click.",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/epeius-of-rfis",
+  "description": "Epeius of RFIs: an MCP agent that reviews a construction RFI and submittal log against your drawing and spec index (overdue items, missing, unknown or superseded references) and shows ball-in-court aging with a chase list, compares log exports week over week, builds a drawing index from title-block text, and drafts RFIs and transmittals that cite only the documents you provide. Sending to the architect or GC is a binding send: always one human click.",
   "type": "module",
   "license": "MIT",
   "author": "Kurt Francisco",
@@ -22,6 +23,7 @@
     "fixtures",
     "evals",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -30,7 +32,7 @@
     "eval": "node bin/epeius-of-rfis.js eval"
   },
   "dependencies": {
-    "mythos-agent-core": "^0.1.0"
+    "mythos-agent-core": "^0.2.0"
   },
   "repository": {
     "type": "git",
@@ -47,6 +49,8 @@
     "construction",
     "rfi",
     "submittals",
+    "transmittals",
+    "ball-in-court",
     "general-contractor",
     "project-engineer",
     "aec",

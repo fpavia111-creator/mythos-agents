@@ -1,0 +1,7 @@
+file,version,script_type,risk,score,loc,api_calls,effort_hours,writes,external,reasons,owner,reviewer,target_release
+SuiteScripts/sch_close_prep.js,1.0,,high,75,11,6,11,nlapiSubmitRecord,,sample baseline (fictional),,,
+SuiteScripts/ue_invoice_sync.js,1.0,,medium,65,15,7,7.5,nlapiSubmitField,nlapiRequestURL nlapiSendEmail,sample baseline (fictional),,,
+SuiteScripts/cs_vendor_form.js,1.0,,medium,50,9,3,4.5,,,sample baseline (fictional),,,
+SuiteScripts/mr_item_cleanup.js,2.0,MapReduceScript,low,25,6,0,1,,,sample baseline (fictional),,,
+SuiteScripts/sl_report.js,2.x,Suitelet,low,10,8,0,0.5,,,sample baseline (fictional),,,
+SuiteScripts/old_portlet.js,1.0,,medium,50,20,4,4,,,sample baseline (fictional),,,

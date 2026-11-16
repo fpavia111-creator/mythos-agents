@@ -1,0 +1,1 @@
+{ "source": "Conversion table with a misspelt key (fictional, for the config-validation eval)", "conversions": [ { "from": "CS", "to": "EA", "facter": 12 } ] }
