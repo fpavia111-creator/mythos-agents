@@ -13,7 +13,7 @@ import { manifest, normalizeAccess, reviewAccess, campaignStatus, evidencePack, 
 const fixtures = fileURLToPath(new URL('../fixtures', import.meta.url));
 const dir = () => mkdtempSync(join(tmpdir(), 'ladon-intl-'));
 // Write text in a legacy encoding (Python's codecs; Node can only write UTF-8).
-const encode = (file, text, enc) => execFileSync('python3', ['-c', 'import sys; open(sys.argv[1], "wb").write(sys.stdin.read().encode(sys.argv[2]))', file, enc], { input: text });
+const encode = (file, text, enc) => execFileSync('python3', ['-c', 'import sys; open(sys.argv[1], "wb").write(sys.stdin.buffer.read().decode("utf-8").encode(sys.argv[2]))', file, enc], { input: text });
 let hasPython = true; try { execFileSync('python3', ['-c', 'pass']); } catch { hasPython = false; }
 
 test('status words from other languages: disabled rows are skipped, leavers are found', () => {

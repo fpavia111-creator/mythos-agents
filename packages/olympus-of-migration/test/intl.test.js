@@ -13,7 +13,7 @@ import { OLYMPUS_TEXT } from '../src/text.js';
 
 const dir = () => mkdtempSync(join(tmpdir(), 'olympus-intl-'));
 // Write text in a legacy encoding (Python's codecs; Node can only write UTF-8).
-const encode = (file, text, enc) => execFileSync('python3', ['-c', 'import sys; open(sys.argv[1], "wb").write(sys.stdin.read().encode(sys.argv[2]))', file, enc], { input: text });
+const encode = (file, text, enc) => execFileSync('python3', ['-c', 'import sys; open(sys.argv[1], "wb").write(sys.stdin.buffer.read().decode("utf-8").encode(sys.argv[2]))', file, enc], { input: text });
 let hasPython = true; try { execFileSync('python3', ['-c', 'pass']); } catch { hasPython = false; }
 
 test('Japanese headers are told apart and found without naming them', () => {
