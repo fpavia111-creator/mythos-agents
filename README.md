@@ -1,3 +1,5 @@
+> **Moved, 18 Nov 2026:** these agents now live in [fpavia111-creator/fairbooks-agents](https://github.com/fpavia111-creator/fairbooks-agents), each named for what it does (for example `solon-of-clauses` is now `fairbooks-contract-clauses`). The npm packages under the old names keep working until the new names are published. Product page: https://fair-agents.com/fairbooks.html
+
 # Mythos Machine domain agents
 
 Small MCP agents that each own **one business process** and cannot act outside it. Each one is its own npm package on a shared core. MIT, Node ≥ 20, local files only, no credentials.
